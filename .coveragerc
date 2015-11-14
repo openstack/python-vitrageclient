@@ -1,0 +1,7 @@
+[run]
+branch = True
+source = vitrageclient
+omit = vitrageclient/openstack/*
+
+[report]
+ignore_errors = True
