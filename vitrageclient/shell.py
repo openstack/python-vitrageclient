@@ -10,17 +10,6 @@
 # License for the specific language governing permissions and limitations
 # under the License.
 
-"""
-test_vitrageclient
-----------------------------------
 
-Tests for `vitrageclient` module.
-"""
-
-from vitrageclient.tests import base
-
-
-class TestVitrageclient(base.TestCase):
-
-    def test_something(self):
-        pass
+class VitrageShell(object):
+    pass

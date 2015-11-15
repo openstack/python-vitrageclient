@@ -10,17 +10,12 @@
 # License for the specific language governing permissions and limitations
 # under the License.
 
-"""
-test_vitrageclient
-----------------------------------
 
-Tests for `vitrageclient` module.
-"""
+class VitrageBaseException(Exception):
+    """An error occurred."""
+    def __init__(self, message=None, *args, **kwargs):
+        super(BaseException, self).__init__(*args, **kwargs)
+        self.message = message
 
-from vitrageclient.tests import base
-
-
-class TestVitrageclient(base.TestCase):
-
-    def test_something(self):
-        pass
+    def __str__(self):
+        return self.message or self.__class__.__doc__
