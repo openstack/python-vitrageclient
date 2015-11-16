@@ -11,5 +11,55 @@
 # under the License.
 
 
-class VitrageShell(object):
-    pass
+"""
+Vitrage command line interface
+"""
+
+from __future__ import print_function
+
+from cliff import app
+from cliff import commandmanager
+
+import sys
+from v1 import topology
+from vitrageclient import __version__
+
+
+class VitrageCommandManager(commandmanager.CommandManager):
+    COMMANDS = {
+        "topology list": topology.TopologyList,
+        "topology show": topology.TopologyShow,
+    }
+
+    def load_commands(self, namespace):
+        for k, v in self.COMMANDS.items():
+            self.add_command(k, v)
+
+
+class VitrageShell(app.App):
+    def __init__(self):
+        super(VitrageShell, self).__init__(
+            description=__doc__,
+            version=__version__,
+            command_manager=VitrageCommandManager(None),
+            deferred_help=True,
+        )
+
+    def run(self, args):
+        pass
+
+
+def main(args=None):
+    try:
+        if args is None:
+            args = sys.argv[1:]
+        return VitrageShell().run(args)
+    except KeyboardInterrupt:
+        print("... terminating vitrage client", file=sys.stderr)
+        sys.exit(1)
+    except Exception as e:
+        print(e)
+        sys.exit(1)
+
+if __name__ == "__main__":
+    main()

@@ -10,11 +10,15 @@
 # License for the specific language governing permissions and limitations
 # under the License.
 
+from cliff import lister
+from cliff import show
 
-from vitrageclient.common import utils
+
+class TopologyList(lister.Lister):
+    def take_action(self, parsed_args):
+        pass
 
 
-def get_client_class(version, *args, **kwargs):
-    module = utils.import_versioned_module(version, 'client')
-    client_class = getattr(module, 'Client')
-    return client_class(*args, **kwargs)
+class TopologyShow(show.ShowOne):
+    def take_action(self, parsed_args):
+        pass

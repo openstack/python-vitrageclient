@@ -19,3 +19,7 @@ class VitrageBaseException(Exception):
 
     def __str__(self):
         return self.message or self.__class__.__doc__
+
+
+class VitrageClientException(VitrageBaseException):
+    pass
