@@ -11,15 +11,22 @@
 # under the License.
 
 
-class VitrageBaseException(Exception):
-    """An error occurred."""
-    def __init__(self, message=None, *args, **kwargs):
-        super(BaseException, self).__init__(*args, **kwargs)
-        self.message = message
+class ClientException(Exception):
+    """The base exception class for all exceptions this library raises."""
+    message = 'Unknown Error'
+
+    # noinspection PyMissingConstructor
+    def __init__(self, code, message=None, request_id=None,
+                 url=None, method=None):
+        self.code = code
+        self.message = message or self.__class__.message
+        self.request_id = request_id
+        self.url = url
+        self.method = method
 
     def __str__(self):
-        return self.message or self.__class__.__doc__
+        formatted_string = "%s (HTTP %s)" % (self.message, self.code)
+        if self.request_id:
+            formatted_string += " (Request-ID: %s)" % self.request_id
 
-
-class VitrageClientException(VitrageBaseException):
-    pass
+        return formatted_string

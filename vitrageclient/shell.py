@@ -16,11 +16,17 @@ Vitrage command line interface
 """
 
 from __future__ import print_function
+import client
+import logging
+import noauth
+import os
+import sys
+import warnings
 
 from cliff import app
 from cliff import commandmanager
-
-import sys
+from keystoneauth1 import exceptions
+from keystoneauth1 import loading
 from v1 import topology
 from vitrageclient import __version__
 
@@ -45,8 +51,128 @@ class VitrageShell(app.App):
             deferred_help=True,
         )
 
-    def run(self, args):
-        pass
+    def build_option_parser(self, description, version, **argparse_kwargs):
+        """Return an argparse option parser for this application.
+
+        Subclasses may override this method to extend
+        the parser with more global options.
+
+        :param description: full description of the application
+        :paramtype description: str
+        :param version: version number for the application
+        :paramtype version: str
+        :param argparse_kwargs: extra keyword argument passed to the
+                                ArgumentParser constructor
+        :paramtype extra_kwargs: dict
+        """
+
+        parser = super(VitrageShell, self).build_option_parser(description,
+                                                               version)
+        # Global arguments, one day this should go to keystoneauth1
+        parser.add_argument(
+            '--os-region-name',
+            metavar='<auth-region-name>',
+            dest='region_name',
+            default=os.environ.get('OS_REGION_NAME'),
+            help='Authentication region name (Env: OS_REGION_NAME)')
+        parser.add_argument(
+            '--os-interface',
+            metavar='<interface>',
+            dest='interface',
+            choices=['admin', 'public', 'internal'],
+            default=os.environ.get('OS_INTERFACE'),
+            help='Select an interface type.'
+                 ' Valid interface types: [admin, public, internal].'
+                 ' (Env: OS_INTERFACE)')
+        parser.add_argument(
+            '--vitrage-api-version',
+            default=os.environ.get('VITRAGE_API_VERSION', '1'),
+            help='Defaults to env[VITRAGE_API_VERSION] or 1.')
+        loading.register_session_argparse_arguments(parser=parser)
+        plugin = loading.register_auth_argparse_arguments(
+            parser=parser, argv=sys.argv, default="password")
+
+        if not isinstance(plugin, noauth.VitrageNoAuthLoader):
+            parser.add_argument(
+                '--vitrage-endpoint',
+                metavar='<endpoint>',
+                dest='endpoint',
+                default=os.environ.get('VITRAGE_ENDPOINT'),
+                help='Vitrage endpoint (Env: VITRAGE_ENDPOINT)')
+
+        return parser
+
+    @property
+    def client(self):
+        if self._client is None:
+            if hasattr(self.options, "endpoint"):
+                endpoint_override = self.options.endpoint
+            else:
+                endpoint_override = None
+            auth_plugin = loading.load_auth_from_argparse_arguments(
+                self.options)
+            session = loading.load_session_from_argparse_arguments(
+                self.options, auth=auth_plugin)
+
+            # noinspection PyAttributeOutsideInit
+            self._client = client.get_client(
+                self.options.vitrage_api_version,
+                session=session,
+                interface=self.options.interface,
+                region_name=self.options.region_name,
+                endpoint_override=endpoint_override)
+
+        return self._client
+
+    def clean_up(self, cmd, result, err):
+        if err and isinstance(err, exceptions.HttpError):
+            try:
+                error = err.response.json()
+            except Exception:
+                pass
+            else:
+                print(error['description'])
+
+    def configure_logging(self):
+        if self.options.debug:
+            # --debug forces verbose_level 3
+            # Set this here so cliff.app.configure_logging() can work
+            self.options.verbose_level = 3
+
+        super(VitrageShell, self).configure_logging()
+        root_logger = logging.getLogger('')
+
+        # Set logging to the requested level
+        if self.options.verbose_level == 0:
+            # --quiet
+            root_logger.setLevel(logging.ERROR)
+            warnings.simplefilter("ignore")
+        elif self.options.verbose_level == 1:
+            # This is the default case, no --debug, --verbose or --quiet
+            root_logger.setLevel(logging.WARNING)
+            warnings.simplefilter("ignore")
+        elif self.options.verbose_level == 2:
+            # One --verbose
+            root_logger.setLevel(logging.INFO)
+            warnings.simplefilter("once")
+        elif self.options.verbose_level >= 3:
+            # Two or more --verbose
+            root_logger.setLevel(logging.DEBUG)
+
+        # Hide some useless message
+        requests_log = logging.getLogger("requests")
+        cliff_log = logging.getLogger('cliff')
+        stevedore_log = logging.getLogger('stevedore')
+        iso8601_log = logging.getLogger("iso8601")
+
+        cliff_log.setLevel(logging.ERROR)
+        stevedore_log.setLevel(logging.ERROR)
+        iso8601_log.setLevel(logging.ERROR)
+
+        if self.options.debug:
+            requests_log.setLevel(logging.DEBUG)
+        else:
+            requests_log.setLevel(logging.ERROR)
 
 
 def main(args=None):
@@ -60,6 +186,7 @@ def main(args=None):
     except Exception as e:
         print(e)
         sys.exit(1)
+
 
 if __name__ == "__main__":
     main()

@@ -14,7 +14,7 @@
 from vitrageclient.common import utils
 
 
-def get_client_class(version, *args, **kwargs):
+def get_client(version, *args, **kwargs):
     module = utils.import_versioned_module(version, 'client')
     client_class = getattr(module, 'Client')
     return client_class(*args, **kwargs)
