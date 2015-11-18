@@ -135,40 +135,55 @@ class VitrageShell(app.App):
 
     def configure_logging(self):
         if self.options.debug:
-            # --debug forces verbose_level 3
             # Set this here so cliff.app.configure_logging() can work
-            self.options.verbose_level = 3
+            self._set_debug_logging_messages()
 
         super(VitrageShell, self).configure_logging()
         root_logger = logging.getLogger('')
 
-        # Set logging to the requested level
-        if self.options.verbose_level == 0:
-            # --quiet
-            root_logger.setLevel(logging.ERROR)
-            warnings.simplefilter("ignore")
-        elif self.options.verbose_level == 1:
-            # This is the default case, no --debug, --verbose or --quiet
-            root_logger.setLevel(logging.WARNING)
-            warnings.simplefilter("ignore")
-        elif self.options.verbose_level == 2:
-            # One --verbose
-            root_logger.setLevel(logging.INFO)
-            warnings.simplefilter("once")
-        elif self.options.verbose_level >= 3:
-            # Two or more --verbose
-            root_logger.setLevel(logging.DEBUG)
+        self._configure_logging_messages(root_logger)
+        self._hide_useless_logging_messages()
 
-        # Hide some useless message
+    def _set_debug_logging_messages(self):
+        self.options.verbose_level = 3
+
+    def _configure_logging_messages(self, root_logger):
+        if self.options.verbose_level == 0:
+            self._set_quiet_logging_messages(root_logger)
+        elif self.options.verbose_level == 1:
+            self._set_default_logging_messages(root_logger)
+        elif self.options.verbose_level == 2:
+            self._set_verbose_logging_messages(root_logger)
+        elif self.options.verbose_level >= 3:
+            self._set_double_verbose_logging_messages(root_logger)
+
+    @staticmethod
+    def _set_double_verbose_logging_messages(root_logger):
+        root_logger.setLevel(logging.DEBUG)
+
+    @staticmethod
+    def _set_verbose_logging_messages(root_logger):
+        root_logger.setLevel(logging.INFO)
+        warnings.simplefilter("once")
+
+    @staticmethod
+    def _set_default_logging_messages(root_logger):
+        root_logger.setLevel(logging.WARNING)
+        warnings.simplefilter("ignore")
+
+    @staticmethod
+    def _set_quiet_logging_messages(root_logger):
+        root_logger.setLevel(logging.ERROR)
+        warnings.simplefilter("ignore")
+
+    def _hide_useless_logging_messages(self):
         requests_log = logging.getLogger("requests")
         cliff_log = logging.getLogger('cliff')
         stevedore_log = logging.getLogger('stevedore')
         iso8601_log = logging.getLogger("iso8601")
-
         cliff_log.setLevel(logging.ERROR)
         stevedore_log.setLevel(logging.ERROR)
         iso8601_log.setLevel(logging.ERROR)
-
         if self.options.debug:
             requests_log.setLevel(logging.DEBUG)
         else:
