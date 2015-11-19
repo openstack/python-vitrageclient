@@ -16,9 +16,8 @@ Vitrage command line interface
 """
 
 from __future__ import print_function
-import client
+
 import logging
-import noauth
 import os
 import sys
 import warnings
@@ -27,7 +26,10 @@ from cliff import app
 from cliff import commandmanager
 from keystoneauth1 import exceptions
 from keystoneauth1 import loading
-from v1 import topology
+
+import client
+import noauth
+from v1.cli import topology
 from vitrageclient import __version__
 
 
@@ -115,7 +117,7 @@ class VitrageShell(app.App):
                 self.options, auth=auth_plugin)
 
             # noinspection PyAttributeOutsideInit
-            self._client = client.get_client(
+            self._client = client.Client(
                 self.options.vitrage_api_version,
                 session=session,
                 interface=self.options.interface,
@@ -135,7 +137,6 @@ class VitrageShell(app.App):
 
     def configure_logging(self):
         if self.options.debug:
-            # Set this here so cliff.app.configure_logging() can work
             self._set_debug_logging_messages()
 
         super(VitrageShell, self).configure_logging()

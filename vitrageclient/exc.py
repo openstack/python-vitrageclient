@@ -30,3 +30,7 @@ class ClientException(Exception):
             formatted_string += " (Request-ID: %s)" % self.request_id
 
         return formatted_string
+
+
+def from_response(resp, url, method):
+    return None

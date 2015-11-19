@@ -10,15 +10,23 @@
 # License for the specific language governing permissions and limitations
 # under the License.
 
-from cliff import lister
-from cliff import show
 
+class Topology(object):
+    URL = "v1/topologies/"
 
-class TopologyList(lister.Lister):
-    def take_action(self, parsed_args):
-        pass
+    def __init__(self, api):
+        self.api = api
 
+    def list(self):
+        """List topologies"""
 
-class TopologyShow(show.ShowOne):
-    def take_action(self, parsed_args):
-        pass
+        return self.api.get(self.URL).json()
+
+    def get(self, uuid):
+        """Get a topology
+
+        :param uuid: Id of topology
+        :type uuid: str
+        """
+
+        return self.api.get(self.URL + uuid).json()

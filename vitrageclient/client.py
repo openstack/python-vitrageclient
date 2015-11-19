@@ -10,11 +10,27 @@
 # License for the specific language governing permissions and limitations
 # under the License.
 
+import exc
 
+from keystoneauth1 import adapter
 from vitrageclient.common import utils
 
 
-def get_client(version, *args, **kwargs):
+# noinspection PyPep8Naming
+def Client(version, *args, **kwargs):
     module = utils.import_versioned_module(version, 'client')
     client_class = getattr(module, 'Client')
     return client_class(*args, **kwargs)
+
+
+class VitrageClient(adapter.Adapter):
+    def request(self, url, method, **kwargs):
+        raise_exc = kwargs.pop('raise_exc', True)
+        resp = super(VitrageClient, self).request(url,
+                                                  method,
+                                                  raise_exc=False,
+                                                  **kwargs)
+
+        if raise_exc and resp.status_code >= 400:
+            raise exc.from_response(resp, url, method)
+        return resp
