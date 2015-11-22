@@ -35,7 +35,6 @@ from vitrageclient import __version__
 
 class VitrageCommandManager(commandmanager.CommandManager):
     COMMANDS = {
-        "topology list": topology.TopologyList,
         "topology show": topology.TopologyShow,
     }
 

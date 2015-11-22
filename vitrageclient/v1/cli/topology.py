@@ -10,25 +10,11 @@
 # License for the specific language governing permissions and limitations
 # under the License.
 
-from cliff import lister
 from cliff import show
 
 
-class TopologyList(lister.Lister):
-
-    COLS = ('id', 'name', 'description')
-
-    def take_action(self, parsed_args):
-        topologies = self.app.client.topology.list()
-        return self.COLS, [tuple([topologies[col] for col in self.COLS])]
-
-
+# noinspection PyAbstractClass
 class TopologyShow(show.ShowOne):
-    def get_parser(self, uuid):
-        parser = super(TopologyShow, self).get_parser(uuid)
-        parser.add_argument("id", help="Id of the topology")
-        return parser
-
     def take_action(self, parsed_args):
-        topology = self.app.client.topology.get(id=parsed_args.id)
+        topology = self.app.client.topology.get()
         return self.dict2columns(topology)

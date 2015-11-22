@@ -12,21 +12,12 @@
 
 
 class Topology(object):
-    URL = "v1/topologies/"
+    URL = "v1/topology/"
 
     def __init__(self, api):
         self.api = api
 
-    def list(self):
-        """List topologies"""
+    def get(self):
+        """Get a topology """
 
         return self.api.get(self.URL).json()
-
-    def get(self, uuid):
-        """Get a topology
-
-        :param uuid: Id of topology
-        :type uuid: str
-        """
-
-        return self.api.get(self.URL + uuid).json()
