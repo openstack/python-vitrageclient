@@ -52,6 +52,8 @@ class VitrageShell(app.App):
             deferred_help=True,
         )
 
+        self._client = None
+
     def build_option_parser(self, description, version, **argparse_kwargs):
         """Return an argparse option parser for this application.
 
