@@ -15,6 +15,10 @@ from cliff import show
 
 # noinspection PyAbstractClass
 class TopologyShow(show.ShowOne):
+
+    def formatter_default(self):
+        return "json"
+
     def take_action(self, parsed_args):
         topology = self.app.client.topology.get()
         return self.dict2columns(topology)
