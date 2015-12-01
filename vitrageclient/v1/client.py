@@ -10,25 +10,13 @@
 # License for the specific language governing permissions and limitations
 # under the License.
 
-from v1 import topology
 from vitrageclient import client
+from vitrageclient.v1 import topology
 
 
 class Client(object):
-    DEFAULT_HEADERS = {
-        "Accept": "application/json",
-    }
 
     def __init__(self, session=None, service_type='rca', **kwargs):
-        self._set_default_headers(kwargs)
         self._api = client.VitrageClient(session, service_type=service_type,
                                          **kwargs)
         self.topology = topology.Topology(self._api)
-
-    def _set_default_headers(self, kwargs):
-        headers = kwargs.get('headers', {})
-        for k, v in self.DEFAULT_HEADERS.items():
-            if k not in headers:
-                headers[k] = v
-        kwargs['headers'] = headers
-        return kwargs

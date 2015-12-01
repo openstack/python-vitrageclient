@@ -33,4 +33,4 @@ class ClientException(Exception):
 
 
 def from_response(resp, url, method):
-    return None
+    return ClientException(resp.status_code, url=url, method=method)

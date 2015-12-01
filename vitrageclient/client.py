@@ -25,6 +25,8 @@ def Client(version, *args, **kwargs):
 
 class VitrageClient(adapter.Adapter):
     def request(self, url, method, **kwargs):
+        headers = kwargs.setdefault('headers', {})
+        headers.setdefault('Accept', 'application/json')
         raise_exc = kwargs.pop('raise_exc', True)
         resp = super(VitrageClient, self).request(url,
                                                   method,

@@ -14,4 +14,4 @@ import pbr.version
 
 
 __version__ = pbr.version.VersionInfo(
-    'vitrageclient').version_string()
+    'python-vitrageclient').version_string()
