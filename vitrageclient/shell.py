@@ -24,7 +24,6 @@ import warnings
 
 from cliff import app
 from cliff import commandmanager
-from keystoneauth1 import exceptions
 from keystoneauth1 import loading
 
 import client
@@ -126,15 +125,6 @@ class VitrageShell(app.App):
                 endpoint_override=endpoint_override)
 
         return self._client
-
-    def clean_up(self, cmd, result, err):
-        if err and isinstance(err, exceptions.HttpError):
-            try:
-                error = err.response.json()
-            except Exception:
-                pass
-            else:
-                print(error['description'])
 
     def configure_logging(self):
         if self.options.debug:
