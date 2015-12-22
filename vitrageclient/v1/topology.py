@@ -17,7 +17,13 @@ class Topology(object):
     def __init__(self, api):
         self.api = api
 
-    def get(self):
-        """Get a topology """
+    def get(self, edges=None, vertices=None, depth=None):
+        """Get a topology
 
-        return self.api.get(self.URL).json()
+        :param depth: the depth of the topology graph
+        :param vertices: list of vertices types
+        :param edges: list of edges type
+        """
+
+        params = dict(edges=edges, vertices=vertices, depth=depth)
+        return self.api.get(self.URL, params=params).json()
