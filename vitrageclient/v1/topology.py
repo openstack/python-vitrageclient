@@ -17,13 +17,15 @@ class Topology(object):
     def __init__(self, api):
         self.api = api
 
-    def get(self, edges=None, vertices=None, depth=None):
+    def get(self, edges=None, vertices=None, depth=None, graph_type='graph'):
         """Get a topology
 
+        :param graph_type: graph can be tree or graph
         :param depth: the depth of the topology graph
         :param vertices: list of vertices types
         :param edges: list of edges type
         """
 
-        params = dict(edges=edges, vertices=vertices, depth=depth)
+        params = dict(edges=edges, vertices=vertices, depth=depth,
+                      graph_type=graph_type)
         return self.api.get(self.URL, params=params).json()

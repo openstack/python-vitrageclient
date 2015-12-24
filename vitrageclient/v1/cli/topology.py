@@ -29,6 +29,12 @@ class TopologyShow(show.ShowOne):
                             help="list of vertices types (separated by ',')")
         parser.add_argument("--depth", type=int,
                             help="the depth of the topology")
+
+        parser.add_argument('--graph-type', choices=['tree', 'graph'],
+                            default='graph', dest='type',
+                            help='graph type. '
+                                 'Valid graph types: [tree, graph]')
+
         return parser
 
     def formatter_default(self):
@@ -37,5 +43,6 @@ class TopologyShow(show.ShowOne):
     def take_action(self, parsed_args):
         topology = self.app.client.topology.get(edges=parsed_args.edges,
                                                 vertices=parsed_args.vertices,
-                                                depth=parsed_args.depth)
+                                                depth=parsed_args.depth,
+                                                graph_type=parsed_args.type)
         return self.dict2columns(topology)
