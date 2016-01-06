@@ -9,6 +9,7 @@
 # WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
 # License for the specific language governing permissions and limitations
 # under the License.
+import json
 
 
 class Topology(object):
@@ -17,15 +18,18 @@ class Topology(object):
     def __init__(self, api):
         self.api = api
 
-    def get(self, edges=None, vertices=None, depth=None, graph_type='graph'):
+    def get(self, depth=None, graph_type='graph', query=None, root=None,
+            limit=None):
         """Get a topology
 
+        :param limit: the depth of the topology graph
+        :param root:  the root of the topology graph
+        :param query: the query filter for the topology
         :param graph_type: graph can be tree or graph
         :param depth: the depth of the topology graph
-        :param vertices: list of vertices types
-        :param edges: list of edges type
         """
 
-        params = dict(edges=edges, vertices=vertices, depth=depth,
-                      graph_type=graph_type)
-        return self.api.get(self.URL, params=params).json()
+        params = dict(depth=depth, graph_type=graph_type,
+                      query=json.loads(query),
+                      root=root)
+        return self.api.post(self.URL, json=params).json()
