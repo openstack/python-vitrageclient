@@ -29,7 +29,7 @@ class Topology(object):
         :param depth: the depth of the topology graph
         """
 
-        params = dict(depth=depth, graph_type=graph_type,
+        params = dict(depth=limit, graph_type=graph_type,
                       query=json.loads(query),
                       root=root)
         return self.api.post(self.URL, json=params).json()
