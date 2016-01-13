@@ -28,6 +28,6 @@ class Topology(object):
         """
 
         params = dict(depth=limit, graph_type=graph_type,
-                      query=json.loads(query),
+                      query=json.loads(query) if query else None,
                       root=root)
         return self.api.post(self.URL, json=params).json()
