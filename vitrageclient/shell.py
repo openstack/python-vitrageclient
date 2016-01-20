@@ -28,6 +28,8 @@ from keystoneauth1 import loading
 
 import client
 import noauth
+
+from v1.cli import resource
 from v1.cli import topology
 from vitrageclient import __version__
 
@@ -35,6 +37,8 @@ from vitrageclient import __version__
 class VitrageCommandManager(commandmanager.CommandManager):
     COMMANDS = {
         "topology show": topology.TopologyShow,
+        "resource show": resource.ResourceShow,
+        "resource list": resource.ResourceList,
     }
 
     def load_commands(self, namespace):

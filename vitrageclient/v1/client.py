@@ -11,6 +11,8 @@
 # under the License.
 
 from vitrageclient import client
+
+from vitrageclient.v1 import resource
 from vitrageclient.v1 import topology
 
 
@@ -20,3 +22,4 @@ class Client(object):
         self._api = client.VitrageClient(session, service_type=service_type,
                                          **kwargs)
         self.topology = topology.Topology(self._api)
+        self.resource = resource.Resource(self._api)
