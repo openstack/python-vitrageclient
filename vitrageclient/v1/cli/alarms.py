@@ -27,4 +27,5 @@ class AlarmsList(lister.Lister):
     def take_action(self, parsed_args):
         entity_id = parsed_args.id
         alarms = self.app.client.alarms.list(entity_id=entity_id)
-        return utils.list2cols([], alarms)
+        return utils.list2cols(('id', 'name', 'severity', 'update_timestamp'),
+                               alarms)
