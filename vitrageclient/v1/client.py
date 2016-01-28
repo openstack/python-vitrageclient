@@ -9,9 +9,9 @@
 # WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
 # License for the specific language governing permissions and limitations
 # under the License.
-
 from vitrageclient import client
 
+from vitrageclient.v1 import alarms
 from vitrageclient.v1 import resource
 from vitrageclient.v1 import topology
 
@@ -23,3 +23,4 @@ class Client(object):
                                          **kwargs)
         self.topology = topology.Topology(self._api)
         self.resource = resource.Resource(self._api)
+        self.alarms = alarms.Alarm(self._api)

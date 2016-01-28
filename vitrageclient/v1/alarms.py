@@ -11,7 +11,7 @@
 # under the License.
 
 
-class Resource(object):
+class Alarm(object):
     url = "v1/alarms/"
 
     def __init__(self, api):
