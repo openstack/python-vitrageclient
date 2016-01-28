@@ -1,4 +1,3 @@
-#
 # Licensed under the Apache License, Version 2.0 (the "License"); you may
 # not use this file except in compliance with the License. You may obtain
 # a copy of the License at
@@ -11,22 +10,21 @@
 # License for the specific language governing permissions and limitations
 # under the License.
 
-from oslo_utils import importutils
+from cliff import lister
+
+from vitrageclient.common import utils
 
 
-def import_versioned_module(version, submodule=None):
-    module = 'vitrageclient.v%s' % version
-    if submodule:
-        module = '.'.join((module, submodule))
-    return importutils.import_module(module)
+class AlarmsList(lister.Lister):
+    """List alarms on entity"""
 
+    def get_parser(self, prog_name):
+        parser = super(AlarmsList, self).get_parser(prog_name)
+        parser.add_argument("id", metavar="<entity id>", help="The entity id")
 
-def args_to_dict(args, attrs):
-    return {(attr, value)
-            for attr, value in [(attr, getattr(args, attr)) for attr in attrs]
-            if value is not None}
+        return parser
 
-
-def list2cols(cols, objs):
-    return cols, [tuple([o[k] for k in cols])
-                  for o in objs]
+    def take_action(self, parsed_args):
+        entity_id = parsed_args.id
+        alarms = self.app.client.alarms.list(entity_id=entity_id)
+        return utils.list2cols([], alarms)

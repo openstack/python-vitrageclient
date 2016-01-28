@@ -1,4 +1,3 @@
-#
 # Licensed under the Apache License, Version 2.0 (the "License"); you may
 # not use this file except in compliance with the License. You may obtain
 # a copy of the License at
@@ -11,22 +10,17 @@
 # License for the specific language governing permissions and limitations
 # under the License.
 
-from oslo_utils import importutils
 
+class Resource(object):
+    url = "v1/alarms/"
 
-def import_versioned_module(version, submodule=None):
-    module = 'vitrageclient.v%s' % version
-    if submodule:
-        module = '.'.join((module, submodule))
-    return importutils.import_module(module)
+    def __init__(self, api):
+        self.api = api
 
+    def list(self, entity_id):
+        """Get a all alarms on entity
 
-def args_to_dict(args, attrs):
-    return {(attr, value)
-            for attr, value in [(attr, getattr(args, attr)) for attr in attrs]
-            if value is not None}
-
-
-def list2cols(cols, objs):
-    return cols, [tuple([o[k] for k in cols])
-                  for o in objs]
+        :param entity_id: the id for the entity
+        """
+        params = dict(entity_id=entity_id)
+        return self.api.get(self.url, params=params).json()
