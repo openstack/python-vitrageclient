@@ -30,6 +30,7 @@ import client
 import noauth
 
 from v1.cli import alarms
+from v1.cli import rca
 from v1.cli import resource
 from v1.cli import topology
 from vitrageclient import __version__
@@ -41,6 +42,7 @@ class VitrageCommandManager(commandmanager.CommandManager):
         "resource show": resource.ResourceShow,
         "resource list": resource.ResourceList,
         "alarms list": alarms.AlarmsList,
+        "rca show": rca.RcaShow,
     }
 
     def load_commands(self, namespace):
