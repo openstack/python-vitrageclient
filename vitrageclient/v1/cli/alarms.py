@@ -20,16 +20,16 @@ class AlarmsList(lister.Lister):
 
     def get_parser(self, prog_name):
         parser = super(AlarmsList, self).get_parser(prog_name)
-        parser.add_argument('id',
+        parser.add_argument("vitrage_id",
                             default='all',
                             nargs='?',
-                            metavar='<vitrage id>',
-                            help='Vitrage id of the affected resource')
+                            metavar="<vitrage id>",
+                            help="Vitrage id of the affected resource")
 
         return parser
 
     def take_action(self, parsed_args):
-        entity_id = parsed_args.id
-        alarms = self.app.client.alarms.list(entity_id=entity_id)
+        vitrage_id = parsed_args.vitrage_id
+        alarms = self.app.client.alarms.list(vitrage_id=vitrage_id)
         return utils.list2cols(
             ('type', 'name', 'severity', 'update_timestamp'), alarms)

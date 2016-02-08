@@ -17,10 +17,10 @@ class Alarm(object):
     def __init__(self, api):
         self.api = api
 
-    def list(self, entity_id):
+    def list(self, vitrage_id):
         """Get a all alarms on entity
 
-        :param entity_id: the id for the entity
+        :param vitrage_id: the id for the entity
         """
-        params = dict(entity_id=entity_id)
+        params = dict(vitrage_id=vitrage_id)
         return self.api.get(self.url, params=params).json()
