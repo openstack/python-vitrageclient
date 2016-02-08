@@ -20,7 +20,8 @@ class AlarmsList(lister.Lister):
 
     def get_parser(self, prog_name):
         parser = super(AlarmsList, self).get_parser(prog_name)
-        parser.add_argument("id", metavar="<entity id>", help="The entity id")
+        parser.add_argument("id", default='all', nargs='?',
+                            metavar="<vitrage id>", help="The vitrage id")
 
         return parser
 
