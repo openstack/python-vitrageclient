@@ -25,9 +25,9 @@ class ClientException(Exception):
         self.method = method
 
     def __str__(self):
-        formatted_string = "%s (HTTP %s)" % (self.message, self.code)
+        formatted_string = '%s (HTTP %s)' % (self.message, self.code)
         if self.request_id:
-            formatted_string += " (Request-ID: %s)" % self.request_id
+            formatted_string += ' (Request-ID: %s)' % self.request_id
 
         return formatted_string
 

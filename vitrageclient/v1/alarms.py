@@ -12,7 +12,7 @@
 
 
 class Alarm(object):
-    url = "v1/alarms/"
+    url = 'v1/alarms/'
 
     def __init__(self, api):
         self.api = api

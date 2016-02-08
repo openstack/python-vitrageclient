@@ -13,7 +13,7 @@ import json
 
 
 class Topology(object):
-    URL = "v1/topology/"
+    URL = 'v1/topology/'
 
     def __init__(self, api):
         self.api = api

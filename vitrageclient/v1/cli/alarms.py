@@ -20,11 +20,11 @@ class AlarmsList(lister.Lister):
 
     def get_parser(self, prog_name):
         parser = super(AlarmsList, self).get_parser(prog_name)
-        parser.add_argument("id",
+        parser.add_argument('id',
                             default='all',
                             nargs='?',
-                            metavar="<vitrage id>",
-                            help="Vitrage id of the affected resource")
+                            metavar='<vitrage id>',
+                            help='Vitrage id of the affected resource')
 
         return parser
 

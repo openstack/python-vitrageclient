@@ -20,7 +20,7 @@ class ResourceShow(show.ShowOne):
 
     def get_parser(self, prog_name):
         parser = super(ResourceShow, self).get_parser(prog_name)
-        parser.add_argument("resource_id", help="ID of a resource")
+        parser.add_argument('resource_id', help='ID of a resource')
         return parser
 
     def take_action(self, parsed_args):
@@ -34,9 +34,9 @@ class ResourceList(lister.Lister):
 
     def get_parser(self, prog_name):
         parser = super(ResourceList, self).get_parser(prog_name)
-        parser.add_argument("--type", dest='resource_type',
-                            metavar="<resource type>",
-                            help="Type of resource")
+        parser.add_argument('--type', dest='resource_type',
+                            metavar='<resource type>',
+                            help='Type of resource')
 
         return parser
 

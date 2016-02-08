@@ -38,11 +38,11 @@ from vitrageclient import __version__
 
 class VitrageCommandManager(commandmanager.CommandManager):
     COMMANDS = {
-        "topology show": topology.TopologyShow,
-        "resource show": resource.ResourceShow,
-        "resource list": resource.ResourceList,
-        "alarms list": alarms.AlarmsList,
-        "rca show": rca.RcaShow,
+        'topology show': topology.TopologyShow,
+        'resource show': resource.ResourceShow,
+        'resource list': resource.ResourceList,
+        'alarms list': alarms.AlarmsList,
+        'rca show': rca.RcaShow,
     }
 
     def load_commands(self, namespace):
@@ -100,7 +100,7 @@ class VitrageShell(app.App):
             help='Defaults to env[VITRAGE_API_VERSION] or 1.')
         loading.register_session_argparse_arguments(parser=parser)
         plugin = loading.register_auth_argparse_arguments(
-            parser=parser, argv=sys.argv, default="password")
+            parser=parser, argv=sys.argv, default='password')
 
         if not isinstance(plugin, noauth.VitrageNoAuthLoader):
             parser.add_argument(
@@ -115,7 +115,7 @@ class VitrageShell(app.App):
     @property
     def client(self):
         if self._client is None:
-            if hasattr(self.options, "endpoint"):
+            if hasattr(self.options, 'endpoint'):
                 endpoint_override = self.options.endpoint
             else:
                 endpoint_override = None
@@ -177,10 +177,10 @@ class VitrageShell(app.App):
         warnings.simplefilter("ignore")
 
     def _hide_useless_logging_messages(self):
-        requests_log = logging.getLogger("requests")
+        requests_log = logging.getLogger('requests')
         cliff_log = logging.getLogger('cliff')
         stevedore_log = logging.getLogger('stevedore')
-        iso8601_log = logging.getLogger("iso8601")
+        iso8601_log = logging.getLogger('iso8601')
         cliff_log.setLevel(logging.ERROR)
         stevedore_log.setLevel(logging.ERROR)
         iso8601_log.setLevel(logging.ERROR)
@@ -196,12 +196,12 @@ def main(args=None):
             args = sys.argv[1:]
         return VitrageShell().run(args)
     except KeyboardInterrupt:
-        print("... terminating vitrage client", file=sys.stderr)
+        print('... terminating vitrage client', file=sys.stderr)
         sys.exit(1)
     except Exception as e:
         print(e)
         sys.exit(1)
 
 
-if __name__ == "__main__":
+if __name__ == '__main__':
     main()

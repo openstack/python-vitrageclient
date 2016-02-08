@@ -66,7 +66,7 @@ class VitrageNoAuthLoader(loading.BaseLoader):
         options.extend([
             VitrageOpt('user-id', help='User ID', required=True),
             VitrageOpt('project-id', help='Project ID', required=True),
-            VitrageOpt('roles', help='Roles', default="admin"),
+            VitrageOpt('roles', help='Roles', default='admin'),
             VitrageOpt('vitrage-endpoint', help='Vitrage endpoint',
                        dest="endpoint", required=True),
         ])

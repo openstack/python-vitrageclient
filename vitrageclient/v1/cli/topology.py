@@ -19,15 +19,15 @@ class TopologyShow(show.ShowOne):
 
     def get_parser(self, prog_name):
         parser = super(TopologyShow, self).get_parser(prog_name)
-        parser.add_argument("--filter",
-                            metavar="<query>",
-                            help="query for the graph)")
+        parser.add_argument('--filter',
+                            metavar='<query>',
+                            help='query for the graph)')
 
-        parser.add_argument("--limit", type=int,
-                            metavar="<depth>",
-                            help="the depth of the topology graph")
+        parser.add_argument('--limit', type=int,
+                            metavar='<depth>',
+                            help='the depth of the topology graph')
 
-        parser.add_argument("--root", help="the root of the topology graph")
+        parser.add_argument('--root', help='the root of the topology graph')
 
         parser.add_argument('--graph-type', choices=['tree', 'graph'],
                             default='graph', dest='type',
@@ -37,7 +37,7 @@ class TopologyShow(show.ShowOne):
         return parser
 
     def formatter_default(self):
-        return "json"
+        return 'json'
 
     def take_action(self, parsed_args):
         topology = self.app.client.topology.get(limit=parsed_args.limit,

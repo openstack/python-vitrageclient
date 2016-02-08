@@ -12,7 +12,7 @@
 
 
 class Rca(object):
-    url = "v1/rca/"
+    url = 'v1/rca/'
 
     def __init__(self, api):
         self.api = api

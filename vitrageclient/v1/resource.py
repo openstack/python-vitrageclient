@@ -12,7 +12,7 @@
 
 
 class Resource(object):
-    url = "v1/resources/"
+    url = 'v1/resources/'
 
     def __init__(self, api):
         self.api = api
