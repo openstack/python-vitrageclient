@@ -1,0 +1,56 @@
+_vitrage()
+{
+  local cur prev words
+  COMPREPLY=()
+  _get_comp_words_by_ref -n : cur prev words
+
+  # Command data:
+  cmds='alarms complete help rca resource topology'
+  cmds_alarms='list'
+  cmds_alarms_list='-h --help -f --format -c --column --max-width --noindent --quote'
+  cmds_complete='-h --help --name --shell'
+  cmds_help='-h --help'
+  cmds_rca='show'
+  cmds_rca_show='-h --help -f --format -c --column --max-width --noindent --variable --prefix'
+  cmds_resource='list show'
+  cmds_resource_list='-h --help -f --format -c --column --max-width --noindent --quote --type'
+  cmds_resource_show='-h --help -f --format -c --column --max-width --noindent --variable --prefix'
+  cmds_topology='show'
+  cmds_topology_show='-h --help -f --format -c --column --max-width --noindent --variable --prefix --filter --limit --root --graph-type'
+
+  cmd=""
+  words[0]=""
+  completed="${cmds}"
+  for var in "${words[@]:1}"
+  do
+    if [[ ${var} == -* ]] ; then
+      break
+    fi
+    if [ -z "${cmd}" ] ; then
+      proposed="${var}"
+    else
+      proposed="${cmd}_${var}"
+    fi
+    local i="cmds_${proposed}"
+    local comp="${!i}"
+    if [ -z "${comp}" ] ; then
+      break
+    fi
+    if [[ ${comp} == -* ]] ; then
+      if [[ ${cur} != -* ]] ; then
+        completed=""
+        break
+      fi
+    fi
+    cmd="${proposed}"
+    completed="${comp}"
+  done
+
+  if [ -z "${completed}" ] ; then
+    COMPREPLY=( $( compgen -f -- "$cur" ) $( compgen -d -- "$cur" ) )
+  else
+    COMPREPLY=( $(compgen -W "${completed}" -- ${cur}) )
+  fi
+  return 0
+}
+complete -F _vitrage vitrage

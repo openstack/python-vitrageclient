@@ -22,6 +22,9 @@ class RcaShow(show.ShowOne):
         parser.add_argument('alarm_id', help='ID of an alarm')
         return parser
 
+    def formatter_default(self):
+        return 'json'
+
     def take_action(self, parsed_args):
         alarm_id = parsed_args.alarm_id
         alarm = self.app.client.rca.get(alarm_id=alarm_id)
