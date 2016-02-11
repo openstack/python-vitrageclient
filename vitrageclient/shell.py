@@ -56,8 +56,7 @@ class VitrageShell(app.App):
             description=__doc__,
             version=__version__,
             command_manager=VitrageCommandManager(None),
-            deferred_help=True,
-        )
+            deferred_help=True)
 
         self._client = None
 
@@ -76,9 +75,15 @@ class VitrageShell(app.App):
         :paramtype extra_kwargs: dict
         """
 
-        parser = super(VitrageShell, self).build_option_parser(description,
-                                                               version)
-        # Global arguments, one day this should go to keystoneauth1
+        parser = super(VitrageShell, self).build_option_parser(
+            description, version)
+
+        self.register_keyauth_argparse_arguments(parser)
+
+        return parser
+
+    @staticmethod
+    def register_keyauth_argparse_arguments(parser):
         parser.add_argument(
             '--os-region-name',
             metavar='<auth-region-name>',
@@ -94,13 +99,15 @@ class VitrageShell(app.App):
             help='Select an interface type.'
                  ' Valid interface types: [admin, public, internal].'
                  ' (Env: OS_INTERFACE)')
-        parser.add_argument(
-            '--vitrage-api-version',
-            default=os.environ.get('VITRAGE_API_VERSION', '1'),
-            help='Defaults to env[VITRAGE_API_VERSION] or 1.')
+        parser.add_argument('--vitrage-api-version',
+                            default=os.environ.get('VITRAGE_API_VERSION', '1'),
+                            help='Defaults to env[VITRAGE_API_VERSION] or 1.')
+
         loading.register_session_argparse_arguments(parser=parser)
-        plugin = loading.register_auth_argparse_arguments(
-            parser=parser, argv=sys.argv, default='password')
+
+        plugin = loading.register_auth_argparse_arguments(parser=parser,
+                                                          argv=sys.argv,
+                                                          default='password')
 
         if not isinstance(plugin, noauth.VitrageNoAuthLoader):
             parser.add_argument(
@@ -109,8 +116,6 @@ class VitrageShell(app.App):
                 dest='endpoint',
                 default=os.environ.get('VITRAGE_ENDPOINT'),
                 help='Vitrage endpoint (Env: VITRAGE_ENDPOINT)')
-
-        return parser
 
     @property
     def client(self):
