@@ -12,7 +12,7 @@
 
 import exc
 
-from keystoneauth1 import adapter
+from keystoneauth1 import adapter as keystoneauth
 from vitrageclient.common import utils
 
 
@@ -23,13 +23,12 @@ def Client(version, *args, **kwargs):
     return client_class(*args, **kwargs)
 
 
-class VitrageClient(adapter.Adapter):
+class VitrageClient(keystoneauth.Adapter):
     def request(self, url, method, **kwargs):
         headers = kwargs.setdefault('headers', {})
         headers.setdefault('Accept', 'application/json')
         raise_exc = kwargs.pop('raise_exc', True)
-        resp = super(VitrageClient, self).request(url,
-                                                  method,
+        resp = super(VitrageClient, self).request(url, method,
                                                   raise_exc=False,
                                                   **kwargs)
 
