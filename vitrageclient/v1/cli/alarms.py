@@ -31,5 +31,6 @@ class AlarmsList(lister.Lister):
     def take_action(self, parsed_args):
         vitrage_id = parsed_args.vitrage_id
         alarms = self.app.client.alarms.list(vitrage_id=vitrage_id)
-        return utils.list2cols(
-            ('type', 'name', 'severity', 'update_timestamp'), alarms)
+        return utils.list2cols(('type', 'name', 'resource_type',
+                                'resource_name', 'severity',
+                                'update_timestamp'), alarms)
