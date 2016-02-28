@@ -27,7 +27,6 @@ from cliff import commandmanager
 from keystoneauth1 import loading
 
 import client
-import noauth
 
 from v1.cli import alarms
 from v1.cli import rca
@@ -80,6 +79,10 @@ class VitrageShell(app.App):
 
         self.register_keyauth_argparse_arguments(parser)
 
+        parser.add_argument('--vitrage-api-version',
+                            default=os.environ.get('VITRAGE_API_VERSION', '1'),
+                            help='Defaults to env[VITRAGE_API_VERSION] or 1.')
+
         return parser
 
     @staticmethod
@@ -99,31 +102,15 @@ class VitrageShell(app.App):
             help='Select an interface type.'
                  ' Valid interface types: [admin, public, internal].'
                  ' (Env: OS_INTERFACE)')
-        parser.add_argument('--vitrage-api-version',
-                            default=os.environ.get('VITRAGE_API_VERSION', '1'),
-                            help='Defaults to env[VITRAGE_API_VERSION] or 1.')
 
         loading.register_session_argparse_arguments(parser=parser)
 
-        plugin = loading.register_auth_argparse_arguments(parser=parser,
-                                                          argv=sys.argv,
-                                                          default='password')
-
-        if not isinstance(plugin, noauth.VitrageNoAuthLoader):
-            parser.add_argument(
-                '--vitrage-endpoint',
-                metavar='<endpoint>',
-                dest='endpoint',
-                default=os.environ.get('VITRAGE_ENDPOINT'),
-                help='Vitrage endpoint (Env: VITRAGE_ENDPOINT)')
+        loading.register_auth_argparse_arguments(parser=parser, argv=sys.argv,
+                                                 default='password')
 
     @property
     def client(self):
         if self._client is None:
-            if hasattr(self.options, 'endpoint'):
-                endpoint_override = self.options.endpoint
-            else:
-                endpoint_override = None
             auth_plugin = loading.load_auth_from_argparse_arguments(
                 self.options)
             session = loading.load_session_from_argparse_arguments(
@@ -134,8 +121,7 @@ class VitrageShell(app.App):
                 self.options.vitrage_api_version,
                 session=session,
                 interface=self.options.interface,
-                region_name=self.options.region_name,
-                endpoint_override=endpoint_override)
+                region_name=self.options.region_name)
 
         return self._client
 
