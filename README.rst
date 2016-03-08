@@ -12,16 +12,9 @@ provides a Python API (the ``vitrageclient`` module) and a command-line tool
 
 Ubuntu Install
 --------------
-Requires:
-  - pip - version >= 1.4.  python get-pip.py
+At the moment only manual install is available
 
-See versions on PYPI:
-  https://pypi.python.org/pypi/python-vitrageclient/
-
-Install It:
-  - sudo pip install python-vitrageclient
-
-Alternative Manual Install Steps:
+Manual Install Steps:
   - cd to your python-vitrageclient repo
   - sudo pip install -r requirements.txt
   - python setup.py install
