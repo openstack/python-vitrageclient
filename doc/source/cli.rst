@@ -13,8 +13,9 @@
 
 
 
+================
 Command-line API
-----------------
+================
 Installing this distribution gets you a shell command, ``vitrage``, that you
 can use to interact with the Vitrage API server.
 
@@ -27,7 +28,7 @@ Usage:
 
 
 Environmental Variables
-~~~~~~~~~~~~~~~~~~~~~~~
+-----------------------
 
 Environmental variables can be sourced, or optionally passed in as CLI arguments.
 It is easiest to source them first and then use the CLI.
@@ -150,7 +151,7 @@ You'll find complete documentation on the shell by running
 
 
 Bash Completion
-~~~~~~~~~~~~~~~
+---------------
 Basic command tab completion can be enabled by sourcing the bash completion script.
 ::
 
@@ -158,7 +159,7 @@ Basic command tab completion can be enabled by sourcing the bash completion scri
 
 
 Topology Example
-~~~~~~~~~~~~~~~~
+----------------
 Note:  To see complete usage: 'vitrage help' and 'vitrage help <command>'
 
 topology show::
@@ -576,7 +577,7 @@ topology show::
  }
 
 RCA Example
-~~~~~~~~~~~
+-----------
 Note:  To see complete usage: 'vitrage help' and 'vitrage help <command>'
 
 rca show::
@@ -648,7 +649,7 @@ rca show::
 
 
 Resources Examples
-~~~~~~~~~~~~~~~~~~
+------------------
 Note:  To see complete usage: 'vitrage help' and 'vitrage help <command>'
 
 resource show::
@@ -664,7 +665,7 @@ resource list::
   TODO
 
 Alarms Examples
-~~~~~~~~~~~~~~~
+---------------
 Note:  To see complete usage: 'vitrage help' and 'vitrage help <command>'
 
 alarms list::
