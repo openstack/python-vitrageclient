@@ -50,7 +50,10 @@ In the python-vitrageclient source directory
     pip install $(ls -1rt dist/*.whl | tail -1) --upgrade
 
 
-Command-line API
-----------------
+References
+----------
 
-.. doc/source/cli.rst
+.. toctree::
+   :maxdepth: 1
+
+   doc/source/cli.rst
