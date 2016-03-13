@@ -53,4 +53,4 @@ In the python-vitrageclient source directory
 References
 ----------
 
-Detailed documentation for the CLI see [CLI Spec](https://github.com/openstack/python-vitrageclient/blob/master/doc/source/cli.rst)
+Detailed documentation for the CLI see `CLI Spec <https://github.com/openstack/python-vitrageclient/blob/master/doc/source/cli.rst/>`_
