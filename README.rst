@@ -53,7 +53,4 @@ In the python-vitrageclient source directory
 References
 ----------
 
-.. toctree::
-   :maxdepth: 1
-
-   doc/source/cli.rst
+Detailed documentation for the CLI see [CLI Spec](doc/source/cli.rst)
