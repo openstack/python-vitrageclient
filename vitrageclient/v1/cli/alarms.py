@@ -32,5 +32,5 @@ class AlarmsList(lister.Lister):
         vitrage_id = parsed_args.vitrage_id
         alarms = self.app.client.alarms.list(vitrage_id=vitrage_id)
         return utils.list2cols(('type', 'name', 'resource_type',
-                                'resource_id', 'severity',
+                                'resource_id', 'normalized_severity',
                                 'update_timestamp'), alarms)
