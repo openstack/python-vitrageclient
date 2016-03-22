@@ -83,6 +83,10 @@ class VitrageShell(app.App):
                             default=os.environ.get('VITRAGE_API_VERSION', '1'),
                             help='Defaults to env[VITRAGE_API_VERSION] or 1.')
 
+        parser.add_argument('--endpoint',
+                            default=os.environ.get('VITRAGE_ENDPOINT'),
+                            help='Vitrage endpoint (Env: VITRAGE_ENDPOINT)')
+
         return parser
 
     @staticmethod
@@ -111,6 +115,10 @@ class VitrageShell(app.App):
     @property
     def client(self):
         if self._client is None:
+            if hasattr(self.options, "endpoint"):
+                endpoint_override = self.options.endpoint
+            else:
+                endpoint_override = None
             auth_plugin = loading.load_auth_from_argparse_arguments(
                 self.options)
             session = loading.load_session_from_argparse_arguments(
@@ -121,7 +129,8 @@ class VitrageShell(app.App):
                 self.options.vitrage_api_version,
                 session=session,
                 interface=self.options.interface,
-                region_name=self.options.region_name)
+                region_name=self.options.region_name,
+                endpoint_override=endpoint_override)
 
         return self._client
 
