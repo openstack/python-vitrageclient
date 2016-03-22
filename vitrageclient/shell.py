@@ -75,7 +75,7 @@ class VitrageShell(app.App):
         """
 
         parser = super(VitrageShell, self).build_option_parser(
-            description, version)
+            description, version, argparse_kwargs={'allow_abbrev': False})
 
         self.register_keyauth_argparse_arguments(parser)
 
