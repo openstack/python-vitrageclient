@@ -26,15 +26,15 @@ class Template(object):
     def validate(self, path=None):
         """Template validation
 
-        :param path: the YAML file path
+        :param path: the template file path or templates dir path
         """
 
         if os.path.isdir(path):
             pass
         else:
-            template_def = self.load_template_definition(path)
+            templates = [(path, self.load_template_definition(path))]
 
-        params = dict(template_def=template_def)
+        params = dict(templates=templates)
 
         return self.api.post(self.URL, json=params).json()
 
