@@ -12,22 +12,11 @@
 # License for the specific language governing permissions and limitations
 # under the License.
 
-from oslo_utils import importutils
 
+class CommandException(Exception):
+    """An error occurred."""
+    def __init__(self, message=None):
+        self.message = message
 
-def import_versioned_module(version, submodule=None):
-    module = 'vitrageclient.v%s' % version
-    if submodule:
-        module = '.'.join((module, submodule))
-    return importutils.import_module(module)
-
-
-def args_to_dict(args, attrs):
-    return {(attr, value)
-            for attr, value in [(attr, getattr(args, attr)) for attr in attrs]
-            if value is not None}
-
-
-def list2cols(cols, objs):
-    return cols, [tuple([o[k] for k in cols])
-                  for o in objs]
+    def __str__(self):
+        return self.message or self.__class__.__doc__

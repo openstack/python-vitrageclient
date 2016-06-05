@@ -1,0 +1,33 @@
+# Copyright 2016 - Nokia Corporation
+#
+# Licensed under the Apache License, Version 2.0 (the "License"); you may
+# not use this file except in compliance with the License. You may obtain
+# a copy of the License at
+#
+#      http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
+# WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
+# License for the specific language governing permissions and limitations
+# under the License.
+import yaml
+
+
+def load(stream):
+    try:
+        yaml_dict = yaml.load(stream, Loader=yaml.BaseLoader)
+    except yaml.YAMLError as exc:
+        msg = 'An error occurred during YAML parsing.'
+        if hasattr(exc, 'problem_mark'):
+            msg += ' Error position: (%s:%s)' % (exc.problem_mark.line + 1,
+                                                 exc.problem_mark.column + 1)
+        raise ValueError(msg)
+
+    if not isinstance(yaml_dict, dict) and not isinstance(yaml_dict, list):
+        raise ValueError('The source is not a YAML mapping or list.')
+
+    if isinstance(yaml_dict, dict) and len(yaml_dict) < 1:
+        raise ValueError('Could not find any element in your YAML mapping.')
+
+    return yaml_dict

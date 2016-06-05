@@ -1,3 +1,5 @@
+# Copyright 2016 Nokia
+#
 # Licensed under the Apache License, Version 2.0 (the "License"); you may
 # not use this file except in compliance with the License. You may obtain
 # a copy of the License at
@@ -31,6 +33,7 @@ import client
 from v1.cli import alarms
 from v1.cli import rca
 from v1.cli import resource
+from v1.cli import template
 from v1.cli import topology
 from vitrageclient import __version__
 
@@ -42,6 +45,7 @@ class VitrageCommandManager(commandmanager.CommandManager):
         'resource list': resource.ResourceList,
         'alarms list': alarms.AlarmsList,
         'rca show': rca.RcaShow,
+        'template validate': template.TemplateValidate,
     }
 
     def load_commands(self, namespace):
