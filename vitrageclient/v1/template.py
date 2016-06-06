@@ -12,8 +12,12 @@
 # License for the specific language governing permissions and limitations
 # under the License.
 import os
+from oslo_log import log
 from vitrageclient.common.exc import CommandException
 from vitrageclient.common import yaml_utils
+
+
+LOG = log.getLogger(__name__)
 
 
 class Template(object):
@@ -26,11 +30,24 @@ class Template(object):
     def validate(self, path=None):
         """Template validation
 
+        Make sure that the template file is correct in terms of synax
+        and content.
+        It is possible to pass a specific file path in order to validate one
+        template, or directory path for validation of several templates (the
+        directory must contain only templates)
+
         :param path: the template file path or templates dir path
         """
 
         if os.path.isdir(path):
-            pass
+
+            templates = []
+            for file_name in os.listdir(path):
+
+                file_path = '%s/%s' % (path, file_name)
+                if os.path.isfile(file_path):
+                    template = self.load_template_definition(file_path)
+                    templates.append((file_path, template))
         else:
             templates = [(path, self.load_template_definition(path))]
 
@@ -45,5 +62,6 @@ class Template(object):
             try:
                 return yaml_utils.load(stream)
             except ValueError as e:
-                message = 'Could not load template. Reason: %s' % e.message
+                message = 'Could not load template file: %s. Reason: %s' \
+                          % (path, e.message)
                 raise CommandException(message=message)
