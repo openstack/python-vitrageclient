@@ -40,8 +40,18 @@ class TopologyShow(show.ShowOne):
         return 'json'
 
     def take_action(self, parsed_args):
-        topology = self.app.client.topology.get(limit=parsed_args.limit,
-                                                graph_type=parsed_args.type,
-                                                query=parsed_args.filter,
-                                                root=parsed_args.root)
+        limit = parsed_args.limit
+        graph_type = parsed_args.type
+        query = parsed_args.filter
+        root = parsed_args.root
+
+        if graph_type == 'graph' and limit is not None and root is None:
+            print("Graph-type 'graph' requires a 'root' with 'limit'.")
+            topology = {}
+        else:
+            topology = self.app.client.topology.get(limit=limit,
+                                                    graph_type=graph_type,
+                                                    query=query,
+                                                    root=root)
+
         return self.dict2columns(topology)
