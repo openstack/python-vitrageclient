@@ -9,6 +9,7 @@
 # WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
 # License for the specific language governing permissions and limitations
 # under the License.
+import json
 
 
 class ClientException(Exception):
@@ -33,4 +34,13 @@ class ClientException(Exception):
 
 
 def from_response(resp, url, method):
-    return ClientException(resp.status_code, url=url, method=method)
+    msg = None
+    if resp.text:
+        try:
+            body = json.loads(resp.text)
+            msg = body.get('description', None)
+        except Exception as e:
+            print ('get msg failed, resp.text:%s, e:%s ' % (resp.text, e))
+
+    return ClientException(resp.status_code, message=msg,
+                           url=url, method=method)
