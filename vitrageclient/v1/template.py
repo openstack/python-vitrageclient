@@ -22,15 +22,19 @@ LOG = log.getLogger(__name__)
 
 class Template(object):
 
-    URL = 'v1/template/'
+    url = 'v1/template/'
 
     def __init__(self, api):
         self.api = api
 
+    def list(self):
+        """Get templates list"""
+        return self.api.get(self.url).json()
+
     def validate(self, path=None):
         """Template validation
 
-        Make sure that the template file is correct in terms of synax
+        Make sure that the template file is correct in terms of syntax
         and content.
         It is possible to pass a specific file path in order to validate one
         template, or directory path for validation of several templates (the
@@ -53,7 +57,7 @@ class Template(object):
 
         params = dict(templates=templates)
 
-        return self.api.post(self.URL, json=params).json()
+        return self.api.post(self.url, json=params).json()
 
     @staticmethod
     def load_template_definition(path):

@@ -12,9 +12,12 @@
 # License for the specific language governing permissions and limitations
 # under the License.
 
+from cliff import lister
 from cliff import show
 from oslo_log import log
+
 from vitrageclient.common.exc import CommandException
+from vitrageclient.common import utils
 
 LOG = log.getLogger(__name__)
 
@@ -40,3 +43,18 @@ class TemplateValidate(show.ShowOne):
             result = self.app.client.template.validate(path=parsed_args.path)
 
         return self.dict2columns(result)
+
+
+class TemplateList(lister.Lister):
+    """Template list"""
+
+    def get_parser(self, prog_name):
+        parser = super(TemplateList, self).get_parser(prog_name)
+        return parser
+
+    def take_action(self, parsed_args):
+        templates = self.app.client.template.list()
+        return utils.list2cols(('name',
+                                'status',
+                                'status details',
+                                'date'), templates)

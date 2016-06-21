@@ -46,6 +46,7 @@ class VitrageCommandManager(commandmanager.CommandManager):
         'alarms list': alarms.AlarmsList,
         'rca show': rca.RcaShow,
         'template validate': template.TemplateValidate,
+        'template list': template.TemplateList,
     }
 
     def load_commands(self, namespace):
