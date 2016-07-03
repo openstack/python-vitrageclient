@@ -54,7 +54,25 @@ class TemplateList(lister.Lister):
 
     def take_action(self, parsed_args):
         templates = self.app.client.template.list()
-        return utils.list2cols(('name',
+        return utils.list2cols(('uuid',
+                                'name',
                                 'status',
                                 'status details',
                                 'date'), templates)
+
+
+class TemplateShow(show.ShowOne):
+    """Template show"""
+
+    def get_parser(self, prog_name):
+        parser = super(TemplateShow, self).get_parser(prog_name)
+        parser.add_argument('uuid', help='Template UUID')
+        return parser
+
+    def formatter_default(self):
+        return 'json'
+
+    def take_action(self, parsed_args):
+        uuid = parsed_args.uuid
+        template = self.app.client.template.show(uuid=uuid)
+        return self.dict2columns(template)

@@ -31,6 +31,12 @@ class Template(object):
         """Get templates list"""
         return self.api.get(self.url).json()
 
+    def show(self, uuid):
+        """Show template content"""
+
+        url = self.url + uuid
+        return self.api.get(url).json()
+
     def validate(self, path=None):
         """Template validation
 
