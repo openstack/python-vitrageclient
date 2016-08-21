@@ -12,7 +12,7 @@
 
 from vitrageclient import client
 
-from vitrageclient.v1 import alarms
+from vitrageclient.v1 import alarm
 from vitrageclient.v1 import rca
 from vitrageclient.v1 import resource
 from vitrageclient.v1 import template
@@ -26,6 +26,6 @@ class Client(object):
                                          **kwargs)
         self.topology = topology.Topology(self._api)
         self.resource = resource.Resource(self._api)
-        self.alarms = alarms.Alarm(self._api)
+        self.alarm = alarm.Alarm(self._api)
         self.rca = rca.Rca(self._api)
         self.template = template.Template(self._api)

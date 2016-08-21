@@ -141,7 +141,7 @@ You'll find complete documentation on the shell by running
                            User's password
 
    Commands:
-     alarms list    List alarms on entity
+     alarm list     List alarms on entity
      complete       print bash completion command
      help           print detailed help for another command
      rca show       Show an RCA
@@ -668,9 +668,9 @@ Alarms Examples
 ---------------
 Note:  To see complete usage: 'vitrage help' and 'vitrage help <command>'
 
-alarms list::
+alarm list::
 
-  vitrage alarms list
+  vitrage alarm list
   +---------+--------------------+---------------+--------------------------------------+----------+----------------------+
   | type    | name               | resource_type | resource_id                          | severity | update_timestamp     |
   +---------+--------------------+---------------+--------------------------------------+----------+----------------------+

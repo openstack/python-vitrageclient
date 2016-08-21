@@ -30,7 +30,7 @@ from keystoneauth1 import loading
 
 import client
 
-from v1.cli import alarms
+from v1.cli import alarm
 from v1.cli import rca
 from v1.cli import resource
 from v1.cli import template
@@ -43,7 +43,7 @@ class VitrageCommandManager(commandmanager.CommandManager):
         'topology show': topology.TopologyShow,
         'resource show': resource.ResourceShow,
         'resource list': resource.ResourceList,
-        'alarms list': alarms.AlarmsList,
+        'alarm list': alarm.AlarmList,
         'rca show': rca.RcaShow,
         'template validate': template.TemplateValidate,
         'template list': template.TemplateList,
