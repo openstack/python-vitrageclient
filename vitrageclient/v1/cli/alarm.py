@@ -15,11 +15,11 @@ from cliff import lister
 from vitrageclient.common import utils
 
 
-class AlarmsList(lister.Lister):
+class AlarmList(lister.Lister):
     """List alarms on entity"""
 
     def get_parser(self, prog_name):
-        parser = super(AlarmsList, self).get_parser(prog_name)
+        parser = super(AlarmList, self).get_parser(prog_name)
         parser.add_argument("vitrage_id",
                             default='all',
                             nargs='?',
@@ -30,7 +30,7 @@ class AlarmsList(lister.Lister):
 
     def take_action(self, parsed_args):
         vitrage_id = parsed_args.vitrage_id
-        alarms = self.app.client.alarms.list(vitrage_id=vitrage_id)
+        alarms = self.app.client.alarm.list(vitrage_id=vitrage_id)
         return utils.list2cols(('type',
                                 'name',
                                 'resource_type',
