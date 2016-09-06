@@ -16,7 +16,7 @@ from cliff import lister
 from cliff import show
 from oslo_log import log
 
-from vitrageclient.common.exc import CommandException
+from vitrageclient.common import exc
 from vitrageclient.common import utils
 
 LOG = log.getLogger(__name__)
@@ -37,7 +37,7 @@ class TemplateValidate(show.ShowOne):
     def take_action(self, parsed_args):
 
         if not parsed_args.path:
-            raise CommandException(message='No path requested, add --path')
+            raise exc.CommandException(message='No path requested, add --path')
 
         if parsed_args.path:
             result = self.app.client.template.validate(path=parsed_args.path)
