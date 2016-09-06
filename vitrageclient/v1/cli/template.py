@@ -14,12 +14,9 @@
 
 from cliff import lister
 from cliff import show
-from oslo_log import log
 
 from vitrageclient.common import exc
 from vitrageclient.common import utils
-
-LOG = log.getLogger(__name__)
 
 
 # noinspection PyAbstractClass

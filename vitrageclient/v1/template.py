@@ -12,12 +12,8 @@
 # License for the specific language governing permissions and limitations
 # under the License.
 import os
-from oslo_log import log
 from vitrageclient.common import exc
 from vitrageclient.common import yaml_utils
-
-
-LOG = log.getLogger(__name__)
 
 
 class Template(object):
