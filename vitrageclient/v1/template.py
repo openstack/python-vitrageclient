@@ -12,12 +12,8 @@
 # License for the specific language governing permissions and limitations
 # under the License.
 import os
-from oslo_log import log
-from vitrageclient.common.exc import CommandException
+from vitrageclient.common import exc
 from vitrageclient.common import yaml_utils
-
-
-LOG = log.getLogger(__name__)
 
 
 class Template(object):
@@ -74,4 +70,4 @@ class Template(object):
             except ValueError as e:
                 message = 'Could not load template file: %s. Reason: %s' \
                           % (path, e.message)
-                raise CommandException(message=message)
+                raise exc.CommandException(message=message)

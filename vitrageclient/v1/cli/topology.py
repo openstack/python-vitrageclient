@@ -11,7 +11,7 @@
 # under the License.
 
 from cliff import show
-from vitrageclient.common.exc import CommandException
+from vitrageclient.common import exc
 
 
 # noinspection PyAbstractClass
@@ -47,7 +47,7 @@ class TopologyShow(show.ShowOne):
         root = parsed_args.root
 
         if graph_type == 'graph' and limit is not None and root is None:
-            raise CommandException(
+            raise exc.CommandException(
                 message="Graph-type 'graph' requires a 'root' with 'limit'.")
 
         topology = self.app.client.topology.get(limit=limit,
