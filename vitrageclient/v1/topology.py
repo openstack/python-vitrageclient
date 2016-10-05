@@ -17,15 +17,24 @@ class Topology(object):
     def __init__(self, api):
         self.api = api
 
-    def get(self, limit=None, graph_type='graph', query=None, root=None):
+    def get(self,
+            limit=None,
+            graph_type='graph',
+            query=None,
+            root=None,
+            all_tenants=0):
         """Get a topology
 
         :param root:  the root of the topology graph
         :param query: the query filter for the topology
         :param graph_type: graph can be tree or graph
         :param limit: the depth of the topology graph
+        :param all_tenants: show entities in graph of all tenants
         """
 
-        params = dict(depth=limit, graph_type=graph_type,
-                      query=query, root=root)
+        params = dict(depth=limit,
+                      graph_type=graph_type,
+                      query=query,
+                      root=root,
+                      all_tenants=all_tenants)
         return self.api.post(self.URL, json=params).json()

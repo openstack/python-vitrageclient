@@ -19,7 +19,18 @@ class RcaShow(show.ShowOne):
 
     def get_parser(self, prog_name):
         parser = super(RcaShow, self).get_parser(prog_name)
-        parser.add_argument('alarm_id', help='ID of an alarm')
+        parser.add_argument('alarm_id',
+                            help='ID of an alarm')
+
+        parser.add_argument('--all-tenants',
+                            metavar='<0|1>',
+                            nargs='?',
+                            type=int,
+                            const=1,
+                            default=0,
+                            dest='all_tenants',
+                            help='Shows alarms of all the tenants for the RCA')
+
         return parser
 
     def formatter_default(self):
@@ -27,5 +38,9 @@ class RcaShow(show.ShowOne):
 
     def take_action(self, parsed_args):
         alarm_id = parsed_args.alarm_id
-        alarm = self.app.client.rca.get(alarm_id=alarm_id)
+        all_tenants = parsed_args.all_tenants
+
+        alarm = self.app.client.rca.get(alarm_id=alarm_id,
+                                        all_tenants=all_tenants)
+
         return self.dict2columns(alarm)

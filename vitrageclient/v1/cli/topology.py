@@ -24,16 +24,30 @@ class TopologyShow(show.ShowOne):
                             metavar='<query>',
                             help='query for the graph)')
 
-        parser.add_argument('--limit', type=int,
+        parser.add_argument('--limit',
+                            type=int,
                             metavar='<depth>',
                             help='the depth of the topology graph')
 
-        parser.add_argument('--root', help='the root of the topology graph')
+        parser.add_argument('--root',
+                            help='the root of the topology graph')
 
-        parser.add_argument('--graph-type', choices=['tree', 'graph'],
-                            default='graph', dest='type',
+        parser.add_argument('--graph-type',
+                            choices=['tree', 'graph'],
+                            default='graph',
+                            dest='type',
                             help='graph type. '
                                  'Valid graph types: [tree, graph]')
+
+        parser.add_argument('--all-tenants',
+                            metavar='<0|1>',
+                            nargs='?',
+                            type=int,
+                            const=1,
+                            default=0,
+                            dest='all_tenants',
+                            help='Shows entities of all the tenants in the '
+                                 'entity graph')
 
         return parser
 
@@ -45,6 +59,7 @@ class TopologyShow(show.ShowOne):
         graph_type = parsed_args.type
         query = parsed_args.filter
         root = parsed_args.root
+        all_tenants = parsed_args.all_tenants
 
         if graph_type == 'graph' and limit is not None and root is None:
             raise exc.CommandException(
@@ -53,5 +68,6 @@ class TopologyShow(show.ShowOne):
         topology = self.app.client.topology.get(limit=limit,
                                                 graph_type=graph_type,
                                                 query=query,
-                                                root=root)
+                                                root=root,
+                                                all_tenants=all_tenants)
         return self.dict2columns(topology)
