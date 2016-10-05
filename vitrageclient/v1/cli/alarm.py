@@ -26,11 +26,24 @@ class AlarmList(lister.Lister):
                             metavar="<vitrage id>",
                             help="Vitrage id of the affected resource")
 
+        parser.add_argument('--all-tenants',
+                            metavar='<0|1>',
+                            nargs='?',
+                            type=int,
+                            const=1,
+                            default=0,
+                            dest='all_tenants',
+                            help='Shows alarms of all the tenants in the '
+                                 'entity graph')
+
         return parser
 
     def take_action(self, parsed_args):
         vitrage_id = parsed_args.vitrage_id
-        alarms = self.app.client.alarm.list(vitrage_id=vitrage_id)
+        all_tenants = parsed_args.all_tenants
+
+        alarms = self.app.client.alarm.list(vitrage_id=vitrage_id,
+                                            all_tenants=all_tenants)
         return utils.list2cols(('type',
                                 'name',
                                 'resource_type',

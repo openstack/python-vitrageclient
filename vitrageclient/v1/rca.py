@@ -17,10 +17,11 @@ class Rca(object):
     def __init__(self, api):
         self.api = api
 
-    def get(self, alarm_id):
+    def get(self, alarm_id, all_tenants):
         """Get RCA for an alarm
 
         :param alarm_id: the id of the alarm
         """
-        url = self.url + alarm_id
-        return self.api.get(url).json()
+        params = dict(alarm_id=alarm_id,
+                      all_tenants=all_tenants)
+        return self.api.get(self.url, params=params).json()
