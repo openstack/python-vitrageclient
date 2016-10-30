@@ -44,7 +44,8 @@ class AlarmList(lister.Lister):
 
         alarms = self.app.client.alarm.list(vitrage_id=vitrage_id,
                                             all_tenants=all_tenants)
-        return utils.list2cols(('type',
+        return utils.list2cols(('vitrage_id',
+                                'type',
                                 'name',
                                 'resource_type',
                                 'resource_id',
