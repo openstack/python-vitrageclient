@@ -13,12 +13,13 @@
 import exc
 
 from keystoneauth1 import adapter as keystoneauth
-from vitrageclient.common import utils
+from oslo_utils import importutils
 
 
 # noinspection PyPep8Naming
 def Client(version, *args, **kwargs):
-    module = utils.import_versioned_module(version, 'client')
+    module = importutils.import_versioned_module('vitrageclient',
+                                                 version, 'client')
     client_class = getattr(module, 'Client')
     return client_class(*args, **kwargs)
 
