@@ -5,9 +5,9 @@ _vitrage()
   _get_comp_words_by_ref -n : cur prev words
 
   # Command data:
-  cmds='alarms complete help rca resource topology'
-  cmds_alarms='list'
-  cmds_alarms_list='-h --help -f --format -c --column --max-width --noindent --quote'
+  cmds='alarm complete help rca resource template topology'
+  cmds_alarm='list'
+  cmds_alarm_list='-h --help -f --format -c --column --max-width --noindent --quote'
   cmds_complete='-h --help --name --shell'
   cmds_help='-h --help'
   cmds_rca='show'
@@ -15,9 +15,15 @@ _vitrage()
   cmds_resource='list show'
   cmds_resource_list='-h --help -f --format -c --column --max-width --noindent --quote --type'
   cmds_resource_show='-h --help -f --format -c --column --max-width --noindent --variable --prefix'
+  cmds_template='list show validate'
+  cmds_template_list='-h --help -f --format -c --column --max-width --noindent --quote'
+  cmds_template_show='-h --help -f --format -c --column --max-width --noindent --variable --prefix'
+  cmds_template_validate='-h --help -f --format -c --column --max-width --noindent --variable --prefix --path'
   cmds_topology='show'
   cmds_topology_show='-h --help -f --format -c --column --max-width --noindent --variable --prefix --filter --limit --root --graph-type'
 
+  dash=-
+  underscore=_
   cmd=""
   words[0]=""
   completed="${cmds}"
@@ -32,6 +38,7 @@ _vitrage()
       proposed="${cmd}_${var}"
     fi
     local i="cmds_${proposed}"
+    i=${i//$dash/$underscore}
     local comp="${!i}"
     if [ -z "${comp}" ] ; then
       break
