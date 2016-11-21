@@ -34,6 +34,6 @@ def list2cols(cols, objs):
 
 def get_client(obj):
     if hasattr(obj.app, 'client_manager'):
-        return obj.app.client_manager.metric
+        return obj.app.client_manager.rca
     else:
         return obj.app.client
