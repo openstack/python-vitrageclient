@@ -13,6 +13,8 @@
 from cliff import lister
 from cliff import show
 
+from vitrageclient.common import utils
+
 
 # noinspection PyAbstractClass
 class ResourceShow(show.ShowOne):
@@ -25,7 +27,7 @@ class ResourceShow(show.ShowOne):
 
     def take_action(self, parsed_args):
         resource_id = parsed_args.resource_id
-        resource = self.app.client.resource.get(resource_id=resource_id)
+        resource = utils.get_client(self).resource.get(resource_id=resource_id)
         return self.dict2columns(resource)
 
 
@@ -42,5 +44,6 @@ class ResourceList(lister.Lister):
 
     def take_action(self, parsed_args):
         resource_type = parsed_args.resource_type
-        resources = self.app.client.resource.list(resource_type=resource_type)
+        resources = utils.get_client(self).resource.list(
+            resource_type=resource_type)
         return [], resources

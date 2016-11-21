@@ -30,3 +30,10 @@ def args_to_dict(args, attrs):
 def list2cols(cols, objs):
     return cols, [tuple([o[k] for k in cols])
                   for o in objs]
+
+
+def get_client(obj):
+    if hasattr(obj.app, 'client_manager'):
+        return obj.app.client_manager.metric
+    else:
+        return obj.app.client

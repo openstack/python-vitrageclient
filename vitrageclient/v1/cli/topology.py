@@ -12,6 +12,7 @@
 
 from cliff import show
 from vitrageclient.common import exc
+from vitrageclient.common import utils
 
 
 # noinspection PyAbstractClass
@@ -65,9 +66,9 @@ class TopologyShow(show.ShowOne):
             raise exc.CommandException(
                 message="Graph-type 'graph' requires a 'root' with 'limit'.")
 
-        topology = self.app.client.topology.get(limit=limit,
-                                                graph_type=graph_type,
-                                                query=query,
-                                                root=root,
-                                                all_tenants=all_tenants)
+        topology = utils.get_client(self).topology.get(limit=limit,
+                                                       graph_type=graph_type,
+                                                       query=query,
+                                                       root=root,
+                                                       all_tenants=all_tenants)
         return self.dict2columns(topology)

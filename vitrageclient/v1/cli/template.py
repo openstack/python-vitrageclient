@@ -36,8 +36,8 @@ class TemplateValidate(show.ShowOne):
         if not parsed_args.path:
             raise exc.CommandException(message='No path requested, add --path')
 
-        if parsed_args.path:
-            result = self.app.client.template.validate(path=parsed_args.path)
+        result = utils.get_client(self).template.validate(
+            path=parsed_args.path)
 
         return self.dict2columns(result)
 
@@ -50,7 +50,7 @@ class TemplateList(lister.Lister):
         return parser
 
     def take_action(self, parsed_args):
-        templates = self.app.client.template.list()
+        templates = utils.get_client(self).template.list()
         return utils.list2cols(('uuid',
                                 'name',
                                 'status',
@@ -71,5 +71,5 @@ class TemplateShow(show.ShowOne):
 
     def take_action(self, parsed_args):
         uuid = parsed_args.uuid
-        template = self.app.client.template.show(uuid=uuid)
+        template = utils.get_client(self).template.show(uuid=uuid)
         return self.dict2columns(template)

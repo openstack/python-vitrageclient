@@ -11,6 +11,7 @@
 # under the License.
 
 from cliff import show
+from vitrageclient.common import utils
 
 
 # noinspection PyAbstractClass
@@ -40,7 +41,7 @@ class RcaShow(show.ShowOne):
         alarm_id = parsed_args.alarm_id
         all_tenants = parsed_args.all_tenants
 
-        alarm = self.app.client.rca.get(alarm_id=alarm_id,
-                                        all_tenants=all_tenants)
+        alarm = utils.get_client(self).rca.get(alarm_id=alarm_id,
+                                               all_tenants=all_tenants)
 
         return self.dict2columns(alarm)
