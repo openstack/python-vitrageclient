@@ -11,14 +11,6 @@
 # WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
 # License for the specific language governing permissions and limitations
 # under the License.
-from oslo_utils import importutils
-
-
-def import_versioned_module(version, submodule=None):
-    module = 'vitrageclient.v%s' % version
-    if submodule:
-        module = '.'.join((module, submodule))
-    return importutils.import_module(module)
 
 
 def args_to_dict(args, attrs):
