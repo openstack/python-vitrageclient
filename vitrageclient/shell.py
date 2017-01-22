@@ -31,6 +31,7 @@ from keystoneauth1 import loading
 import client
 
 from v1.cli import alarm
+from v1.cli import event
 from v1.cli import rca
 from v1.cli import resource
 from v1.cli import template
@@ -48,6 +49,7 @@ class VitrageCommandManager(commandmanager.CommandManager):
         'template validate': template.TemplateValidate,
         'template list': template.TemplateList,
         'template show': template.TemplateShow,
+        'event post': event.EventPost,
     }
 
     def load_commands(self, namespace):
