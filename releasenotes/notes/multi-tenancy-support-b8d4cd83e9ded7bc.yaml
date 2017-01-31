@@ -1,0 +1,4 @@
+---
+features:
+  - Multi Tenancy support was added to all Vitrage API queries. In Ocata,
+    a user will only see alarms and resources which belong to his tenant.

@@ -1,0 +1,7 @@
+---
+features:
+  - A new ``event post`` API was added in order to support the OPNFV Doctor
+    Inspector requirements. It can be used for posting events from an external
+    monitor or datasource to Vitrage.
+    In the Doctor use case, if a ``compute.host.down`` event is posted, then
+    it is handled by the new ``Doctor Datasource``.
