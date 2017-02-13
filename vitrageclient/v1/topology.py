@@ -22,7 +22,7 @@ class Topology(object):
             graph_type='graph',
             query=None,
             root=None,
-            all_tenants=0):
+            all_tenants=False):
         """Get a topology
 
         :param root:  the root of the topology graph

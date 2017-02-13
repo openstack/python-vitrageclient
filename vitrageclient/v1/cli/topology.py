@@ -41,12 +41,9 @@ class TopologyShow(show.ShowOne):
                                  'Valid graph types: [tree, graph]')
 
         parser.add_argument('--all-tenants',
-                            metavar='<0|1>',
-                            nargs='?',
-                            type=int,
-                            const=1,
-                            default=0,
+                            default=False,
                             dest='all_tenants',
+                            action='store_true',
                             help='Shows entities of all the tenants in the '
                                  'entity graph')
 

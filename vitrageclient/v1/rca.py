@@ -17,7 +17,7 @@ class Rca(object):
     def __init__(self, api):
         self.api = api
 
-    def get(self, alarm_id, all_tenants='0'):
+    def get(self, alarm_id, all_tenants=False):
         """Get RCA for an alarm
 
         :param alarm_id: the id of the alarm
