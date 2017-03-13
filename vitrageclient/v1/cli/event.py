@@ -12,6 +12,8 @@
 # License for the specific language governing permissions and limitations
 # under the License.
 
+import json
+
 from cliff import command
 from datetime import datetime
 
@@ -58,4 +60,4 @@ class EventPost(command.Command):
 
         self.app.client.event.post(event_time=event_time,
                                    event_type=event_type,
-                                   details=details)
+                                   details=json.loads(details))
