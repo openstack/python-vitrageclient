@@ -20,7 +20,7 @@ class RcaShow(show.ShowOne):
 
     def get_parser(self, prog_name):
         parser = super(RcaShow, self).get_parser(prog_name)
-        parser.add_argument('alarm_id',
+        parser.add_argument('alarm_vitrage_id',
                             help='ID of an alarm')
 
         parser.add_argument('--all-tenants',
@@ -35,7 +35,7 @@ class RcaShow(show.ShowOne):
         return 'json'
 
     def take_action(self, parsed_args):
-        alarm_id = parsed_args.alarm_id
+        alarm_id = parsed_args.alarm_vitrage_id
         all_tenants = parsed_args.all_tenants
 
         alarm = utils.get_client(self).rca.get(alarm_id=alarm_id,
