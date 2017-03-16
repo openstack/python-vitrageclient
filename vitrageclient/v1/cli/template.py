@@ -28,6 +28,7 @@ class TemplateValidate(show.ShowOne):
                                            'templates dir)')
         return parser
 
+    @property
     def formatter_default(self):
         return 'json'
 
@@ -66,6 +67,7 @@ class TemplateShow(show.ShowOne):
         parser.add_argument('uuid', help='Template UUID')
         return parser
 
+    @property
     def formatter_default(self):
         return 'json'
 
