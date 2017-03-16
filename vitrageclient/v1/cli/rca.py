@@ -31,6 +31,7 @@ class RcaShow(show.ShowOne):
 
         return parser
 
+    @property
     def formatter_default(self):
         return 'json'
 

@@ -42,9 +42,6 @@ class EventPost(command.Command):
 
         return parser
 
-    def formatter_default(self):
-        return 'json'
-
     def take_action(self, parsed_args):
         if not parsed_args.type:
             raise exc.CommandException(
