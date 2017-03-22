@@ -36,14 +36,27 @@ class ResourceList(lister.Lister):
 
     def get_parser(self, prog_name):
         parser = super(ResourceList, self).get_parser(prog_name)
-        parser.add_argument('--type', dest='resource_type',
+        parser.add_argument('--type',
+                            dest='resource_type',
                             metavar='<resource type>',
                             help='Type of resource')
+        parser.add_argument('--all-tenants',
+                            default=False,
+                            dest='all_tenants',
+                            action='store_true',
+                            help='Shows resources of all the tenants')
 
         return parser
 
     def take_action(self, parsed_args):
         resource_type = parsed_args.resource_type
+        all_tenants = parsed_args.all_tenants
         resources = utils.get_client(self).resource.list(
-            resource_type=resource_type)
-        return [], resources
+            resource_type=resource_type,
+            all_tenants=all_tenants)
+        return utils.list2cols(('vitrage_id',
+                                'type',
+                                'name',
+                                'id',
+                                'state',
+                                'project_id'), resources)

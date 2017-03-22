@@ -17,12 +17,13 @@ class Resource(object):
     def __init__(self, api):
         self.api = api
 
-    def list(self, resource_type=None):
+    def list(self, resource_type=None, all_tenants=False):
         """Get a all resources
 
         :param resource_type: the type for the resources
         """
-        params = dict(resource_type=resource_type)
+        params = dict(resource_type=resource_type,
+                      all_tenants=all_tenants)
         return self.api.get(self.url, params=params).json()
 
     def get(self, resource_id):
