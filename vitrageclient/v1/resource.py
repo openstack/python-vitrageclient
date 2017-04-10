@@ -26,10 +26,10 @@ class Resource(object):
                       all_tenants=all_tenants)
         return self.api.get(self.url, params=params).json()
 
-    def get(self, resource_id):
+    def get(self, vitrage_id):
         """Get a resource
 
-        :param resource_id: the id of the resource
+        :param vitrage_id: the vitrage_id of the resource
         """
-        url = self.url + resource_id
+        url = self.url + vitrage_id
         return self.api.get(url).json()
