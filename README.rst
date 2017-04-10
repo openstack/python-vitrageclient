@@ -2,8 +2,8 @@
 Team and repository tags
 ========================
 
-.. image:: http://governance.openstack.org/badges/python-vitrageclient.svg
-    :target: http://governance.openstack.org/reference/tags/index.html
+.. image:: https://governance.openstack.org/badges/python-vitrageclient.svg
+    :target: https://governance.openstack.org/reference/tags/index.html
     :remote:
 
 .. Change things from this point on
