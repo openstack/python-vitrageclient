@@ -34,6 +34,11 @@ class ResourceShow(show.ShowOne):
 class ResourceList(lister.Lister):
     """List resources"""
 
+    RESOURCE_PROPERTIES = \
+        ('vitrage_id', 'type', 'id', 'state',
+         'aggregated_state', 'metadata')
+    METADATA = ('name', 'project_id', 'update_timestamp')
+
     def get_parser(self, prog_name):
         parser = super(ResourceList, self).get_parser(prog_name)
         parser.add_argument('--type',
@@ -54,9 +59,12 @@ class ResourceList(lister.Lister):
         resources = utils.get_client(self).resource.list(
             resource_type=resource_type,
             all_tenants=all_tenants)
-        return utils.list2cols(('vitrage_id',
-                                'type',
-                                'name',
-                                'id',
-                                'state',
-                                'project_id'), resources)
+        # cluster, zone and host don't have "project_id" property
+        # neutron.port don't have "name" property
+        # cluster don't have "update_timestamp"
+        for resource in resources:
+            resource['metadata'] = \
+                {item: resource[item] for item in self.METADATA
+                 if item in resource}
+
+        return utils.list2cols(self.RESOURCE_PROPERTIES, resources)
