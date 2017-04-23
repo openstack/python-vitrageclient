@@ -39,7 +39,7 @@ master_doc = 'index'
 
 # General information about the project.
 project = u'python-vitrageclient releasenotes'
-copyright = u'2016, Vitrgage developers'
+copyright = u'2016, Vitrage developers'
 
 # If true, '()' will be appended to :func: etc. cross-reference text.
 add_function_parentheses = True
