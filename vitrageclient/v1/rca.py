@@ -20,6 +20,7 @@ class Rca(object):
     def get(self, alarm_id, all_tenants=False):
         """Get RCA for an alarm
 
+        :param all_tenants: should return all tenants rca
         :param alarm_id: the id of the alarm
         """
         params = dict(alarm_id=alarm_id,

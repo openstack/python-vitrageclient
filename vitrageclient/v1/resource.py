@@ -20,6 +20,7 @@ class Resource(object):
     def list(self, resource_type=None, all_tenants=False):
         """Get a all resources
 
+        :param all_tenants: should return all tenants resources
         :param resource_type: the type for the resources
         """
         params = dict(resource_type=resource_type,

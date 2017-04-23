@@ -20,6 +20,7 @@ class Alarm(object):
     def list(self, vitrage_id, all_tenants=False):
         """Get a all alarms on entity
 
+        :param all_tenants: should return all tenants alarms
         :param vitrage_id: the id for the entity
         """
         params = dict(vitrage_id=vitrage_id,
