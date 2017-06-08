@@ -1,0 +1,4 @@
+---
+features:
+  - A new ``resoure show`` API was added in order to show the details of
+    the specified resource.
