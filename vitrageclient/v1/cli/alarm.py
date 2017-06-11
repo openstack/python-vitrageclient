@@ -42,10 +42,10 @@ class AlarmList(lister.Lister):
         alarms = utils.get_client(self).alarm.list(vitrage_id=vitrage_id,
                                                    all_tenants=all_tenants)
         return utils.list2cols(('vitrage_id',
-                                'type',
+                                'vitrage_type',
                                 'name',
-                                'resource_type',
-                                'resource_id',
-                                'aggregated_severity',
-                                'operational_severity',
+                                'vitrage_resource_type',
+                                'vitrage_resource_id',
+                                'vitrage_aggregated_severity',
+                                'vitrage_operational_severity',
                                 'update_timestamp'), alarms)

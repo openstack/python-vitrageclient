@@ -35,8 +35,8 @@ class ResourceList(lister.Lister):
     """List resources"""
 
     RESOURCE_PROPERTIES = \
-        ('vitrage_id', 'type', 'id', 'state',
-         'aggregated_state', 'metadata')
+        ('vitrage_id', 'vitrage_type', 'id', 'state',
+         'vitrage_aggregated_state', 'metadata')
     METADATA = ('name', 'project_id', 'update_timestamp')
 
     def get_parser(self, prog_name):
