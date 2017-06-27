@@ -10,6 +10,7 @@
 # License for the specific language governing permissions and limitations
 # under the License.
 
+from cliff import argparse
 from cliff import show
 from vitrageclient.common import exc
 from vitrageclient.common import utils
@@ -19,6 +20,20 @@ from vitrageclient.common import utils
 class TopologyShow(show.ShowOne):
     """Show the topology of the system"""
 
+    @staticmethod
+    def positive_non_zero_int(argument_value):
+        if argument_value is None:
+            return None
+        try:
+            value = int(argument_value)
+        except ValueError:
+            msg = "%s must be an integer" % argument_value
+            raise argparse.ArgumentTypeError(msg)
+        if value <= 0:
+            msg = "%s must be greater than 0" % argument_value
+            raise argparse.ArgumentTypeError(msg)
+        return value
+
     def get_parser(self, prog_name):
         parser = super(TopologyShow, self).get_parser(prog_name)
         parser.add_argument('--filter',
@@ -26,7 +41,7 @@ class TopologyShow(show.ShowOne):
                             help='query for the graph)')
 
         parser.add_argument('--limit',
-                            type=int,
+                            type=self.positive_non_zero_int,
                             metavar='<depth>',
                             help='the depth of the topology graph')
 

@@ -8,3 +8,4 @@ cliff>=2.6.0 # Apache-2.0
 osc-lib>=1.5.1 # Apache-2.0
 oslo.utils>=3.20.0 # Apache-2.0
 keystoneauth1>=2.21.0 # Apache-2.0
+iso8601>=0.1.11  # MIT

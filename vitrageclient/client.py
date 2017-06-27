@@ -10,7 +10,7 @@
 # License for the specific language governing permissions and limitations
 # under the License.
 
-import exc
+from vitrageclient import exc
 
 from keystoneauth1 import adapter as keystoneauth
 from oslo_utils import importutils

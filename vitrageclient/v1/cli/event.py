@@ -14,8 +14,11 @@
 
 import json
 
+from cliff import argparse
 from cliff import command
 from datetime import datetime
+from iso8601 import iso8601
+from iso8601 import ParseError
 
 from vitrageclient.common import exc
 
@@ -23,6 +26,14 @@ from vitrageclient.common import exc
 # noinspection PyAbstractClass
 class EventPost(command.Command):
     """Show the event of the system"""
+
+    @staticmethod
+    def iso8601(argument_value):
+        try:
+            iso8601.parse_date(argument_value)
+        except ParseError:
+            msg = "%s must be an iso8601 date" % argument_value
+            raise argparse.ArgumentTypeError(msg)
 
     def get_parser(self, prog_name):
         parser = super(EventPost, self).get_parser(prog_name)
@@ -32,6 +43,7 @@ class EventPost(command.Command):
 
         parser.add_argument('--time',
                             default='',
+                            type=self.iso8601,
                             help='The timestamp of the event in ISO 8601 '
                                  'format: YYYY-MM-DDTHH:MM:SS.mmmmmm. '
                                  'If not specified, the current time is used')

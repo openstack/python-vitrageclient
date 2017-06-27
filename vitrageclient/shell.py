@@ -28,15 +28,15 @@ from cliff import app
 from cliff import commandmanager
 from keystoneauth1 import loading
 
-import client
-
-from v1.cli import alarm
-from v1.cli import event
-from v1.cli import rca
-from v1.cli import resource
-from v1.cli import template
-from v1.cli import topology
 from vitrageclient import __version__
+from vitrageclient import client
+
+from vitrageclient.v1.cli import alarm
+from vitrageclient.v1.cli import event
+from vitrageclient.v1.cli import rca
+from vitrageclient.v1.cli import resource
+from vitrageclient.v1.cli import template
+from vitrageclient.v1.cli import topology
 
 
 class VitrageCommandManager(commandmanager.CommandManager):

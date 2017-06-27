@@ -1,3 +1,4 @@
+#
 # Licensed under the Apache License, Version 2.0 (the "License"); you may
 # not use this file except in compliance with the License. You may obtain
 # a copy of the License at
@@ -10,17 +11,18 @@
 # License for the specific language governing permissions and limitations
 # under the License.
 
-"""
-test_vitrageclient
-----------------------------------
+import argparse
 
-Tests for `vitrageclient` module.
-"""
-
-from vitrageclient.tests import base
+from oslotest import base
 
 
-class TestVitrageclient(base.TestCase):
+class CliTestCase(base.BaseTestCase):
 
-    def test_something(self):
-        pass
+    """Test case base class for all unit tests."""
+
+    # original error method of argparse uses exit
+    # I just want to raise an exception and get the error message
+    # that exit outputs
+    @staticmethod
+    def _my_parser_error_func(message):
+        raise argparse.ArgumentTypeError(message)
