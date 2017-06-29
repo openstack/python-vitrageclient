@@ -24,6 +24,7 @@ import os
 import sys
 import warnings
 
+import auth
 from cliff import app
 from cliff import commandmanager
 from keystoneauth1 import loading
@@ -85,15 +86,17 @@ class VitrageShell(app.App):
         parser = super(VitrageShell, self).build_option_parser(
             description, version, argparse_kwargs={'allow_abbrev': False})
 
-        self.register_keyauth_argparse_arguments(parser)
-
         parser.add_argument('--vitrage-api-version',
                             default=os.environ.get('VITRAGE_API_VERSION', '1'),
                             help='Defaults to env[VITRAGE_API_VERSION] or 1.')
 
-        parser.add_argument('--endpoint',
-                            default=os.environ.get('VITRAGE_ENDPOINT'),
-                            help='Vitrage endpoint (Env: VITRAGE_ENDPOINT)')
+        plugin = self.register_keyauth_argparse_arguments(parser)
+
+        if not isinstance(plugin, auth.VitrageNoAuthLoader):
+            parser.add_argument('--endpoint',
+                                default=os.environ.get('VITRAGE_ENDPOINT'),
+                                help='Vitrage endpoint (Env: VITRAGE_ENDPOINT)'
+                                )
 
         return parser
 
@@ -117,8 +120,9 @@ class VitrageShell(app.App):
 
         loading.register_session_argparse_arguments(parser=parser)
 
-        loading.register_auth_argparse_arguments(parser=parser, argv=sys.argv,
-                                                 default='password')
+        return loading.register_auth_argparse_arguments(parser=parser,
+                                                        argv=sys.argv,
+                                                        default='password')
 
     @property
     def client(self):
