@@ -24,12 +24,12 @@ import os
 import sys
 import warnings
 
-import auth
 from cliff import app
 from cliff import commandmanager
 from keystoneauth1 import loading
 
 from vitrageclient import __version__
+from vitrageclient import auth
 from vitrageclient import client
 
 from vitrageclient.v1.cli import alarm
