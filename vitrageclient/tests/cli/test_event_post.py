@@ -51,3 +51,19 @@ class EventPostTest(CliTestCase):
             parser.parse_args(args=['--type', 'bla',
                                     '--time', '-5',
                                     '--details', 'blabla'])
+
+    @mock.patch.object(ArgumentParser, "error")
+    def test_parser_event_post_without_time(self, mock_parser):
+        mock_parser.side_effect = self._my_parser_error_func
+        parser = self.event_post.get_parser('vitrage event post')
+
+        parser.parse_args(args=['--type', 'bla', '--details', 'blabla'])
+
+    @mock.patch.object(ArgumentParser, "error")
+    def test_parser_event_post_type_required(self, mock_parser):
+        mock_parser.side_effect = self._my_parser_error_func
+        parser = self.event_post.get_parser('vitrage event post')
+
+        # noinspection PyCallByClass
+        with ExpectedException(ArgumentTypeError, r'.*--type'):
+            parser.parse_args(args=['--details', 'blabla'])

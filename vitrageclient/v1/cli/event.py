@@ -20,8 +20,6 @@ from datetime import datetime
 from iso8601 import iso8601
 from iso8601 import ParseError
 
-from vitrageclient.common import exc
-
 
 # noinspection PyAbstractClass
 class EventPost(command.Command):
@@ -30,7 +28,8 @@ class EventPost(command.Command):
     @staticmethod
     def iso8601(argument_value):
         try:
-            iso8601.parse_date(argument_value)
+            if argument_value:
+                iso8601.parse_date(argument_value)
         except ParseError:
             msg = "%s must be an iso8601 date" % argument_value
             raise argparse.ArgumentTypeError(msg)
@@ -39,6 +38,7 @@ class EventPost(command.Command):
         parser = super(EventPost, self).get_parser(prog_name)
 
         parser.add_argument('--type',
+                            required=True,
                             help='The type of the event')
 
         parser.add_argument('--time',
@@ -55,9 +55,6 @@ class EventPost(command.Command):
         return parser
 
     def take_action(self, parsed_args):
-        if not parsed_args.type:
-            raise exc.CommandException(
-                message='Missing event type, please add --type')
 
         if parsed_args.time:
             event_time = parsed_args.time
