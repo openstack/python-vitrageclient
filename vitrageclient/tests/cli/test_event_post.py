@@ -16,6 +16,7 @@ from argparse import ArgumentParser
 from argparse import ArgumentTypeError
 
 # noinspection PyPackageRequirements
+from datetime import datetime
 import mock
 from testtools import ExpectedException
 
@@ -28,7 +29,8 @@ class EventPostTest(CliTestCase):
 
     def setUp(self):
         super(EventPostTest, self).setUp()
-        self.event_post = EventPost(mock.Mock(), mock.Mock())
+        self.app = mock.Mock()
+        self.event_post = EventPost(self.app, mock.Mock())
 
     def test_parsing_iso8601_with_not_a_date_string(self):
         self.assertRaises(ArgumentTypeError, self.event_post.iso8601, 'bla')
@@ -53,13 +55,6 @@ class EventPostTest(CliTestCase):
                                     '--details', 'blabla'])
 
     @mock.patch.object(ArgumentParser, "error")
-    def test_parser_event_post_without_time(self, mock_parser):
-        mock_parser.side_effect = self._my_parser_error_func
-        parser = self.event_post.get_parser('vitrage event post')
-
-        parser.parse_args(args=['--type', 'bla', '--details', 'blabla'])
-
-    @mock.patch.object(ArgumentParser, "error")
     def test_parser_event_post_type_required(self, mock_parser):
         mock_parser.side_effect = self._my_parser_error_func
         parser = self.event_post.get_parser('vitrage event post')
@@ -67,3 +62,20 @@ class EventPostTest(CliTestCase):
         # noinspection PyCallByClass
         with ExpectedException(ArgumentTypeError, r'.*--type'):
             parser.parse_args(args=['--details', 'blabla'])
+
+    @mock.patch('vitrageclient.v1.cli.event.datetime')
+    def test_parser_event_post_without_time_uses_time_now(self, dt_mock):
+        current_time = datetime.now()
+        dt_mock.now.return_value = current_time
+        iso_time = current_time.isoformat()
+        parser = self.event_post.get_parser('vitrage event post')
+        args = parser.parse_args(args=['--type', 'bla',
+                                       '--details', '{"blabla":[]}'
+                                       ])
+
+        with mock.patch.object(self.app.client.event, 'post') as poster_mock:
+            self.event_post.take_action(args)
+
+            poster_mock.assert_called_with(event_time=iso_time,
+                                           details={'blabla': []},
+                                           event_type='bla')
