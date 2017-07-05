@@ -5,12 +5,13 @@ _vitrage()
   _get_comp_words_by_ref -n : cur prev words
 
   # Command data:
-  cmds='alarm complete event help rca resource template topology'
+  cmds='alarm complete event healthcheck help rca resource template topology'
   cmds_alarm='list'
   cmds_alarm_list='-h --help -f --format -c --column --max-width --print-empty --noindent --quote --all-tenants'
   cmds_complete='-h --help --name --shell'
   cmds_event='post'
   cmds_event_post='-h --help --type --time --details'
+  cmds_healthcheck='-h --help -f --format -c --column --max-width --print-empty --noindent --variable --prefix'
   cmds_help='-h --help'
   cmds_rca='show'
   cmds_rca_show='-h --help -f --format -c --column --max-width --print-empty --noindent --variable --prefix --all-tenants'

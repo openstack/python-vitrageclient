@@ -14,6 +14,7 @@ from vitrageclient import client
 
 from vitrageclient.v1 import alarm
 from vitrageclient.v1 import event
+from vitrageclient.v1 import healthcheck
 from vitrageclient.v1 import rca
 from vitrageclient.v1 import resource
 from vitrageclient.v1 import template
@@ -31,3 +32,4 @@ class Client(object):
         self.rca = rca.Rca(self._api)
         self.template = template.Template(self._api)
         self.event = event.Event(self._api)
+        self.healthcheck = healthcheck.HealthCheck(self._api)

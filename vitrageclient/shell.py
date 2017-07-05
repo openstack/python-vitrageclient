@@ -34,6 +34,7 @@ from vitrageclient import client
 
 from vitrageclient.v1.cli import alarm
 from vitrageclient.v1.cli import event
+from vitrageclient.v1.cli import healthcheck
 from vitrageclient.v1.cli import rca
 from vitrageclient.v1.cli import resource
 from vitrageclient.v1.cli import template
@@ -51,6 +52,7 @@ class VitrageCommandManager(commandmanager.CommandManager):
         'template list': template.TemplateList,
         'template show': template.TemplateShow,
         'event post': event.EventPost,
+        'healthcheck': healthcheck.HealthCheck
     }
 
     def load_commands(self, namespace):
