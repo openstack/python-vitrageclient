@@ -12,9 +12,14 @@
 #    under the License.
 
 import os
+import requests
 
 from keystoneauth1 import loading
 from keystoneauth1 import plugin
+from oslo_log import log
+
+
+LOG = log.getLogger(__name__)
 
 
 class VitrageNoAuthPlugin(plugin.BaseAuthPlugin):
@@ -73,5 +78,69 @@ class VitrageNoAuthLoader(loading.BaseLoader):
             VitrageOpt('project-id', help='Project ID', required=True),
             VitrageOpt('roles', help='Roles', default="admin"),
             VitrageOpt('endpoint', help='Vitrage endpoint', required=True),
+        ])
+        return options
+
+
+class VitrageKeycloakPlugin(plugin.BaseAuthPlugin):
+    """Authentication plugin for Keycloak """
+
+    def __init__(self, username, password, realm_name, roles, endpoint,
+                 auth_url, openid_client_id):
+        self.username = username
+        self.password = password
+        self.realm_name = realm_name
+        self.roles = roles
+        self.endpoint = endpoint
+        self.auth_url = auth_url
+        self.client_id = openid_client_id
+
+    def get_headers(self, session, **kwargs):
+        return {'X-Auth-Token': self._authenticate_keycloak(),
+                'x-user-id': self.username,
+                'x-project-id': self.realm_name,
+                'x-roles': self.roles}
+
+    def get_endpoint(self, session, **kwargs):
+        return self.endpoint
+
+    def _authenticate_keycloak(self):
+        keycloak_endpoint = "%s/realms/%s/protocol/openid-connect/token" % \
+                            (self.auth_url, self.realm_name)
+
+        body = {
+            'grant_type': 'password',
+            'username': self.username,
+            'password': self.password,
+            'client_id': self.client_id,
+            'scope': 'profile'
+        }
+
+        resp = requests.post(keycloak_endpoint,
+                             data=body,
+                             verify=True)
+
+        try:
+            resp.raise_for_status()
+        except Exception as e:
+            LOG.error('Failed to get access token: %s', str(e))
+
+        return resp.json()['access_token']
+
+
+class VitrageKeycloakLoader(loading.BaseLoader):
+    plugin_class = VitrageKeycloakPlugin
+
+    def get_options(self):
+        options = super(VitrageKeycloakLoader, self).get_options()
+        options.extend([
+            VitrageOpt('username', help='User Name', required=True),
+            VitrageOpt('password', help='password', required=True),
+            VitrageOpt('realm-name', help='Realm Name', required=True),
+            VitrageOpt('roles', help='Roles', default="admin"),
+            VitrageOpt('endpoint', help='Vitrage Endpoint', required=True),
+            VitrageOpt('auth-url', help='Keycloak Url', required=True),
+            VitrageOpt('openid-client-id', help='Keycloak client id',
+                       required=True),
         ])
         return options

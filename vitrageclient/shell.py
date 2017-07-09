@@ -114,7 +114,8 @@ class VitrageShell(app.App):
 
         plugin = self.register_keyauth_argparse_arguments(parser)
 
-        if not isinstance(plugin, auth.VitrageNoAuthLoader):
+        if not isinstance(plugin, (auth.VitrageNoAuthLoader,
+                                   auth.VitrageKeycloakLoader)):
             parser.add_argument('--endpoint',
                                 default=os.environ.get('VITRAGE_ENDPOINT'),
                                 help='Vitrage endpoint (Env: VITRAGE_ENDPOINT)'
