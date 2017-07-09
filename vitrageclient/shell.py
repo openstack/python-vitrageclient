@@ -154,7 +154,7 @@ class VitrageShell(app.App):
             else:
                 endpoint_override = None
 
-            if hasattr(self.options, "profile"):
+            if profiler and self.options.profile:
                 # Initialize the root of the future trace: the created trace
                 # ID will be used as the very first parent to which all
                 # related traces will be bound to. The given HMAC key must
