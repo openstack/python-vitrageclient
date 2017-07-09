@@ -15,6 +15,8 @@ from vitrageclient import exc
 from keystoneauth1 import adapter as keystoneauth
 from oslo_utils import importutils
 
+profiler_web = importutils.try_import('osprofiler.web')
+
 
 # noinspection PyPep8Naming
 def Client(version, *args, **kwargs):
@@ -28,6 +30,11 @@ class VitrageClient(keystoneauth.Adapter):
     def request(self, url, method, **kwargs):
         headers = kwargs.setdefault('headers', {})
         headers.setdefault('Accept', 'application/json')
+
+        if profiler_web:
+            # no header will be added if profiler is not initialized
+            headers.update(profiler_web.get_trace_id_headers())
+
         raise_exc = kwargs.pop('raise_exc', True)
         resp = super(VitrageClient, self).request(url, method,
                                                   raise_exc=False,

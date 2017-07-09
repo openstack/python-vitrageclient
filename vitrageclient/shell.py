@@ -27,6 +27,7 @@ import warnings
 from cliff import app
 from cliff import commandmanager
 from keystoneauth1 import loading
+from oslo_utils import importutils
 
 from vitrageclient import __version__
 from vitrageclient import auth
@@ -39,6 +40,9 @@ from vitrageclient.v1.cli import rca
 from vitrageclient.v1.cli import resource
 from vitrageclient.v1.cli import template
 from vitrageclient.v1.cli import topology
+
+
+profiler = importutils.try_import('osprofiler.profiler')
 
 
 class VitrageCommandManager(commandmanager.CommandManager):
@@ -92,6 +96,22 @@ class VitrageShell(app.App):
                             default=os.environ.get('VITRAGE_API_VERSION', '1'),
                             help='Defaults to env[VITRAGE_API_VERSION] or 1.')
 
+        if profiler:
+            parser.add_argument(
+                '--profile',
+                metavar='HMAC_KEY',
+                default=os.environ.get('OS_PROFILE'),
+                help='HMAC key to use for encrypting context '
+                     'data for performance profiling of request. '
+                     'This key should be the value of the HMAC '
+                     'key configured for the osprofiler '
+                     'middleware in Vitrage api; it is specified '
+                     'in the Vitrage configuration file at'
+                     '"/etc/vitrage/vitrage.conf". Without the '
+                     'key, profiling will not be triggered even '
+                     'if osprofiler is enabled on the server '
+                     'side.')
+
         plugin = self.register_keyauth_argparse_arguments(parser)
 
         if not isinstance(plugin, auth.VitrageNoAuthLoader):
@@ -133,6 +153,19 @@ class VitrageShell(app.App):
                 endpoint_override = self.options.endpoint
             else:
                 endpoint_override = None
+
+            if hasattr(self.options, "profile"):
+                # Initialize the root of the future trace: the created trace
+                # ID will be used as the very first parent to which all
+                # related traces will be bound to. The given HMAC key must
+                # correspond to the one set in vitrage api vitrage.conf,
+                # otherwise the latter will fail to check the request
+                # signature and will skip initialization of osprofiler on the
+                # server side.
+                profiler.init(self.options.profile)
+                trace_id = profiler.get().get_base_id()
+                print("To display trace use the command:\n\n"
+                      "  osprofiler trace show --html %s " % trace_id)
             auth_plugin = loading.load_auth_from_argparse_arguments(
                 self.options)
             session = loading.load_session_from_argparse_arguments(
