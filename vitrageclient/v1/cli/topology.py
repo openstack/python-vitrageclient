@@ -10,7 +10,7 @@
 # License for the specific language governing permissions and limitations
 # under the License.
 
-from cliff import argparse
+import argparse
 from cliff import show
 from vitrageclient.common import exc
 from vitrageclient.common import utils
