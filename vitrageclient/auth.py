@@ -22,6 +22,7 @@ from oslo_log import log
 LOG = log.getLogger(__name__)
 
 
+# noinspection PyAbstractClass
 class VitrageNoAuthPlugin(plugin.BaseAuthPlugin):
     """No authentication plugin for Vitrage
 
@@ -82,15 +83,15 @@ class VitrageNoAuthLoader(loading.BaseLoader):
         return options
 
 
+# noinspection PyAbstractClass
 class VitrageKeycloakPlugin(plugin.BaseAuthPlugin):
     """Authentication plugin for Keycloak """
 
-    def __init__(self, username, password, realm_name, roles, endpoint,
-                 auth_url, openid_client_id):
+    def __init__(self, username, password, realm_name, endpoint, auth_url,
+                 openid_client_id):
         self.username = username
         self.password = password
         self.realm_name = realm_name
-        self.roles = roles
         self.endpoint = endpoint
         self.auth_url = auth_url
         self.client_id = openid_client_id
@@ -98,8 +99,7 @@ class VitrageKeycloakPlugin(plugin.BaseAuthPlugin):
     def get_headers(self, session, **kwargs):
         return {'X-Auth-Token': self._authenticate_keycloak(),
                 'x-user-id': self.username,
-                'x-project-id': self.realm_name,
-                'x-roles': self.roles}
+                'x-project-id': self.realm_name}
 
     def get_endpoint(self, session, **kwargs):
         return self.endpoint
@@ -137,7 +137,6 @@ class VitrageKeycloakLoader(loading.BaseLoader):
             VitrageOpt('username', help='User Name', required=True),
             VitrageOpt('password', help='password', required=True),
             VitrageOpt('realm-name', help='Realm Name', required=True),
-            VitrageOpt('roles', help='Roles', default="admin"),
             VitrageOpt('endpoint', help='Vitrage Endpoint', required=True),
             VitrageOpt('auth-url', help='Keycloak Url', required=True),
             VitrageOpt('openid-client-id', help='Keycloak client id',
