@@ -14,7 +14,7 @@
 
 import json
 
-from cliff import argparse
+import argparse
 from cliff import command
 from datetime import datetime
 from iso8601 import iso8601
