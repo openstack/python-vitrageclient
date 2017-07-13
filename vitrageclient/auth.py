@@ -95,8 +95,10 @@ class VitrageKeycloakPlugin(plugin.BaseAuthPlugin):
         self.endpoint = endpoint
         self.auth_url = auth_url
         self.client_id = openid_client_id
+        self.verify = True
 
     def get_headers(self, session, **kwargs):
+        self.verify = session.verify
         return {'X-Auth-Token': self._authenticate_keycloak(),
                 'x-user-id': self.username,
                 'x-project-id': self.realm_name}
@@ -118,7 +120,7 @@ class VitrageKeycloakPlugin(plugin.BaseAuthPlugin):
 
         resp = requests.post(keycloak_endpoint,
                              data=body,
-                             verify=True)
+                             verify=self.verify)
 
         try:
             resp.raise_for_status()
