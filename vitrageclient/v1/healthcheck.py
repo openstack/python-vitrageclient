@@ -12,8 +12,6 @@
 # License for the specific language governing permissions and limitations
 # under the License.
 
-from vitrageclient.exceptions import ClientException
-
 
 class HealthCheck(object):
     URL = 'healthcheck/'
@@ -24,13 +22,5 @@ class HealthCheck(object):
 
     def get(self):
         """Get healthcheck result"""
-        try:
-            resp = self.api.get(self.URL)
-        except ClientException as e:
-            return {"passed": False,
-                    "message": e.message,
-                    "url": e.url,
-                    "status_code": e.code}
-
-        return {"passed": resp.status_code == self.STATUS_CODE_OK,
-                "status_code": resp.status_code}
+        resp = self.api.get(self.URL)
+        return resp.json()
