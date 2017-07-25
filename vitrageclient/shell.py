@@ -164,9 +164,7 @@ class VitrageShell(app.App):
                 # signature and will skip initialization of osprofiler on the
                 # server side.
                 profiler.init(self.options.profile)
-                trace_id = profiler.get().get_base_id()
-                print("To display trace use the command:\n\n"
-                      "  osprofiler trace show --html %s " % trace_id)
+
             auth_plugin = loading.load_auth_from_argparse_arguments(
                 self.options)
             session = loading.load_session_from_argparse_arguments(
@@ -242,7 +240,12 @@ def main(args=None):
     try:
         if args is None:
             args = sys.argv[1:]
-        return VitrageShell().run(args)
+        result = VitrageShell().run(args)
+        if profiler and '--profile' in args:
+            trace_id = profiler.get().get_base_id()
+            print("To display trace use the command:\n\n"
+                  "  osprofiler trace show --html %s " % trace_id)
+        return result
     except KeyboardInterrupt:
         print('... terminating vitrage client', file=sys.stderr)
         sys.exit(1)
