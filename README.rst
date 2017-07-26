@@ -4,7 +4,6 @@ Team and repository tags
 
 .. image:: https://governance.openstack.org/badges/python-vitrageclient.svg
     :target: https://governance.openstack.org/reference/tags/index.html
-    :remote:
 
 .. Change things from this point on
 
@@ -46,9 +45,16 @@ Manual Install Steps:
 Building and Packaging
 ----------------------
 Install the tool dependencies
+
+::
+
     sudo apt-get install python-pip python-virtualenv
 
+
 In the python-vitrageclient source directory
+
+::
+
     virtualenv --no-site-packages .venv
 
     source ./.venv/bin/activate
