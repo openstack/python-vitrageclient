@@ -12,6 +12,10 @@
 import json
 
 
+class CommandError(Exception):
+    pass
+
+
 class ClientException(Exception):
     """The base exception class for all exceptions this library raises."""
     message = 'Unknown Error'

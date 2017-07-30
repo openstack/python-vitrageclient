@@ -11,9 +11,11 @@
 # WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
 # License for the specific language governing permissions and limitations
 # under the License.
+
 import os
-from vitrageclient.common import exc
+
 from vitrageclient.common import yaml_utils
+from vitrageclient import exceptions as exc
 
 
 class Template(object):
@@ -70,4 +72,4 @@ class Template(object):
             except ValueError as e:
                 message = 'Could not load template file: %s. Reason: %s' \
                           % (path, e.message)
-                raise exc.CommandException(message=message)
+                raise exc.CommandError(message)

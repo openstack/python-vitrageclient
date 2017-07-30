@@ -12,7 +12,7 @@
 # License for the specific language governing permissions and limitations
 # under the License.
 
-from vitrageclient.exc import ClientException
+from vitrageclient.exceptions import ClientException
 
 
 class HealthCheck(object):

@@ -15,7 +15,6 @@
 from cliff import lister
 from cliff import show
 
-from vitrageclient.common import exc
 from vitrageclient.common import utils
 
 
@@ -24,8 +23,10 @@ class TemplateValidate(show.ShowOne):
 
     def get_parser(self, prog_name):
         parser = super(TemplateValidate, self).get_parser(prog_name)
-        parser.add_argument('--path', help='full path for template file or '
-                                           'templates dir)')
+        parser.add_argument('--path',
+                            required=True,
+                            help='full path for template file or templates dir'
+                            )
         return parser
 
     @property
@@ -33,9 +34,6 @@ class TemplateValidate(show.ShowOne):
         return 'json'
 
     def take_action(self, parsed_args):
-
-        if not parsed_args.path:
-            raise exc.CommandException(message='No path requested, add --path')
 
         result = utils.get_client(self).template.validate(
             path=parsed_args.path)
