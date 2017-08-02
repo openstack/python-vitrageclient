@@ -26,3 +26,11 @@ class Alarm(object):
         params = dict(vitrage_id=vitrage_id,
                       all_tenants=all_tenants)
         return self.api.get(self.url, params=params).json()
+
+    def count(self, all_tenants=False):
+        """Get a count of all alarms present
+
+        :param all_tenants: should return all tenants alarms
+        """
+        params = dict(all_tenants=all_tenants)
+        return self.api.get(self.url + 'count/', params=params).json()

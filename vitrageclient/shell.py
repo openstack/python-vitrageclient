@@ -51,6 +51,7 @@ class VitrageCommandManager(commandmanager.CommandManager):
         'resource show': resource.ResourceShow,
         'resource list': resource.ResourceList,
         'alarm list': alarm.AlarmList,
+        'alarm count': alarm.AlarmCount,
         'rca show': rca.RcaShow,
         'template validate': template.TemplateValidate,
         'template list': template.TemplateList,
