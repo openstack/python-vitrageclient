@@ -243,7 +243,7 @@ def main(args=None):
         result = VitrageShell().run(args)
         if profiler and '--profile' in args:
             trace_id = profiler.get().get_base_id()
-            print("To display trace use the command:\n\n"
+            print("\n\nTo display trace use the command:\n\n"
                   "  osprofiler trace show --html %s " % trace_id)
         return result
     except KeyboardInterrupt:
