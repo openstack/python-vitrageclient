@@ -16,7 +16,7 @@ import yaml
 
 def load(stream):
     try:
-        yaml_dict = yaml.load(stream, Loader=yaml.BaseLoader)
+        yaml_dict = yaml.safe_load(stream, Loader=yaml.BaseLoader)
     except yaml.YAMLError as exc:
         msg = 'An error occurred during YAML parsing.'
         if hasattr(exc, 'problem_mark'):
