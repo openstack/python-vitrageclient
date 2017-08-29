@@ -44,6 +44,12 @@ When using Keystone to obtain the token and endpoint::
 
 When OS_USER_DOMAIN_NAME is not set, then 'Default' is assumed. Alternatively IDs can be used instead of names.
 
+When using Keycloak instead of Keystone use the os-auth-type ``vitrage-keycloak``
+and supply username, password, realm_name, endpoint, auth_url, openid_client_id.
+
+The parameters can be supplied in command line e.g --username,--realm-name
+or as environment variables with the prefix ``VITRAGE_`` e.g ``VITRAGE_REALM_NAME``
+
 You'll find complete documentation on the shell by running
 ``vitrage help``::
 
@@ -707,3 +713,6 @@ Example::
   myclient = client.Client('1',session=session)
   myclient.topology.get()
 
+
+If using Keycloak then for auth parameter use ``VitrageKeycloakPlugin`` class
+instead of ``Password`` and supply the relevant parameters.
