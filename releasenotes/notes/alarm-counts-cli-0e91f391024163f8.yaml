@@ -1,0 +1,4 @@
+---
+features:
+  - Added a new cli command ``alarm count`` to display the count of alarms
+    present in the system.
