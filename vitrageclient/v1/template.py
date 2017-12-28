@@ -35,6 +35,17 @@ class Template(object):
         url = self.url + uuid
         return self.api.get(url).json()
 
+    def add(self, path, template_type):
+        """Add a new template"""
+
+        params = dict(path=path, template_type=template_type)
+        return self.api.put(self.url, json=params).json()
+
+    def delete(self, uuid):
+        """Delete existing"""
+        params = dict(uuid=uuid)
+        return self.api.delete(self.url, json=params).json()
+
     def validate(self, path=None):
         """Template validation
 
