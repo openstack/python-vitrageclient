@@ -40,6 +40,7 @@ from vitrageclient.v1.cli import rca
 from vitrageclient.v1.cli import resource
 from vitrageclient.v1.cli import template
 from vitrageclient.v1.cli import topology
+from vitrageclient.v1.cli import webhook
 
 
 profiler = importutils.try_import('osprofiler.profiler')
@@ -57,7 +58,11 @@ class VitrageCommandManager(commandmanager.CommandManager):
         'template list': template.TemplateList,
         'template show': template.TemplateShow,
         'event post': event.EventPost,
-        'healthcheck': healthcheck.HealthCheck
+        'healthcheck': healthcheck.HealthCheck,
+        'webhook delete': webhook.WebhookDelete,
+        'webhook add': webhook.WebhookAdd,
+        'webhook list': webhook.WebhookList,
+        'webhook show': webhook.WebhookShow
     }
 
     def load_commands(self, namespace):
