@@ -34,9 +34,6 @@ class ResourceShow(show.ShowOne):
 class ResourceList(lister.Lister):
     """List resources"""
 
-    RESOURCE_PROPERTIES = \
-        ('vitrage_id', 'vitrage_type', 'id', 'state',
-         'vitrage_aggregated_state', 'metadata')
     METADATA = ('name', 'project_id', 'update_timestamp')
 
     def get_parser(self, prog_name):
@@ -67,4 +64,11 @@ class ResourceList(lister.Lister):
                 {item: resource[item] for item in self.METADATA
                  if item in resource}
 
-        return utils.list2cols(self.RESOURCE_PROPERTIES, resources)
+        return utils.list2cols_with_rename(
+            (
+                ('ID', 'vitrage_id'),
+                ('Type', 'vitrage_type'),
+                ('Data Source ID', 'id'),
+                ('State', 'vitrage_operational_state'),
+                ('Metadata', 'metadata'),
+            ), resources)

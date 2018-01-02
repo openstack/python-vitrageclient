@@ -24,6 +24,13 @@ def list2cols(cols, objs):
                   for o in objs]
 
 
+def list2cols_with_rename(names_and_keys, objs):
+    cols = [i[0] for i in names_and_keys]
+    keys = [i[1] for i in names_and_keys]
+    return cols, [tuple([o[k] for k in keys])
+                  for o in objs]
+
+
 def get_client(obj):
     if hasattr(obj.app, 'client_manager'):
         return obj.app.client_manager.rca
