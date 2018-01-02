@@ -1,0 +1,4 @@
+---
+features:
+  - Created a new API to show all alarm properties, with a mandatory parameter
+    ``vitrage_id`` of the alarm. The path for the api is ``/v1/alarm/_id_``.
