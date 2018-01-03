@@ -53,8 +53,10 @@ or as environment variables with the prefix ``VITRAGE_`` e.g ``VITRAGE_REALM_NAM
 You'll find complete documentation on the shell by running
 ``vitrage help``::
 
+  vitrage help
   usage: vitrage [--version] [-v | -q] [--log-file LOG_FILE] [-h] [--debug]
-               [--os-region-name <auth-region-name>]
+               [--vitrage-api-version VITRAGE_API_VERSION]
+               [--profile HMAC_KEY] [--os-region-name <auth-region-name>]
                [--os-interface <interface>] [--insecure]
                [--os-cacert <ca-certificate>] [--os-cert <certificate>]
                [--os-key <key>] [--timeout <seconds>] [--os-auth-type <name>]
@@ -67,94 +69,108 @@ You'll find complete documentation on the shell by running
                [--os-trust-id OS_TRUST_ID]
                [--os-default-domain-id OS_DEFAULT_DOMAIN_ID]
                [--os-default-domain-name OS_DEFAULT_DOMAIN_NAME]
-               [--os-user-id OS_USER_ID] [--os-user-name OS_USERNAME]
+               [--os-user-id OS_USER_ID] [--os-username OS_USERNAME]
                [--os-user-domain-id OS_USER_DOMAIN_ID]
                [--os-user-domain-name OS_USER_DOMAIN_NAME]
-               [--os-password OS_PASSWORD]
-               [--vitrage-api-version VITRAGE_API_VERSION]
+               [--os-password OS_PASSWORD] [--endpoint ENDPOINT]
 
-   Vitrage command line interface
+  Vitrage command line interface
 
-   optional arguments:
-     --version             show program's version number and exit
-     -v, --verbose         Increase verbosity of output. Can be repeated.
-     -q, --quiet           Suppress output except warnings and errors.
-     --log-file LOG_FILE   Specify a file to log output. Disabled by default.
-     -h, --help            Show help message and exit.
-     --debug               Show tracebacks on errors.
-     --os-region-name <auth-region-name>
-                           Authentication region name (Env: OS_REGION_NAME)
-     --os-interface <interface>
-                           Select an interface type. Valid interface types:
-                           [admin, public, internal]. (Env: OS_INTERFACE)
-     --os-auth-type <name>, --os-auth-plugin <name>
-                           Authentication type to use
-     --vitrage-api-version VITRAGE_API_VERSION
-                           Defaults to env[VITRAGE_API_VERSION] or 1.
+  optional arguments:
+    --version             show program's version number and exit
+    -v, --verbose         Increase verbosity of output. Can be repeated.
+    -q, --quiet           Suppress output except warnings and errors.
+    --log-file LOG_FILE   Specify a file to log output. Disabled by default.
+    -h, --help            Show help message and exit.
+    --debug               Show tracebacks on errors.
+    --vitrage-api-version VITRAGE_API_VERSION
+                          Defaults to env[VITRAGE_API_VERSION] or 1.
+    --profile HMAC_KEY    HMAC key to use for encrypting context data for
+                          performance profiling of request. This key should be
+                          the value of the HMAC key configured for the
+                          osprofiler middleware in Vitrage api; it is specified
+                          in the Vitrage configuration file
+                          at"/etc/vitrage/vitrage.conf". Without the key,
+                          profiling will not be triggered even if osprofiler is
+                          enabled on the server side.
+    --os-region-name <auth-region-name>
+                          Authentication region name (Env: OS_REGION_NAME)
+    --os-interface <interface>
+                          Select an interface type. Valid interface types:
+                          [admin, public, internal]. (Env: OS_INTERFACE)
+    --os-auth-type <name>, --os-auth-plugin <name>
+                          Authentication type to use
+    --endpoint ENDPOINT   Vitrage endpoint (Env: VITRAGE_ENDPOINT)
 
-   API Connection Options:
-     Options controlling the HTTP API Connections
+  API Connection Options:
+    Options controlling the HTTP API Connections
 
-     --insecure            Explicitly allow client to perform "insecure" TLS
-                           (https) requests. The server's certificate will not be
-                           verified against any certificate authorities. This
-                           option should be used with caution.
-     --os-cacert <ca-certificate>
-                           Specify a CA bundle file to use in verifying a TLS
-                           (https) server certificate. Defaults to
-                           env[OS_CACERT].
-     --os-cert <certificate>
-                           Defaults to env[OS_CERT].
-     --os-key <key>        Defaults to env[OS_KEY].
-     --timeout <seconds>   Set request timeout (in seconds).
+    --insecure            Explicitly allow client to perform "insecure" TLS
+                          (https) requests. The server's certificate will not be
+                          verified against any certificate authorities. This
+                          option should be used with caution.
+    --os-cacert <ca-certificate>
+                          Specify a CA bundle file to use in verifying a TLS
+                          (https) server certificate. Defaults to
+                          env[OS_CACERT].
+    --os-cert <certificate>
+                          Defaults to env[OS_CERT].
+    --os-key <key>        Defaults to env[OS_KEY].
+    --timeout <seconds>   Set request timeout (in seconds).
 
-   Authentication Options:
-     Options specific to the password plugin.
+  Authentication Options:
+    Options specific to the password plugin.
 
-     --os-auth-url OS_AUTH_URL
-                           Authentication URL
-     --os-domain-id OS_DOMAIN_ID
-                           Domain ID to scope to
-     --os-domain-name OS_DOMAIN_NAME
-                           Domain name to scope to
-     --os-project-id OS_PROJECT_ID, --os-tenant-id OS_PROJECT_ID
-                           Project ID to scope to
-     --os-project-name OS_PROJECT_NAME, --os-tenant-name OS_PROJECT_NAME
-                           Project name to scope to
-     --os-project-domain-id OS_PROJECT_DOMAIN_ID
-                           Domain ID containing project
-     --os-project-domain-name OS_PROJECT_DOMAIN_NAME
-                           Domain name containing project
-     --os-trust-id OS_TRUST_ID
-                           Trust ID
-     --os-default-domain-id OS_DEFAULT_DOMAIN_ID
-                           Optional domain ID to use with v3 and v2 parameters.
-                           It will be used for both the user and project domain
-                           in v3 and ignored in v2 authentication.
-     --os-default-domain-name OS_DEFAULT_DOMAIN_NAME
-                           Optional domain name to use with v3 API and v2
-                           parameters. It will be used for both the user and
-                           project domain in v3 and ignored in v2 authentication.
-     --os-user-id OS_USER_ID
-                           User id
-     --os-user-name OS_USERNAME, --os-username OS_USERNAME
-                           Username
-     --os-user-domain-id OS_USER_DOMAIN_ID
-                           User's domain id
-     --os-user-domain-name OS_USER_DOMAIN_NAME
-                           User's domain name
-     --os-password OS_PASSWORD
-                           User's password
+    --os-auth-url OS_AUTH_URL
+                          Authentication URL
+    --os-domain-id OS_DOMAIN_ID
+                          Domain ID to scope to
+    --os-domain-name OS_DOMAIN_NAME
+                          Domain name to scope to
+    --os-project-id OS_PROJECT_ID, --os-tenant-id OS_PROJECT_ID
+                          Project ID to scope to
+    --os-project-name OS_PROJECT_NAME, --os-tenant-name OS_PROJECT_NAME
+                          Project name to scope to
+    --os-project-domain-id OS_PROJECT_DOMAIN_ID
+                          Domain ID containing project
+    --os-project-domain-name OS_PROJECT_DOMAIN_NAME
+                          Domain name containing project
+    --os-trust-id OS_TRUST_ID
+                          Trust ID
+    --os-default-domain-id OS_DEFAULT_DOMAIN_ID
+                          Optional domain ID to use with v3 and v2 parameters.
+                          It will be used for both the user and project domain
+                          in v3 and ignored in v2 authentication.
+    --os-default-domain-name OS_DEFAULT_DOMAIN_NAME
+                          Optional domain name to use with v3 API and v2
+                          parameters. It will be used for both the user and
+                          project domain in v3 and ignored in v2 authentication.
+    --os-user-id OS_USER_ID
+                          User id
+    --os-username OS_USERNAME, --os-user-name OS_USERNAME
+                          Username
+    --os-user-domain-id OS_USER_DOMAIN_ID
+                          User's domain id
+    --os-user-domain-name OS_USER_DOMAIN_NAME
+                          User's domain name
+    --os-password OS_PASSWORD
+                          User's password
 
-   Commands:
-     alarm list     List alarms on entity
-     complete       print bash completion command
-     help           print detailed help for another command
-     rca show       Show an RCA
-     resource list  List resources
-     resource show  Show a resource
-     topology show  Show the topology of the system
-
+  Commands:
+    alarm count    Show a count of all alarms
+    alarm list     List alarms on entity
+    alarm show     Show an alarm
+    complete       print bash completion command (cliff)
+    event post     Show the event of the system
+    healthcheck    Check api health status
+    help           print detailed help for another command (cliff)
+    rca show       Show an RCA
+    resource list  List resources
+    resource show  Show a resource
+    template list  Template list
+    template show  Template show
+    template validate
+    topology show  Show the topology of the system
 
 Bash Completion
 ---------------
@@ -658,17 +674,43 @@ Resources Examples
 ------------------
 Note:  To see complete usage: 'vitrage help' and 'vitrage help <command>'
 
-resource show::
-
- vitrage resource show
-
- TODO
-
 resource list::
 
   vitrage resource list
+  +--------------------------------------+-------------------+--------------------------------------+------------+-------------------------------------------------------------------------------------------------------------------------------+
+  | ID                                   | Type              | Data Source ID                       | State      | Metadata                                                                                                                      |
+  +--------------------------------------+-------------------+--------------------------------------+------------+-------------------------------------------------------------------------------------------------------------------------------+
+  | 786efe03-55ff-41b2-bdc1-6cd94bc355ad | nova.instance     | f3d6819a-5b52-4fae-93d4-ce58c263510b | SUBOPTIMAL | {'project_id': u'4437e14f56904650af9eef83dff35263', 'name': u'vm-0', 'update_timestamp': u'2018-01-03 09:06:06.339099+00:00'} |
+  | d019ee2b-df2a-4c8f-bc59-f28a2296b0db | neutron.network   | dafa8864-a04c-4688-bab2-c6dc3ce5c31b | OK         | {'project_id': u'4437e14f56904650af9eef83dff35263', 'name': u'public', 'update_timestamp': u'2017-11-09T09:49:49Z'}           |
+  | 772d627f-90d7-4c5e-8c18-6587fa5b88ee | neutron.port      | 75ff8ce5-26d9-4d77-875f-8d297918374c | OK         | {'project_id': u'4437e14f56904650af9eef83dff35263', 'update_timestamp': u'2017-11-28T11:50:23Z'}                              |
+  | 4ac47cef-419f-4e4b-9590-22c10bbd21fd | nova.host         | compute-0-0                          | OK         | {'name': u'compute-0-0', 'update_timestamp': u'2018-01-03 09:06:06.851229+00:00'}                                             |
+  | 99920528-2757-4fde-a2a0-3063bf0c4020 | openstack.cluster | OpenStack Cluster                    | OK         | {'name': u'openstack.cluster'}                                                                                                |
+  | 374203a6-e7bc-4bd6-bc32-1137f4f3d234 | nova.zone         | nova                                 | OK         | {'name': u'nova', 'update_timestamp': u'2018-01-03 09:06:07.628148+00:00'}                                                    |
+  +--------------------------------------+-------------------+--------------------------------------+------------+-------------------------------------------------------------------------------------------------------------------------------+
 
-  TODO
+resource show::
+
+  vitrage resource show 786efe03-55ff-41b2-bdc1-6cd94bc355ad
+  +---------------------------+--------------------------------------+
+  | Field                     | Value                                |
+  +---------------------------+--------------------------------------+
+  | host_id                   | compute-0-0                          |
+  | id                        | f3d6819a-5b52-4fae-93d4-ce58c263510b |
+  | is_real_vitrage_id        | True                                 |
+  | name                      | vm-0                                 |
+  | project_id                | 4437e14f56904650af9eef83dff35263     |
+  | state                     | ACTIVE                               |
+  | update_timestamp          | 2018-01-03 09:06:06.339099+00:00     |
+  | vitrage_aggregated_state  | SUBOPTIMAL                           |
+  | vitrage_category          | RESOURCE                             |
+  | vitrage_id                | 786efe03-55ff-41b2-bdc1-6cd94bc355ad |
+  | vitrage_is_deleted        | False                                |
+  | vitrage_is_placeholder    | False                                |
+  | vitrage_operational_state | SUBOPTIMAL                           |
+  | vitrage_sample_timestamp  | 2018-01-03 09:06:06.339099+00:00     |
+  | vitrage_state             | SUBOPTIMAL                           |
+  | vitrage_type              | nova.instance                        |
+  +---------------------------+--------------------------------------+
 
 Alarms Examples
 ---------------
@@ -677,14 +719,110 @@ Note:  To see complete usage: 'vitrage help' and 'vitrage help <command>'
 alarm list::
 
   vitrage alarm list
-  +---------+--------------------+---------------+--------------------------------------+----------+----------------------+
-  | type    | name               | resource_type | resource_id                          | severity | update_timestamp     |
-  +---------+--------------------+---------------+--------------------------------------+----------+----------------------+
-  | nagios  | CPU load           | nova.host     | host-0                               | WARNING  | 2015-12-01T12:46:41Z |
-  | vitrage | Machine Suboptimal | nova.instance | 20d12a8a-ea9a-89c6-5947-83bea959362e | WARNING  | 2015-12-01T12:46:41Z |
-  | vitrage | Machine Suboptimal | nova.instance | 275097cf-954e-8e24-b185-9514e24b8591 | WARNING  | 2015-12-01T12:46:41Z |
-  | aodh    | Memory overload    | nova.host     | host-0                               | WARNING  | 2015-12-01T12:46:41Z |
-  +---------+--------------------+---------------+--------------------------------------+----------+----------------------+
+  +--------------------------------------+---------+----------------------------------------+---------------+--------------------------------------+----------+----------------------+
+  | ID                                   | Type    | Name                                   | Resource Type | Resource ID                          | Severity | Update Time          |
+  +--------------------------------------+---------+----------------------------------------+---------------+--------------------------------------+----------+----------------------+
+  | f85ed0d2-3e28-47f9-9231-6fa72d6c882d | vitrage | VM network problem 3                   | nova.instance | 786efe03-55ff-41b2-bdc1-6cd94bc355ad | CRITICAL | 2018-01-03T07:52:06Z |
+  | 868b252a-4053-431c-a6d3-7cdabd91edd8 | zabbix  | Lack of free swap space on compute-0-0 | nova.host     | 4ac47cef-419f-4e4b-9590-22c10bbd21fd | WARNING  | 2017-11-09T11:24:30Z |
+  | c1ab17d4-8b6b-4d12-a4ec-3150bb89a5a5 | zabbix  | Too many processes on compute-0-0      | nova.host     | 4ac47cef-419f-4e4b-9590-22c10bbd21fd | WARNING  | 2017-11-09T11:25:12Z |
+  | 7468b7f5-5a89-49ee-b408-3cfafd68290a | zabbix  | Public interface down on compute-0-0   | nova.host     | 4ac47cef-419f-4e4b-9590-22c10bbd21fd | CRITICAL | 2017-12-13T07:34:08Z |
+  | 608366ed-a737-4aab-a58f-8673a589e3aa | vitrage | VM network problem 2                   | nova.instance | 786efe03-55ff-41b2-bdc1-6cd94bc355ad | CRITICAL | 2018-01-03T07:52:06Z |
+  +--------------------------------------+---------+----------------------------------------+---------------+--------------------------------------+----------+----------------------+
+
+alarm show::
+
+  vitrage alarm show f85ed0d2-3e28-47f9-9231-6fa72d6c882d
+  +------------------------------+--------------------------------------+
+  | Field                        | Value                                |
+  +------------------------------+--------------------------------------+
+  | name                         | VM network problem 3                 |
+  | resource_id                  | 786efe03-55ff-41b2-bdc1-6cd94bc355ad |
+  | severity                     | critical                             |
+  | state                        | Active                               |
+  | update_timestamp             | 2018-01-03T07:52:06Z                 |
+  | vitrage_aggregated_severity  | CRITICAL                             |
+  | vitrage_category             | ALARM                                |
+  | vitrage_id                   | f85ed0d2-3e28-47f9-9231-6fa72d6c882d |
+  | vitrage_is_deleted           | False                                |
+  | vitrage_is_placeholder       | False                                |
+  | vitrage_operational_severity | CRITICAL                             |
+  | vitrage_resource_id          | 786efe03-55ff-41b2-bdc1-6cd94bc355ad |
+  | vitrage_resource_type        | nova.instance                        |
+  | vitrage_sample_timestamp     | 2018-01-03 07:52:06.306507+00:00     |
+  | vitrage_type                 | vitrage                              |
+  +------------------------------+--------------------------------------+
+
+alarm count::
+
+  vitrage alarm count
+  {
+    "WARNING": 2,
+    "SEVERE": 0,
+    "CRITICAL": 7,
+    "OK": 0,
+    "N/A": 0
+  }
+
+
+Template Examples:
+------------------
+
+template validate::
+
+  vitrage template validate --path /home/stack/my_template.yaml
+  {
+    "results": [
+      {
+        "status": "validation OK",
+        "file path": "/home/stack/my_template.yaml",
+        "status code": 0,
+        "message": "Template validation is OK",
+        "description": "Template validation"
+      }
+    ]
+  }
+
+  vitrage template validate --path /home/stack/my_template_with_typo.yaml
+  {
+    "results": [
+      {
+        "status": "validation failed",
+        "file path": "/home/stack/my_template_with_typo.yaml",
+        "status code": 3,
+        "message": "template_id does not appear in the definition block. template id: aaalarm",
+        "description": "Template content validation"
+      }
+    ]
+  }
+
+template list::
+
+  vitrage template list
+  +--------------------------------------+------------------------------------------+--------+---------------------------+----------------------+
+  | uuid                                 | name                                     | status | status details            | date                 |
+  +--------------------------------------+------------------------------------------+--------+---------------------------+----------------------+
+  | 72f47086-366f-44d1-b88f-e420a8bc8ff0 | host_public_nic_failure_scenarios port 4 | pass   | Template validation is OK | 2018-01-03T07:52:01Z |
+  | d9e699f7-bc43-40c7-bacc-36eba8f68c20 | raise an alarm for every vm              | pass   | Template validation is OK | 2018-01-03T07:52:01Z |
+  | 64c72898-e963-4acb-91a0-7bc5e65a2479 | host_public_nic_failure_scenarios vm 1   | pass   | Template validation is OK | 2018-01-03T07:52:01Z |
+  | 138cbd0c-af4c-483f-81d5-7b134d437a9b | e2e_test_basic_actions                   | pass   | Template validation is OK | 2018-01-03T07:52:01Z |
+  +--------------------------------------+------------------------------------------+--------+---------------------------+----------------------+
+
+template show::
+
+  vitrage template show 72f47086-366f-44d1-b88f-e420a8bc8ff0
+  returns a loaded template as json
+
+Event Examples
+--------------
+
+To create an alarm on a host, field ``status`` should be ``down``::
+
+  vitrage event post --type 'just.another.alarm.name' --details '{"hostname": "compute-0-0","source": "sample_monitor","cause": "another alarm","severity": "critical","status":"down","monitor_id": "sample monitor","monitor_event_id": "456"}'
+
+
+To remove the created host alarm, field ``status`` should be ``up``::
+
+  vitrage event post --type 'just.another.alarm.name' --details '{"hostname": "compute-0-0","source": "sample_monitor","cause": "another alarm","severity": "critical","status":"up","monitor_id": "sample monitor","monitor_event_id": "456"}'
 
 Python API
 ----------
