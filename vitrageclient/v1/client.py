@@ -19,6 +19,7 @@ from vitrageclient.v1 import rca
 from vitrageclient.v1 import resource
 from vitrageclient.v1 import template
 from vitrageclient.v1 import topology
+from vitrageclient.v1 import webhook
 
 
 class Client(object):
@@ -33,3 +34,4 @@ class Client(object):
         self.template = template.Template(self._api)
         self.event = event.Event(self._api)
         self.healthcheck = healthcheck.HealthCheck(self._api)
+        self.webhook = webhook.Webhook(self._api)
