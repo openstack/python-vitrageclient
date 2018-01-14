@@ -76,7 +76,7 @@ class VitrageShell(app.App):
         super(VitrageShell, self).__init__(
             description=__doc__,
             version=__version__,
-            command_manager=VitrageCommandManager(None),
+            command_manager=VitrageCommandManager('vitrageclient'),
             deferred_help=True)
 
         self._client = None
