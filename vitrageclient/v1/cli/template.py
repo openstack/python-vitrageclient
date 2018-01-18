@@ -12,6 +12,7 @@
 # License for the specific language governing permissions and limitations
 # under the License.
 
+from cliff import command
 from cliff import lister
 from cliff import show
 
@@ -50,11 +51,15 @@ class TemplateList(lister.Lister):
 
     def take_action(self, parsed_args):
         templates = utils.get_client(self).template.list()
-        return utils.list2cols(('uuid',
-                                'name',
-                                'status',
-                                'status details',
-                                'date'), templates)
+        # TODO(ikinory): add type to the table.
+        return utils.list2cols_with_rename(
+            (
+                ('UUID', 'uuid'),
+                ('Name', 'name'),
+                ('Status', 'status'),
+                ('Status details', 'status details'),
+                ('Date', 'date'),
+            ), templates)
 
 
 class TemplateShow(show.ShowOne):
@@ -73,3 +78,55 @@ class TemplateShow(show.ShowOne):
         uuid = parsed_args.uuid
         template = utils.get_client(self).template.show(uuid=uuid)
         return self.dict2columns(template)
+
+
+class TemplateAdd(lister.Lister):
+    """Template add
+
+    support 3 types of templates:
+    standard, definition, equivalence
+    """
+
+    def get_parser(self, prog_name):
+        parser = super(TemplateAdd, self).get_parser(prog_name)
+        parser.add_argument('--path',
+                            required=True,
+                            help='full path for template file or templates dir'
+                            )
+        parser.add_argument('--type',
+                            choices=['standard', 'definition', 'equivalence'],
+                            help='Template type. Valid types:'
+                                 '[standard, definition, equivalence]')
+        return parser
+
+    def take_action(self, parsed_args):
+        path = parsed_args.path
+        template_type = parsed_args.type
+        templates = utils.get_client(self).template.add(
+            path=path, template_type=template_type)
+        return utils.list2cols_with_rename(
+            (
+                ('UUID', 'uuid'),
+                ('Name', 'name'),
+                ('Status', 'status'),
+                ('Status details', 'status details'),
+                ('Date', 'date'),
+                ('Type', 'type'),
+            ), templates)
+
+
+class TemplateDelete(command.Command):
+    """Template delete"""
+
+    def get_parser(self, prog_name):
+        parser = super(TemplateDelete, self).get_parser(prog_name)
+        parser.add_argument('uuid', help='ID of a template')
+        return parser
+
+    @property
+    def formatter_default(self):
+        return 'json'
+
+    def take_action(self, parsed_args):
+        uuid = parsed_args.uuid
+        utils.get_client(self).template.delete(uuid=uuid)

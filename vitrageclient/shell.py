@@ -58,6 +58,8 @@ class VitrageCommandManager(commandmanager.CommandManager):
         'template validate': template.TemplateValidate,
         'template list': template.TemplateList,
         'template show': template.TemplateShow,
+        'template add': template.TemplateAdd,
+        'template delete': template.TemplateDelete,
         'event post': event.EventPost,
         'healthcheck': healthcheck.HealthCheck,
         'webhook delete': webhook.WebhookDelete,
