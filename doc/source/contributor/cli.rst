@@ -171,6 +171,10 @@ You'll find complete documentation on the shell by running
     template show  Template show
     template validate
     topology show  Show the topology of the system
+    webhook add    Add a new webhook to DB
+    webhook delete Delete a webhook
+    webhook list   List all webhooks in DB
+    webhook show   Show a webhook
 
 Bash Completion
 ---------------
@@ -823,6 +827,65 @@ To create an alarm on a host, field ``status`` should be ``down``::
 To remove the created host alarm, field ``status`` should be ``up``::
 
   vitrage event post --type 'just.another.alarm.name' --details '{"hostname": "compute-0-0","source": "sample_monitor","cause": "another alarm","severity": "critical","status":"up","monitor_id": "sample monitor","monitor_event_id": "456"}'
+
+
+Webhook Example
+---------------
+Note:  To see complete usage: 'vitrage help' and 'vitrage help <command>'
+
+webhook list::
+
+    vitrage webhook list
+
+    +--------------------------------------+----------------------------+----------------------------------+---------------------------+--------------------------------------+------------------------+
+    | ID                                   | Created At                 | Project ID                       | URL                       | Headers                              | Filter                 |
+    +--------------------------------------+----------------------------+----------------------------------+---------------------------+--------------------------------------+------------------------+
+    | 1e35dddf-ab0b-46ec-b0cc-0cf48129fc43 | 2018-01-10T14:27:09.000000 | dbec2ffbf3844eaa9d3c75dabf5777d8 | https://www.myurl.com     | {'content-type': 'application/json'} | {'vitrage_type': '.*'} |
+    | bdc9edfa-d18c-4a18-9e03-2beb51402be0 | 2018-01-10T14:29:04.000000 | dbec2ffbf3844eaa9d3c75dabf5777d8 | https://hookb.in/Z1dxPre8 |                                      |                        |
+    +--------------------------------------+----------------------------+----------------------------------+---------------------------+--------------------------------------+------------------------+
+
+
+webhook show::
+
+ vitrage webhook show c35caf11-f34d-440e-a804-0c1a4fdfb95b
+
+    +--------------+--------------------------------------+
+    | Field        | Value                                |
+    +--------------+--------------------------------------+
+    | created_at   | 2018-01-04T12:27:47.000000           |
+    | headers      | None                                 |
+    | id           | c35caf11-f34d-440e-a804-0c1a4fdfb95b |
+    | regex_filter | {'name':'e2e.*'}                     |
+    | updated_at   | None                                 |
+    | url          | https://requestb.in/tq3fkvtq         |
+    +--------------+--------------------------------------+
+
+webhook delete::
+
+    vitrage webhook delete c35caf11-f34d-440e-a804-0c1a4fdfb95b
+
+    +---------+------------------------------------------------------+
+    | Field   | Value                                                |
+    +---------+------------------------------------------------------+
+    | SUCCESS | Webhook c35caf11-f34d-440e-a804-0c1a4fdfb95b deleted |
+    +---------+------------------------------------------------------+
+
+
+webhook add::
+
+    vitrage webhook add --url https://www.myurl.com --headers
+    "{'content-type': 'application/json'}" --regex_filter "{'vitrage_type':'.*'}"
+
+    +--------------+--------------------------------------+
+    | Field        | Value                                |
+    +--------------+--------------------------------------+
+    | created_at   | 2018-01-04 14:32:23.489253           |
+    | headers      | {'content-type': 'application/json'} |
+    | id           | 2bd3ba88-f1fc-4917-bb69-bf0d1ff02d35 |
+    | regex_filter | {'vitrage_type': '.*'}               |
+    | url          | https://www.myurl.com                |
+    +--------------+--------------------------------------+
+
 
 Python API
 ----------

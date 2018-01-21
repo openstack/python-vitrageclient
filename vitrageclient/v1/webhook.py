@@ -20,9 +20,10 @@ class Webhook(object):
     def __init__(self, api):
         self.api = api
 
-    def list(self):
+    def list(self, all_tenants=False):
         """Get webhook list"""
-        return self.api.get(self.url).json()
+        params = dict(all_tenants=all_tenants)
+        return self.api.get(self.url, params=params).json()
 
     def show(self, id):
         """Show specific webhook

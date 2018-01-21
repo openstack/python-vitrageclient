@@ -18,7 +18,7 @@ from vitrageclient.common import utils
 
 # noinspection PyAbstractClass
 class WebhookShow(show.ShowOne):
-    """Show a webhook destination with "id" """
+    """Show a webhook """
 
     def get_parser(self, prog_name):
         parser = super(WebhookShow, self).get_parser(prog_name)
@@ -27,29 +27,41 @@ class WebhookShow(show.ShowOne):
 
     def take_action(self, parsed_args):
         id = parsed_args.id
-        post_registration = utils.get_client(self).webhook.show(id=id)
-        return self.dict2columns(post_registration)
+        webhook = utils.get_client(self).webhook.show(id=id)
+        return self.dict2columns(webhook)
 
 
 class WebhookList(lister.Lister):
-    """List all webhook destinations in DB"""
+    """List all webhooks in DB"""
 
     POST_PROPS = \
-        ('created_at', 'id', 'url', 'headers', 'regex_filter')
+        (
+            ('ID', 'id'),
+            ('Created At', 'created_at'),
+            ('Project ID', 'project_id'),
+            ('URL', 'url'),
+            ('Headers', 'headers'),
+            ('Filter', 'regex_filter')
+        )
 
     def get_parser(self, prog_name):
         parser = super(WebhookList, self).get_parser(prog_name)
-
+        parser.add_argument('--all-tenants',
+                            default=False,
+                            dest='all_tenants',
+                            action='store_true',
+                            help='Shows webhooks of all the tenants')
         return parser
 
     def take_action(self, parsed_args):
-        post_registrations = utils.get_client(self).webhook.list()
+        all_tenants = parsed_args.all_tenants
+        webhooks = utils.get_client(self).webhook.list(all_tenants=all_tenants)
 
-        return utils.list2cols(self.POST_PROPS, post_registrations)
+        return utils.list2cols_with_rename(self.POST_PROPS, webhooks)
 
 
 class WebhookAdd(show.ShowOne):
-    """Add a new webhook registration to DB"""
+    """Add a new webhook to DB"""
     def get_parser(self, prog_name):
         parser = super(WebhookAdd, self).get_parser(prog_name)
         parser.add_argument('--url',
@@ -78,7 +90,7 @@ class WebhookAdd(show.ShowOne):
 
 
 class WebhookDelete(show.ShowOne):
-    """Delete a webhook destination with "id" """
+    """Delete a webhook """
 
     def get_parser(self, prog_name):
         parser = super(WebhookDelete, self).get_parser(prog_name)
