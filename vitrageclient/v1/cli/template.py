@@ -51,7 +51,6 @@ class TemplateList(lister.Lister):
 
     def take_action(self, parsed_args):
         templates = utils.get_client(self).template.list()
-        # TODO(ikinory): add type to the table.
         return utils.list2cols_with_rename(
             (
                 ('UUID', 'uuid'),
@@ -59,6 +58,7 @@ class TemplateList(lister.Lister):
                 ('Status', 'status'),
                 ('Status details', 'status details'),
                 ('Date', 'date'),
+                ('Type', 'type'),
             ), templates)
 
 
