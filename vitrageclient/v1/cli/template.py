@@ -28,6 +28,10 @@ class TemplateValidate(show.ShowOne):
                             required=True,
                             help='full path for template file or templates dir'
                             )
+        parser.add_argument('--type',
+                            choices=['standard', 'definition', 'equivalence'],
+                            help='Template type. Valid types:'
+                                 '[standard, definition, equivalence]')
         return parser
 
     @property
@@ -37,7 +41,8 @@ class TemplateValidate(show.ShowOne):
     def take_action(self, parsed_args):
 
         result = utils.get_client(self).template.validate(
-            path=parsed_args.path)
+            path=parsed_args.path,
+            template_type=parsed_args.type)
 
         return self.dict2columns(result)
 

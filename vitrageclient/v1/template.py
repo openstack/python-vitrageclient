@@ -35,10 +35,11 @@ class Template(object):
         url = self.url + uuid
         return self.api.get(url).json()
 
-    def add(self, path, template_type):
+    def add(self, path, template_type=None):
         """Add a new template"""
 
-        params = dict(path=path, template_type=template_type)
+        files_content = self._load_yaml_files(path)
+        params = dict(templates=files_content, template_type=template_type)
         return self.api.put(self.url, json=params).json()
 
     def delete(self, uuid):
@@ -46,7 +47,7 @@ class Template(object):
         params = dict(uuid=uuid)
         return self.api.delete(self.url, json=params).json()
 
-    def validate(self, path=None):
+    def validate(self, path, template_type=None):
         """Template validation
 
         Make sure that the template file is correct in terms of syntax
@@ -56,26 +57,30 @@ class Template(object):
         directory must contain only templates)
 
         :param path: the template file path or templates dir path
+        :param template_type: type of templates ('standard','definition',...)
         """
 
+        files_content = self._load_yaml_files(path)
+        params = dict(templates=files_content, template_type=template_type)
+        return self.api.post(self.url, json=params).json()
+
+    def _load_yaml_files(self, path):
         if os.path.isdir(path):
 
-            templates = []
+            files_content = []
             for file_name in os.listdir(path):
 
                 file_path = '%s/%s' % (path, file_name)
                 if os.path.isfile(file_path):
-                    template = self.load_template_definition(file_path)
-                    templates.append((file_path, template))
+                    template = self._load_yaml_file(file_path)
+                    files_content.append((file_path, template))
         else:
-            templates = [(path, self.load_template_definition(path))]
+            files_content = [(path, self._load_yaml_file(path))]
 
-        params = dict(templates=templates)
-
-        return self.api.post(self.url, json=params).json()
+        return files_content
 
     @staticmethod
-    def load_template_definition(path):
+    def _load_yaml_file(path):
 
         with open(path, 'r') as stream:
             try:
