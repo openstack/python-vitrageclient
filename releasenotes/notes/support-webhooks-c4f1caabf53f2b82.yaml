@@ -1,0 +1,7 @@
+---
+
+features:
+  - Added a new API to register webhooks to the database. When these webhooks
+    are added and the webhook notifier option is enabled via the config file,
+    Vitrage will send notifications regarding alarm state changes to the
+    registered webhooks.
