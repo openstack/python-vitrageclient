@@ -23,7 +23,7 @@ from iso8601 import ParseError
 
 # noinspection PyAbstractClass
 class EventPost(command.Command):
-    """Show the event of the system"""
+    """Post an event to Vitrage"""
 
     @staticmethod
     def iso8601(argument_value):

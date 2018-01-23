@@ -32,7 +32,7 @@ class WebhookShow(show.ShowOne):
 
 
 class WebhookList(lister.Lister):
-    """List all webhooks in DB"""
+    """List all webhooks in the database"""
 
     POST_PROPS = \
         (
@@ -61,7 +61,7 @@ class WebhookList(lister.Lister):
 
 
 class WebhookAdd(show.ShowOne):
-    """Add a new webhook to DB"""
+    """Add a new webhook to the database"""
     def get_parser(self, prog_name):
         parser = super(WebhookAdd, self).get_parser(prog_name)
         parser.add_argument('--url',

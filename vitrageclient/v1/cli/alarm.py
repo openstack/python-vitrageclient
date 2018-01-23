@@ -17,7 +17,7 @@ from vitrageclient.common import utils
 
 
 class AlarmList(lister.Lister):
-    """List alarms on entity"""
+    """List all alarms"""
 
     def get_parser(self, prog_name):
         parser = super(AlarmList, self).get_parser(prog_name)
