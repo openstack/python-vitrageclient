@@ -157,24 +157,26 @@ You'll find complete documentation on the shell by running
                           User's password
 
   Commands:
-    alarm count    Show a count of all alarms
-    alarm list     List alarms on entity
-    alarm show     Show an alarm
-    complete       print bash completion command (cliff)
-    event post     Show the event of the system
-    healthcheck    Check api health status
-    help           print detailed help for another command (cliff)
-    rca show       Show an RCA
-    resource list  List resources
-    resource show  Show a resource
-    template list  Template list
-    template show  Template show
-    template validate
-    topology show  Show the topology of the system
-    webhook add    Add a new webhook to DB
-    webhook delete Delete a webhook
-    webhook list   List all webhooks in DB
-    webhook show   Show a webhook
+    alarm count     Show a count of all alarms
+    alarm list      List all alarms
+    alarm show      Show an alarm
+    complete        print bash completion command (cliff)
+    event post      Post an event to Vitrage
+    healthcheck     Check api health status
+    help            print detailed help for another command (cliff)
+    rca show        Show the Root Cause Analysis for a certain alarm
+    resource list   List resources
+    resource show   Show a resource
+    template add    Add a template
+    template delete Delete a template
+    template list   List all templates
+    template show   Show a template
+    template validate Validate a template file
+    topology show   Show the topology of the system
+    webhook add     Add a new webhook to the database
+    webhook delete  Delete a webhook
+    webhook list    List all webhooks in the database
+    webhook show    Show a webhook
 
 Bash Completion
 ---------------
@@ -770,10 +772,12 @@ alarm count::
 
 Template Examples:
 ------------------
+Note: for templates version 2 --type <template type> is not required. Template type is specified in the metadata section.
 
 template validate::
 
-  vitrage template validate --path /home/stack/my_template.yaml
+  vitrage template validate --path /home/stack/my_template.yaml --type standard
+  Valid types are: standard, definition and equivalence
   {
     "results": [
       {
@@ -786,7 +790,7 @@ template validate::
     ]
   }
 
-  vitrage template validate --path /home/stack/my_template_with_typo.yaml
+  vitrage template validate --path /home/stack/my_template_with_typo.yaml --type standard
   {
     "results": [
       {
@@ -802,19 +806,39 @@ template validate::
 template list::
 
   vitrage template list
-  +--------------------------------------+------------------------------------------+--------+---------------------------+----------------------+
-  | uuid                                 | name                                     | status | status details            | date                 |
-  +--------------------------------------+------------------------------------------+--------+---------------------------+----------------------+
-  | 72f47086-366f-44d1-b88f-e420a8bc8ff0 | host_public_nic_failure_scenarios port 4 | pass   | Template validation is OK | 2018-01-03T07:52:01Z |
-  | d9e699f7-bc43-40c7-bacc-36eba8f68c20 | raise an alarm for every vm              | pass   | Template validation is OK | 2018-01-03T07:52:01Z |
-  | 64c72898-e963-4acb-91a0-7bc5e65a2479 | host_public_nic_failure_scenarios vm 1   | pass   | Template validation is OK | 2018-01-03T07:52:01Z |
-  | 138cbd0c-af4c-483f-81d5-7b134d437a9b | e2e_test_basic_actions                   | pass   | Template validation is OK | 2018-01-03T07:52:01Z |
-  +--------------------------------------+------------------------------------------+--------+---------------------------+----------------------+
+  +--------------------------------------+-----------------------------------------+--------+---------------------------+---------------------+-------------+
+  | UUID                                 | Name                                    | Status | Status details            | Date                | Type        |
+  +--------------------------------------+-----------------------------------------+--------+---------------------------+---------------------+-------------+
+  | ae3c0752-1df9-408c-89d5-8b32b86f403f | host_disk_io_overloaded_usage_scenarios | ACTIVE | Template validation is OK | 2018-01-23 10:14:05 | standard    |
+  | f254edb0-53cb-4552-969b-bdad24a14a03 | ceph_health_is_not_ok_scenarios         | ACTIVE | Template validation is OK | 2018-01-23 10:20:29 | standard    |
+  | bf405cfa-3f19-4761-9329-6e48f21cd466 | basic_def_template                      | ACTIVE | Template validation is OK | 2018-01-23 10:20:56 | definition  |
+  | 7b5d6ca8-9ee0-4388-8c91-819b8786b78e | zabbix_host_equivalence                 | ACTIVE | No Validation             | 2018-01-23 10:21:13 | equivalence |
+  +--------------------------------------+-----------------------------------------+--------+---------------------------+---------------------+-------------+
+
 
 template show::
 
   vitrage template show 72f47086-366f-44d1-b88f-e420a8bc8ff0
   returns a loaded template as json
+
+template add::
+
+
+  vitrage template add /etc/vitrage/templates/host_disk_io_usage_scenarios.yaml --type standard
+  Valid types are: standard, definition and equivalence
+  +--------------------------------------+-----------------------------------------+---------+---------------------------+----------------------------+----------+
+  | UUID                                 | Name                                    | Status  | Status details            | Date                       | Type     |
+  +--------------------------------------+-----------------------------------------+---------+---------------------------+----------------------------+----------+
+  | ae3c0752-1df9-408c-89d5-8b32b86f403f | host_disk_io_overloaded_usage_scenarios | LOADING | Template validation is OK | 2018-01-23 10:14:05.135990 | standard |
+  +--------------------------------------+-----------------------------------------+---------+---------------------------+----------------------------+----------+
+
+template delete::
+
+  vitrage template delete ae3c0752-1df9-408c-89d5-8b32b86f403f
+
+ for multiple delete:
+  vitrage template delete ae3c0752-1df9-408c-89d5-8b32b86f403f f254edb0-53cb-4552-969b-bdad24a14a03
+
 
 Event Examples
 --------------
