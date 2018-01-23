@@ -21,6 +21,7 @@ from vitrageclient.common import utils
 
 # noinspection PyAbstractClass
 class TemplateValidate(show.ShowOne):
+    """Validate a template file"""
 
     def get_parser(self, prog_name):
         parser = super(TemplateValidate, self).get_parser(prog_name)
@@ -48,7 +49,7 @@ class TemplateValidate(show.ShowOne):
 
 
 class TemplateList(lister.Lister):
-    """Template list"""
+    """List all templates"""
 
     def get_parser(self, prog_name):
         parser = super(TemplateList, self).get_parser(prog_name)
@@ -68,7 +69,7 @@ class TemplateList(lister.Lister):
 
 
 class TemplateShow(show.ShowOne):
-    """Template show"""
+    """Show a template"""
 
     def get_parser(self, prog_name):
         parser = super(TemplateShow, self).get_parser(prog_name)
@@ -86,7 +87,7 @@ class TemplateShow(show.ShowOne):
 
 
 class TemplateAdd(lister.Lister):
-    """Template add
+    """Add a template
 
     support 3 types of templates:
     standard, definition, equivalence
@@ -121,7 +122,7 @@ class TemplateAdd(lister.Lister):
 
 
 class TemplateDelete(command.Command):
-    """Template delete"""
+    """Delete a template"""
 
     def get_parser(self, prog_name):
         parser = super(TemplateDelete, self).get_parser(prog_name)

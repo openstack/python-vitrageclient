@@ -16,7 +16,7 @@ from vitrageclient.common import utils
 
 # noinspection PyAbstractClass
 class RcaShow(show.ShowOne):
-    """Show an RCA"""
+    """Show the Root Cause Analysis for a certain alarm"""
 
     def get_parser(self, prog_name):
         parser = super(RcaShow, self).get_parser(prog_name)
