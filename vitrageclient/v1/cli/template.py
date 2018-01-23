@@ -125,7 +125,7 @@ class TemplateDelete(command.Command):
 
     def get_parser(self, prog_name):
         parser = super(TemplateDelete, self).get_parser(prog_name)
-        parser.add_argument('uuid', help='ID of a template')
+        parser.add_argument('uuid', help='ID of a template', nargs='+')
         return parser
 
     @property
