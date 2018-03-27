@@ -9,6 +9,7 @@
 # WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
 # License for the specific language governing permissions and limitations
 # under the License.
+import logging
 
 from vitrageclient import client
 
@@ -25,8 +26,9 @@ from vitrageclient.v1 import webhook
 class Client(object):
 
     def __init__(self, session=None, service_type='rca', **kwargs):
+        logger = logging.getLogger(__name__)
         self._api = client.VitrageClient(session, service_type=service_type,
-                                         **kwargs)
+                                         logger=logger, **kwargs)
         self.topology = topology.Topology(self._api)
         self.resource = resource.Resource(self._api)
         self.alarm = alarm.Alarm(self._api)
