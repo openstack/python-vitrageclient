@@ -11,7 +11,9 @@
 # WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
 # License for the specific language governing permissions and limitations
 # under the License.
+import re
 
+import argparse
 from cliff import command
 from cliff import lister
 from cliff import show
@@ -126,7 +128,10 @@ class TemplateDelete(command.Command):
 
     def get_parser(self, prog_name):
         parser = super(TemplateDelete, self).get_parser(prog_name)
-        parser.add_argument('uuid', help='ID of a template', nargs='+')
+        parser.add_argument('uuid',
+                            help='ID of a template',
+                            nargs='+',
+                            type=TemplateDelete.vaild_uuid)
         return parser
 
     @property
@@ -136,3 +141,13 @@ class TemplateDelete(command.Command):
     def take_action(self, parsed_args):
         uuid = parsed_args.uuid
         utils.get_client(self).template.delete(uuid=uuid)
+
+    @staticmethod
+    def vaild_uuid(uuids):
+        rege = '^[a-z0-9]{8}-[a-z0-9]{4}-[a-z0-9]{4}-[a-z0-9]{4}-[a-z0-9]{12}$'
+        if type(uuids) != list:
+            uuids = [uuids]
+        for uuid in uuids:
+            if not re.match(rege, uuid):
+                raise argparse.ArgumentTypeError("Not a uuid format")
+        return uuids
