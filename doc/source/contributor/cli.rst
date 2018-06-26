@@ -770,9 +770,10 @@ alarm count::
   }
 
 
-Template Examples:
-------------------
-Note: for templates version 2 --type <template type> is not required. Template type is specified in the metadata section.
+Template Examples
+-----------------
+**Note:** for templates version 2 --type <template type> is not required.
+Template type is specified in the metadata section.
 
 template validate::
 
@@ -823,9 +824,14 @@ template show::
 
 template add::
 
+  For template of version 2:
+  vitrage template add --path /etc/vitrage/templates/host_disk_io_usage_scenarios.yaml
 
-  vitrage template add /etc/vitrage/templates/host_disk_io_usage_scenarios.yaml --type standard
+  For template of version 1 (old):
+  vitrage template add --path /etc/vitrage/templates/host_disk_io_usage_scenarios.yaml --type standard
+
   Valid types are: standard, definition and equivalence
+
   +--------------------------------------+-----------------------------------------+---------+---------------------------+----------------------------+----------+
   | UUID                                 | Name                                    | Status  | Status details            | Date                       | Type     |
   +--------------------------------------+-----------------------------------------+---------+---------------------------+----------------------------+----------+
