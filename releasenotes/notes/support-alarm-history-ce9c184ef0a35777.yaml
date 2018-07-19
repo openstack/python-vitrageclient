@@ -1,0 +1,5 @@
+---
+features:
+  - Added alarm histroy API. ``vitrage alarm history`` can be called with
+    ``--start`` or ``--start`` and ``--end`` parameters to show alarms
+    that were active on a specific time period

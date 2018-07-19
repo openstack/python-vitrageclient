@@ -7,7 +7,8 @@ _vitrage()
   # Command data:
   cmds='alarm complete event healthcheck help rca resource template topology'
   cmds_alarm='list show count'
-  cmds_alarm_list='-h --help -f --format -c --column --max-width --print-empty --noindent --quote --all-tenants'
+  cmds_alarm_list='-h --help -f --format -c --column --max-width --print-empty --noindent --quote --limit --marker --all-tenants'
+  cmds_alarm_history='-h --help -f --format -c --column --max-width --print-empty --noindent --quote --limit --marker --start --end --all-tenants'
   cmds_alarm_count='-h --help -f --format -c --column --max-width --print-empty --noindent --quote --all-tenants'
   cmds_alarm_show='-h --help'
   cmds_complete='-h --help --name --shell'

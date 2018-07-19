@@ -1,0 +1,4 @@
+---
+features:
+  - Added pagination support for ``vitrage alarm list``
+
