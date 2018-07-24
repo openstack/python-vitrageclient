@@ -1,0 +1,4 @@
+---
+fixes:
+  - Update openstack client with the latest client commands that were added
+
