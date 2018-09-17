@@ -27,8 +27,7 @@ extensions = [
 
 # openstackdocstheme options
 repository_name = 'openstack/python-vitrageclient'
-bug_project = 'python-vitrageclient'
-bug_tag = ''
+use_storyboard = True
 
 # autodoc generation is a bit aggressive and a nuisance when doing heavy
 # text edit cycles.
