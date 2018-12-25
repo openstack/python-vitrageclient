@@ -51,6 +51,7 @@ class VitrageCommandManager(commandmanager.CommandManager):
         'topology show': topology.TopologyShow,
         'resource show': resource.ResourceShow,
         'resource list': resource.ResourceList,
+        'resource count': resource.ResourceCount,
         'alarm list': alarm.AlarmList,
         'alarm history': alarm.AlarmHistory,
         'alarm show': alarm.AlarmShow,
