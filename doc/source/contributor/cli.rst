@@ -165,6 +165,7 @@ You'll find complete documentation on the shell by running
     healthcheck     Check api health status
     help            print detailed help for another command (cliff)
     rca show        Show the Root Cause Analysis for a certain alarm
+    resource count  Show a count of all resources
     resource list   List resources
     resource show   Show a resource
     template add    Add a template
@@ -717,6 +718,27 @@ resource show::
   | vitrage_state             | SUBOPTIMAL                           |
   | vitrage_type              | nova.instance                        |
   +---------------------------+--------------------------------------+
+
+resource count::
+
+  vitrage resource count
+  {
+  "nova.instance": 394,
+  "openstack.cluster": 1,
+  "cinder.volume": 405,
+  "nova.host": 16,
+  "neutron.network": 7,
+  "neutron.port": 1127,
+  "nova.zone": 3,
+  "tripleo.controller": 3
+  }
+
+  vitrage resource count --type nova.instance --group-by state
+  {
+  "ACTIVE": 359,
+  "ERROR": 27,
+  "SUBOPTIMAL": 8
+  }
 
 Alarms Examples
 ---------------
