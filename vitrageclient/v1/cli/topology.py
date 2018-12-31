@@ -67,6 +67,10 @@ class TopologyShow(show.ShowOne):
         return parser
 
     @property
+    def formatter_namespace(self):
+        return 'vitrageclient.formatter.show'
+
+    @property
     def formatter_default(self):
         return 'json'
 

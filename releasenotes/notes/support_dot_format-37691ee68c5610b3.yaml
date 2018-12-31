@@ -1,0 +1,4 @@
+---
+features:
+  - Topology and Rca now can be printed in dot format using
+    the CLI with ``-f dot``
