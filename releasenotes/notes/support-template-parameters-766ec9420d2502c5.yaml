@@ -1,0 +1,5 @@
+---
+features:
+  - Added support for parameters in Vitrage templates. ``vitrage template add``
+    can now be called with an additional ``--params`` argument for assigning
+    actual values for the parameters that are defined in the template.

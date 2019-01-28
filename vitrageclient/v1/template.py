@@ -35,19 +35,21 @@ class Template(object):
         url = self.url + uuid
         return self.api.get(url).json()
 
-    def add(self, path, template_type=None):
+    def add(self, path, template_type=None, params=None):
         """Add a new template"""
 
         files_content = self._load_yaml_files(path)
-        params = dict(templates=files_content, template_type=template_type)
-        return self.api.put(self.url, json=params).json()
+        api_params = dict(templates=files_content,
+                          template_type=template_type,
+                          params=params)
+        return self.api.put(self.url, json=api_params).json()
 
     def delete(self, uuid):
         """Delete existing"""
         params = dict(uuid=uuid)
         return self.api.delete(self.url, json=params).json()
 
-    def validate(self, path, template_type=None):
+    def validate(self, path, template_type=None, params=None):
         """Template validation
 
         Make sure that the template file is correct in terms of syntax
@@ -58,11 +60,14 @@ class Template(object):
 
         :param path: the template file path or templates dir path
         :param template_type: type of templates ('standard','definition',...)
+        :param params: (optional) actual values for the template parameters
         """
 
         files_content = self._load_yaml_files(path)
-        params = dict(templates=files_content, template_type=template_type)
-        return self.api.post(self.url, json=params).json()
+        api_params = dict(templates=files_content,
+                          template_type=template_type,
+                          params=params)
+        return self.api.post(self.url, json=api_params).json()
 
     def _load_yaml_files(self, path):
         if os.path.isdir(path):
