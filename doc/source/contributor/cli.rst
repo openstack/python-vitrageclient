@@ -168,6 +168,7 @@ You'll find complete documentation on the shell by running
     resource count  Show a count of all resources
     resource list   List resources
     resource show   Show a resource
+    service list    List all services
     template add    Add a template
     template delete Delete a template
     template list   List all templates
@@ -739,6 +740,34 @@ resource count::
   "ERROR": 27,
   "SUBOPTIMAL": 8
   }
+
+
+Service Examples
+----------------
+Note:  To see complete usage: 'vitrage help' and 'vitrage help <command>'
+
+service list
+^^^^^^^^^^^^
+
+A list of all vitrage services and their status::
+
+ vitrage service list
+ +----------------------------------+------------+--------------+---------------------------+
+ | Name                             | Process Id | Hostname     | Created At                |
+ +----------------------------------+------------+--------------+---------------------------+
+ | ApiWorker worker(0)              |      23161 | controller-1 | 2019-02-10T11:07:15+00:00 |
+ | EvaluatorWorker worker(0)        |      23153 | controller-1 | 2019-02-10T11:07:15+00:00 |
+ | EvaluatorWorker worker(1)        |      23155 | controller-1 | 2019-02-10T11:07:15+00:00 |
+ | EvaluatorWorker worker(2)        |      23157 | controller-1 | 2019-02-10T11:07:15+00:00 |
+ | EvaluatorWorker worker(3)        |      23158 | controller-1 | 2019-02-10T11:07:15+00:00 |
+ | MachineLearningService worker(0) |      23366 | controller-1 | 2019-02-10T11:07:33+00:00 |
+ | PersistorService worker(0)       |      23475 | controller-1 | 2019-02-10T11:07:35+00:00 |
+ | SnmpParsingService worker(0)     |      23164 | controller-1 | 2019-02-10T11:07:15+00:00 |
+ | vitrageuWSGI worker 1            |      25698 | controller-1 | 2019-02-10T11:14:30+00:00 |
+ | vitrageuWSGI worker 2            |      25699 | controller-1 | 2019-02-10T11:14:30+00:00 |
+ | VitrageNotifierService worker(0) |      23352 | controller-1 | 2019-02-10T11:07:32+00:00 |
+ +----------------------------------+------------+--------------+---------------------------+
+
 
 Alarms Examples
 ---------------
