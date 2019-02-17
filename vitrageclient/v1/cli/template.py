@@ -20,6 +20,15 @@ from cliff import show
 
 from vitrageclient.common import utils
 
+from oslo_log import log
+
+LOG = log.getLogger(__name__)
+
+
+def _parse_template_params(cli_param_list):
+    return dict(cli_param.split('=', 1) for cli_param in cli_param_list) \
+        if cli_param_list else {}
+
 
 # noinspection PyAbstractClass
 class TemplateValidate(show.ShowOne):
@@ -35,6 +44,12 @@ class TemplateValidate(show.ShowOne):
                             choices=['standard', 'definition', 'equivalence'],
                             help='Template type. Valid types:'
                                  '[standard, definition, equivalence]')
+        parser.add_argument('--params', nargs='+',
+                            help='Actual values for parameters of the '
+                                 'template. Several key=value pairs may be '
+                                 'used, for example: --params '
+                                 'template_name=cpu_problem '
+                                 'alarm_name=\'High CPU Load\'')
         return parser
 
     @property
@@ -43,9 +58,13 @@ class TemplateValidate(show.ShowOne):
 
     def take_action(self, parsed_args):
 
+        cli_param_list = parsed_args.params
+        params = _parse_template_params(cli_param_list)
+
         result = utils.get_client(self).template.validate(
             path=parsed_args.path,
-            template_type=parsed_args.type)
+            template_type=parsed_args.type,
+            params=params)
 
         return self.dict2columns(result)
 
@@ -105,13 +124,23 @@ class TemplateAdd(lister.Lister):
                             choices=['standard', 'definition', 'equivalence'],
                             help='Template type. Valid types:'
                                  '[standard, definition, equivalence]')
+        parser.add_argument('--params', nargs='+',
+                            help='Actual values for parameters of the '
+                                 'template. Several key=value pairs may be '
+                                 'used, for example: --params '
+                                 'template_name=cpu_problem '
+                                 'alarm_name=\'High CPU Load\'')
         return parser
 
     def take_action(self, parsed_args):
         path = parsed_args.path
         template_type = parsed_args.type
+        cli_param_list = parsed_args.params
+        params = _parse_template_params(cli_param_list)
+
         templates = utils.get_client(self).template.add(
-            path=path, template_type=template_type)
+            path=path, template_type=template_type, params=params)
+
         return utils.list2cols_with_rename(
             (
                 ('UUID', 'uuid'),

@@ -192,7 +192,11 @@ Topology Example
 ----------------
 Note:  To see complete usage: 'vitrage help' and 'vitrage help <command>'
 
-topology show::
+topology show
+^^^^^^^^^^^^^
+::
+
+ vitrage topology show
 
  {
   "directed": true,
@@ -610,7 +614,9 @@ RCA Example
 -----------
 Note:  To see complete usage: 'vitrage help' and 'vitrage help <command>'
 
-rca show::
+rca show
+^^^^^^^^
+::
 
   vitrage rca show
 
@@ -682,7 +688,9 @@ Resources Examples
 ------------------
 Note:  To see complete usage: 'vitrage help' and 'vitrage help <command>'
 
-resource list::
+resource list
+^^^^^^^^^^^^^
+::
 
   vitrage resource list
   +--------------------------------------+-------------------+--------------------------------------+------------+-------------------------------------------------------------------------------------------------------------------------------+
@@ -696,7 +704,9 @@ resource list::
   | 374203a6-e7bc-4bd6-bc32-1137f4f3d234 | nova.zone         | nova                                 | OK         | {'name': u'nova', 'update_timestamp': u'2018-01-03 09:06:07.628148+00:00'}                                                    |
   +--------------------------------------+-------------------+--------------------------------------+------------+-------------------------------------------------------------------------------------------------------------------------------+
 
-resource show::
+resource show
+^^^^^^^^^^^^^
+::
 
   vitrage resource show 786efe03-55ff-41b2-bdc1-6cd94bc355ad
   +---------------------------+--------------------------------------+
@@ -720,7 +730,9 @@ resource show::
   | vitrage_type              | nova.instance                        |
   +---------------------------+--------------------------------------+
 
-resource count::
+resource count
+^^^^^^^^^^^^^^
+::
 
   vitrage resource count
   {
@@ -877,10 +889,14 @@ Template Examples
 **Note:** for templates version 2 --type <template type> is not required.
 Template type is specified in the metadata section.
 
-template validate::
+template validate
+^^^^^^^^^^^^^^^^^
+::
 
   vitrage template validate --path /home/stack/my_template.yaml --type standard
+
   Valid types are: standard, definition and equivalence
+
   {
     "results": [
       {
@@ -906,7 +922,9 @@ template validate::
     ]
   }
 
-template list::
+template list
+^^^^^^^^^^^^^
+::
 
   vitrage template list
   +--------------------------------------+-----------------------------------------+--------+---------------------------+---------------------+-------------+
@@ -919,12 +937,16 @@ template list::
   +--------------------------------------+-----------------------------------------+--------+---------------------------+---------------------+-------------+
 
 
-template show::
+template show
+^^^^^^^^^^^^^
+::
 
   vitrage template show 72f47086-366f-44d1-b88f-e420a8bc8ff0
   returns a loaded template as json
 
-template add::
+template add
+^^^^^^^^^^^^
+::
 
   For template of version 2:
   vitrage template add --path /etc/vitrage/templates/host_disk_io_usage_scenarios.yaml
@@ -940,13 +962,58 @@ template add::
   | ae3c0752-1df9-408c-89d5-8b32b86f403f | host_disk_io_overloaded_usage_scenarios | LOADING | Template validation is OK | 2018-01-23 10:14:05.135990 | standard |
   +--------------------------------------+-----------------------------------------+---------+---------------------------+----------------------------+----------+
 
-template delete::
+template delete
+^^^^^^^^^^^^^^^
+::
 
   vitrage template delete ae3c0752-1df9-408c-89d5-8b32b86f403f
 
- for multiple delete:
+ For deleting multiple templates:
   vitrage template delete ae3c0752-1df9-408c-89d5-8b32b86f403f f254edb0-53cb-4552-969b-bdad24a14a03
 
+Templates with parameters
+^^^^^^^^^^^^^^^^^^^^^^^^^
+::
+
+  vitrage template validate --path ./with_single_param.yaml
+  {
+    "results": [
+      {
+        "status": "validation failed",
+        "file path": "with_single_param.yaml",
+        "status code": 163,
+        "message": "Failed to resolve parameter",
+        "description": "Template content validation"
+      }
+    ]
+  }
+
+  vitrage template validate --path ./with_single_param.yaml --params alarm_name=Alarm1
+  {
+    "results": [
+      {
+        "status": "validation OK",
+        "file path": "with_single_param.yaml",
+        "status code": 0,
+        "message": "Template validation is OK",
+        "description": "Template validation"
+      }
+    ]
+  }
+
+  vitrage template add --path ./with_single_param.yaml
+  +--------------------------------------+-------------------+--------+-----------------------------+----------------------------+----------+
+  | UUID                                 | Name              | Status | Status details              | Date                       | Type     |
+  +--------------------------------------+-------------------+--------+-----------------------------+----------------------------+----------+
+  | d785f6d4-123b-4271-80cf-c5d9c21adb12 | with_single_param | ERROR  | Failed to resolve parameter | 2019-02-11 11:44:50.916064 | standard |
+  +--------------------------------------+-------------------+--------+-----------------------------+----------------------------+----------+
+
+  vitrage template add --path with_params.yaml --params template_name=Template1 alarm_name=Alarm2
+  +--------------------------------------+-----------+---------+---------------------------+----------------------------+----------+
+  | UUID                                 | Name      | Status  | Status details            | Date                       | Type     |
+  +--------------------------------------+-----------+---------+---------------------------+----------------------------+----------+
+  | 1a18a38b-99ee-4835-964d-a3fe2f17d4cd | Template1 | LOADING | Template validation is OK | 2019-02-11 11:57:31.077176 | standard |
+  +--------------------------------------+-----------+---------+---------------------------+----------------------------+----------+
 
 Event Examples
 --------------
@@ -965,7 +1032,9 @@ Webhook Example
 ---------------
 Note:  To see complete usage: 'vitrage help' and 'vitrage help <command>'
 
-webhook list::
+webhook list
+^^^^^^^^^^^^
+::
 
     vitrage webhook list
 
@@ -977,7 +1046,9 @@ webhook list::
     +--------------------------------------+----------------------------+----------------------------------+---------------------------+--------------------------------------+------------------------+
 
 
-webhook show::
+webhook show
+^^^^^^^^^^^^
+::
 
  vitrage webhook show c35caf11-f34d-440e-a804-0c1a4fdfb95b
 
@@ -992,7 +1063,9 @@ webhook show::
     | url          | https://requestb.in/tq3fkvtq         |
     +--------------+--------------------------------------+
 
-webhook delete::
+webhook delete
+^^^^^^^^^^^^^^
+::
 
     vitrage webhook delete c35caf11-f34d-440e-a804-0c1a4fdfb95b
 
@@ -1003,7 +1076,9 @@ webhook delete::
     +---------+------------------------------------------------------+
 
 
-webhook add::
+webhook add
+^^^^^^^^^^^
+::
 
     vitrage webhook add --url https://www.myurl.com --headers
     "{'content-type': 'application/json'}" --regex_filter "{'vitrage_type':'.*'}"
