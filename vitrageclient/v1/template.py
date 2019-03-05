@@ -35,18 +35,18 @@ class Template(object):
         url = self.url + uuid
         return self.api.get(url).json()
 
-    def add(self, path=None, template_str=None,
-            template_type=None, params=None):
+    def add(self, path=None, template_type=None,
+            params=None, template_str=None):
         """Add a new template
 
         :param path: (optional) The template file path or templates dir path
+        :param template_type: (optional) The template type, in case it is not
+        written inside the template metadata section
+        :param params: (optional) Actual values for the template parameters
         :param template_str: (optional) A string representation of the template
         yaml
         Either path or template_str must exist (but not both)
 
-        :param template_type: (optional) The template type, in case it is not
-        written inside the template metadata section
-        :param params: (optional) Actual values for the template parameters
         :return:
         """
         files_content = \
@@ -61,8 +61,8 @@ class Template(object):
         params = dict(uuid=uuid)
         return self.api.delete(self.url, json=params).json()
 
-    def validate(self, path=None, template_str=None,
-                 template_type=None, params=None):
+    def validate(self, path=None, template_type=None,
+                 params=None, template_str=None):
         """Template validation
 
         Make sure that the template file is correct in terms of syntax
@@ -72,13 +72,13 @@ class Template(object):
         directory must contain only templates)
 
         :param path: (optional) The template file path or templates dir path
+        :param template_type: (optional) The template type, in case it is not
+        written inside the template metadata section
+        :param params: (optional) Actual values for the template parameters
         :param template_str: (optional) A string representation of the template
         yaml
         Either path or template_str must exist (but not both)
 
-        :param template_type: (optional) The template type, in case it is not
-        written inside the template metadata section
-        :param params: (optional) Actual values for the template parameters
         :return:
         """
         files_content = \
