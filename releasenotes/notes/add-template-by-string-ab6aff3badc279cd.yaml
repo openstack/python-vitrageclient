@@ -1,0 +1,4 @@
+---
+features:
+  - Added an option to add templates to Vitrage by a string that holds the
+    template yaml, and not only by a file path.

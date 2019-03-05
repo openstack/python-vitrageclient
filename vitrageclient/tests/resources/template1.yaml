@@ -1,0 +1,16 @@
+metadata:
+ version: 3
+ name: template1
+ description: simple template
+ type: standard
+entities:
+ alarm:
+  name: cpu problem
+ host:
+  type: nova.host
+scenarios:
+ - condition: alarm [ on ] host
+   actions:
+     - set_state:
+        state: ERROR
+        target: host

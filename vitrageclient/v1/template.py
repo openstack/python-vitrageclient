@@ -35,10 +35,22 @@ class Template(object):
         url = self.url + uuid
         return self.api.get(url).json()
 
-    def add(self, path, template_type=None, params=None):
-        """Add a new template"""
+    def add(self, path=None, template_str=None,
+            template_type=None, params=None):
+        """Add a new template
 
-        files_content = self._load_yaml_files(path)
+        :param path: (optional) The template file path or templates dir path
+        :param template_str: (optional) A string representation of the template
+        yaml
+        Either path or template_str must exist (but not both)
+
+        :param template_type: (optional) The template type, in case it is not
+        written inside the template metadata section
+        :param params: (optional) Actual values for the template parameters
+        :return:
+        """
+        files_content = \
+            self._load_template(path=path, template_str=template_str)
         api_params = dict(templates=files_content,
                           template_type=template_type,
                           params=params)
@@ -49,7 +61,8 @@ class Template(object):
         params = dict(uuid=uuid)
         return self.api.delete(self.url, json=params).json()
 
-    def validate(self, path, template_type=None, params=None):
+    def validate(self, path=None, template_str=None,
+                 template_type=None, params=None):
         """Template validation
 
         Make sure that the template file is correct in terms of syntax
@@ -58,18 +71,25 @@ class Template(object):
         template, or directory path for validation of several templates (the
         directory must contain only templates)
 
-        :param path: the template file path or templates dir path
-        :param template_type: type of templates ('standard','definition',...)
-        :param params: (optional) actual values for the template parameters
-        """
+        :param path: (optional) The template file path or templates dir path
+        :param template_str: (optional) A string representation of the template
+        yaml
+        Either path or template_str must exist (but not both)
 
-        files_content = self._load_yaml_files(path)
+        :param template_type: (optional) The template type, in case it is not
+        written inside the template metadata section
+        :param params: (optional) Actual values for the template parameters
+        :return:
+        """
+        files_content = \
+            self._load_template(path=path, template_str=template_str)
         api_params = dict(templates=files_content,
                           template_type=template_type,
                           params=params)
         return self.api.post(self.url, json=api_params).json()
 
-    def _load_yaml_files(self, path):
+    @classmethod
+    def _load_yaml_files(cls, path):
         if os.path.isdir(path):
 
             files_content = []
@@ -77,20 +97,36 @@ class Template(object):
 
                 file_path = '%s/%s' % (path, file_name)
                 if os.path.isfile(file_path):
-                    template = self._load_yaml_file(file_path)
+                    template = cls._load_yaml_file(file_path)
                     files_content.append((file_path, template))
         else:
-            files_content = [(path, self._load_yaml_file(path))]
+            files_content = [(path, cls._load_yaml_file(path))]
 
         return files_content
 
-    @staticmethod
-    def _load_yaml_file(path):
-
+    @classmethod
+    def _load_yaml_file(cls, path):
         with open(path, 'r') as stream:
-            try:
-                return yaml_utils.load(stream)
-            except ValueError as e:
-                message = 'Could not load template file: %s. Reason: %s' \
-                          % (path, e.message)
-                raise exc.CommandError(message)
+            return cls._load_yaml(stream)
+
+    @classmethod
+    def _load_yaml(cls, yaml_content):
+        try:
+            return yaml_utils.load(yaml_content)
+        except ValueError as e:
+            message = 'Could not load template: %s. Reason: %s' \
+                      % (yaml_content, e.message)
+            raise exc.CommandError(message)
+
+    @classmethod
+    def _load_template(cls, path, template_str):
+        if path:
+            files_content = cls._load_yaml_files(path)
+        elif template_str:
+            files_content = [(None, cls._load_yaml(template_str))]
+        else:
+            raise exc.CommandError(
+                'Add template API must be called with either \'path\' or '
+                '\'template_str\'')
+
+        return files_content
