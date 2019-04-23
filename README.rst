@@ -69,4 +69,4 @@ In the python-vitrageclient source directory
 References
 ----------
 
-Detailed documentation for the CLI see `CLI Spec <https://github.com/openstack/python-vitrageclient/blob/master/doc/source/contributor/cli.rst/>`_
+Detailed documentation for the CLI see `CLI Spec <https://opendev.org/openstack/python-vitrageclient/src/branch/master/doc/source/contributor/cli.rst>`_
