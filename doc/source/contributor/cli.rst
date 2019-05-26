@@ -944,6 +944,8 @@ template show
   vitrage template show 72f47086-366f-44d1-b88f-e420a8bc8ff0
   returns a loaded template as json
 
+ Note: You can use template name instead of id
+
 template add
 ^^^^^^^^^^^^
 ::
@@ -970,6 +972,8 @@ template delete
 
  For deleting multiple templates:
   vitrage template delete ae3c0752-1df9-408c-89d5-8b32b86f403f f254edb0-53cb-4552-969b-bdad24a14a03
+
+ Note: You can use template name instead of id
 
 Templates with parameters
 ^^^^^^^^^^^^^^^^^^^^^^^^^

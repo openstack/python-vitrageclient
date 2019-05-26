@@ -29,10 +29,10 @@ class Template(object):
         """Get templates list"""
         return self.api.get(self.url).json()
 
-    def show(self, uuid):
+    def show(self, _id):
         """Show template content"""
 
-        url = self.url + uuid
+        url = self.url + _id
         return self.api.get(url).json()
 
     def add(self, path=None, template_type=None,
@@ -56,9 +56,9 @@ class Template(object):
                           params=params)
         return self.api.put(self.url, json=api_params).json()
 
-    def delete(self, uuid):
+    def delete(self, _id):
         """Delete existing"""
-        params = dict(uuid=uuid)
+        params = dict(id=_id)
         return self.api.delete(self.url, json=params).json()
 
     def validate(self, path=None, template_type=None,
