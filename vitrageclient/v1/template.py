@@ -56,9 +56,9 @@ class Template(object):
                           params=params)
         return self.api.put(self.url, json=api_params).json()
 
-    def delete(self, _id):
+    def delete(self, ids):
         """Delete existing"""
-        params = dict(id=_id)
+        params = dict(id=ids)
         return self.api.delete(self.url, json=params).json()
 
     def validate(self, path=None, template_type=None,
@@ -115,7 +115,7 @@ class Template(object):
             return yaml_utils.load(yaml_content)
         except ValueError as e:
             message = 'Could not load template: %s. Reason: %s' \
-                      % (yaml_content, e.message)
+                      % (yaml_content, e)
             raise exc.CommandError(message)
 
     @classmethod

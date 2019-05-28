@@ -12,13 +12,15 @@
 # License for the specific language governing permissions and limitations
 # under the License.
 
+import sys
+
 from cliff import command
 from cliff import lister
 from cliff import show
+from oslo_log import log
 
 from vitrageclient.common import utils
-
-from oslo_log import log
+from vitrageclient.common.utils import find_template_with_uuid
 
 LOG = log.getLogger(__name__)
 
@@ -55,7 +57,6 @@ class TemplateValidate(show.ShowOne):
         return 'json'
 
     def take_action(self, parsed_args):
-
         cli_param_list = parsed_args.params
         params = _parse_template_params(cli_param_list)
 
@@ -128,6 +129,17 @@ class TemplateAdd(lister.Lister):
                                  'used, for example: --params '
                                  'template_name=cpu_problem '
                                  'alarm_name=\'High CPU Load\'')
+
+        parser.add_argument('--wait',
+                            type=int,
+                            default=None,
+                            nargs='?',
+                            const=sys.maxsize,
+                            help='Wait until template is ACTIVE or in ERROR'
+                                 'default is to wait forever '
+                                 'else number of seconds'
+                            )
+
         return parser
 
     def take_action(self, parsed_args):
@@ -135,9 +147,15 @@ class TemplateAdd(lister.Lister):
         template_type = parsed_args.type
         cli_param_list = parsed_args.params
         params = _parse_template_params(cli_param_list)
+        wait = parsed_args.wait
 
         templates = utils.get_client(self).template.add(
             path=path, template_type=template_type, params=params)
+
+        if wait:
+            utils.wait_for_action_to_end(wait,
+                                         self._check_finished_loading,
+                                         templates=templates)
 
         return utils.list2cols_with_rename(
             (
@@ -149,6 +167,38 @@ class TemplateAdd(lister.Lister):
                 ('Type', 'type'),
             ), templates)
 
+    def _check_finished_loading(self, templates):
+        if all(
+                (
+                    template['status'] == 'ERROR'
+                    for template in templates
+                )
+        ):
+            return True
+
+        try:
+            api_templates = utils.get_client(self).template.list()
+            self._update_templates_status(api_templates, templates)
+            if any(
+                    (
+                        template['status'] == 'LOADING'
+                        for template in templates
+                    )
+            ):
+                return False
+            return True
+        except Exception:
+            return True
+
+    @staticmethod
+    def _update_templates_status(api_templates, templates):
+        for template in templates:
+            uuid = template.get('uuid')
+            if uuid:
+                api_template = find_template_with_uuid(uuid, api_templates)
+                if api_template:
+                    template['status'] = api_template['status']
+
 
 class TemplateDelete(command.Command):
     """Delete a template"""
@@ -158,6 +208,14 @@ class TemplateDelete(command.Command):
         parser.add_argument('id',
                             help='<ID or Name> of a template',
                             nargs='+')
+        parser.add_argument('--wait',
+                            type=int,
+                            default=None,
+                            nargs='?',
+                            const=sys.maxsize,
+                            help='Wait until template is DELETED or in ERROR'
+                            'default is to wait forever else number of seconds'
+                            )
         return parser
 
     @property
@@ -165,5 +223,20 @@ class TemplateDelete(command.Command):
         return 'json'
 
     def take_action(self, parsed_args):
-        _id = parsed_args.id
-        utils.get_client(self).template.delete(_id=_id)
+        ids = parsed_args.id
+        wait = parsed_args.wait
+        utils.get_client(self).template.delete(ids=ids)
+        if wait:
+            utils.wait_for_action_to_end(wait,
+                                         self._check_deleted,
+                                         ids=ids)
+
+    def _check_deleted(self, ids):
+        for _id in ids:
+            try:
+                utils.get_client(self).template.show(_id)
+            except Exception:  # if deleted we get exception
+                pass
+            else:
+                return False
+        return True

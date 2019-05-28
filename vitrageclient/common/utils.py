@@ -11,6 +11,7 @@
 # WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
 # License for the specific language governing permissions and limitations
 # under the License.
+import time
 
 
 def args_to_dict(args, attrs):
@@ -36,3 +37,23 @@ def get_client(obj):
         return obj.app.client_manager.rca
     else:
         return obj.app.client
+
+
+def wait_for_action_to_end(timeout, func, **kwargs):
+    count = 0
+    while count < timeout:
+        if func(**kwargs):
+            return True
+        count += 1
+        time.sleep(1)
+    return False
+
+
+def find_template_with_uuid(uuid, templates):
+    return next(
+        (
+            template
+            for template in templates
+            if template['uuid'] == uuid
+        ), None
+    )
