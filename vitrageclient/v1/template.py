@@ -36,7 +36,7 @@ class Template(object):
         return self.api.get(url).json()
 
     def add(self, path=None, template_type=None,
-            params=None, template_str=None):
+            params=None, template_str=None, overwrite=False):
         """Add a new template
 
         :param path: (optional) The template file path or templates dir path
@@ -44,6 +44,7 @@ class Template(object):
         written inside the template metadata section
         :param params: (optional) Actual values for the template parameters
         :param template_str: (optional) A string representation of the template
+        :param overwrite: (optional) overwrite the template if exists
         yaml
         Either path or template_str must exist (but not both)
 
@@ -53,7 +54,7 @@ class Template(object):
             self._load_template(path=path, template_str=template_str)
         api_params = dict(templates=files_content,
                           template_type=template_type,
-                          params=params)
+                          params=params, overwrite=overwrite)
         return self.api.put(self.url, json=api_params).json()
 
     def delete(self, ids):

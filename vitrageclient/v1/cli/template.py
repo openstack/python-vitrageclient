@@ -140,6 +140,12 @@ class TemplateAdd(lister.Lister):
                                  'else number of seconds'
                             )
 
+        parser.add_argument('--overwrite',
+                            default=False,
+                            action='store_true',
+                            help='If template exists by name overwrite it'
+                            )
+
         return parser
 
     def take_action(self, parsed_args):
@@ -148,9 +154,11 @@ class TemplateAdd(lister.Lister):
         cli_param_list = parsed_args.params
         params = _parse_template_params(cli_param_list)
         wait = parsed_args.wait
+        overwrite = parsed_args.overwrite
 
         templates = utils.get_client(self).template.add(
-            path=path, template_type=template_type, params=params)
+            path=path, template_type=template_type, params=params,
+            overwrite=overwrite)
 
         if wait:
             utils.wait_for_action_to_end(wait,
