@@ -1019,6 +1019,20 @@ Templates with parameters
   | 1a18a38b-99ee-4835-964d-a3fe2f17d4cd | Template1 | LOADING | Template validation is OK | 2019-02-11 11:57:31.077176 | standard |
   +--------------------------------------+-----------+---------+---------------------------+----------------------------+----------+
 
+template versions
+^^^^^^^^^^^^^^^^^
+::
+
+  vitrage template versions
+
+  +---------+-----------+
+  | Version | Status    |
+  +---------+-----------+
+  | v1      | SUPPORTED |
+  | v2      | SUPPORTED |
+  | v3      | CURRENT   |
+  +---------+-----------+
+
 Event Examples
 --------------
 

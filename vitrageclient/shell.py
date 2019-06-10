@@ -60,6 +60,7 @@ class VitrageCommandManager(commandmanager.CommandManager):
         'rca show': rca.RcaShow,
         'template validate': template.TemplateValidate,
         'template list': template.TemplateList,
+        'template versions': template.TemplateVersions,
         'template show': template.TemplateShow,
         'template add': template.TemplateAdd,
         'template delete': template.TemplateDelete,

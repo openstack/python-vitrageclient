@@ -29,6 +29,10 @@ class Template(object):
         """Get templates list"""
         return self.api.get(self.url).json()
 
+    def versions(self):
+        """Get templates versions"""
+        return self.api.get(self.url + 'versions').json()
+
     def show(self, _id):
         """Show template content"""
 

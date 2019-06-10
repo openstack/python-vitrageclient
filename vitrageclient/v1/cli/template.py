@@ -68,6 +68,22 @@ class TemplateValidate(show.ShowOne):
         return self.dict2columns(result)
 
 
+class TemplateVersions(lister.Lister):
+    """List all template versions"""
+
+    def get_parser(self, prog_name):
+        parser = super(TemplateVersions, self).get_parser(prog_name)
+        return parser
+
+    def take_action(self, parsed_args):
+        templates = utils.get_client(self).template.versions()
+        return utils.list2cols_with_rename(
+            (
+                ('Version', 'version'),
+                ('Status', 'status'),
+            ), templates)
+
+
 class TemplateList(lister.Lister):
     """List all templates"""
 
