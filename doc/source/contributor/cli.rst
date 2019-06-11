@@ -958,6 +958,8 @@ template add
 
   Valid types are: standard, definition and equivalence
 
+  You can add --wait [SECONDS]  which will block until template completes loading
+
   +--------------------------------------+-----------------------------------------+---------+---------------------------+----------------------------+----------+
   | UUID                                 | Name                                    | Status  | Status details            | Date                       | Type     |
   +--------------------------------------+-----------------------------------------+---------+---------------------------+----------------------------+----------+
@@ -973,7 +975,10 @@ template delete
  For deleting multiple templates:
   vitrage template delete ae3c0752-1df9-408c-89d5-8b32b86f403f f254edb0-53cb-4552-969b-bdad24a14a03
 
+ You can add --wait [SECONDS]  which will block until template is deleted
+
  Note: You can use template name instead of id
+
 
 Templates with parameters
 ^^^^^^^^^^^^^^^^^^^^^^^^^
