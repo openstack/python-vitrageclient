@@ -152,7 +152,7 @@ class TemplateAdd(lister.Lister):
                             nargs='?',
                             const=sys.maxsize,
                             help='Wait until template is ACTIVE or in ERROR'
-                                 'default is to wait forever '
+                                 ' default is to wait forever '
                                  'else number of seconds'
                             )
 
@@ -238,7 +238,8 @@ class TemplateDelete(command.Command):
                             nargs='?',
                             const=sys.maxsize,
                             help='Wait until template is DELETED or in ERROR'
-                            'default is to wait forever else number of seconds'
+                            ' default is to wait forever else number of '
+                                 'seconds'
                             )
         return parser
 
