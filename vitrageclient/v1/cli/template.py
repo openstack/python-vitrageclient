@@ -114,7 +114,7 @@ class TemplateShow(show.ShowOne):
 
     @property
     def formatter_default(self):
-        return 'json'
+        return 'yaml'
 
     def take_action(self, parsed_args):
         _id = parsed_args.id
