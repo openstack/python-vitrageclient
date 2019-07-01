@@ -39,6 +39,7 @@ from vitrageclient.v1.cli import healthcheck
 from vitrageclient.v1.cli import rca
 from vitrageclient.v1.cli import resource
 from vitrageclient.v1.cli import service
+from vitrageclient.v1.cli import status
 from vitrageclient.v1.cli import template
 from vitrageclient.v1.cli import topology
 from vitrageclient.v1.cli import webhook
@@ -70,7 +71,8 @@ class VitrageCommandManager(commandmanager.CommandManager):
         'webhook add': webhook.WebhookAdd,
         'webhook list': webhook.WebhookList,
         'webhook show': webhook.WebhookShow,
-        'service list': service.ServiceList
+        'service list': service.ServiceList,
+        'status': status.Status,
     }
 
     def load_commands(self, namespace):

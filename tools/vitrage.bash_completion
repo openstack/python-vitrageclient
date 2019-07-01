@@ -5,7 +5,7 @@ _vitrage()
   _get_comp_words_by_ref -n : cur prev words
 
   # Command data:
-  cmds='alarm complete event healthcheck help rca resource service template topology webhook'
+  cmds='alarm complete event healthcheck help rca resource service status template topology webhook'
   cmds_alarm='count history list show'
   cmds_alarm_count='-h --help -f --format -c --column --noindent --variable --prefix --max-width --fit-width --print-empty --all-tenants'
   cmds_alarm_history='-h --help -f --format -c --column --quote --noindent --max-width --fit-width --print-empty --sort-column --all-tenants --limit --marker --start --end'
@@ -24,8 +24,9 @@ _vitrage()
   cmds_resource_show='-h --help -f --format -c --column --noindent --variable --prefix --max-width --fit-width --print-empty'
   cmds_service='list'
   cmds_service_list='-h --help -f --format -c --column --quote --noindent --max-width --fit-width --print-empty --sort-column'
+  cmds_status='-h --help -f --format -c --column --noindent --variable --prefix --max-width --fit-width --print-empty'
   cmds_template='add delete list show validate versions'
-  cmds_template_add='-h --help -f --format -c --column --quote --noindent --max-width --fit-width --print-empty --sort-column --path --type --params --wait'
+  cmds_template_add='-h --help -f --format -c --column --quote --noindent --max-width --fit-width --print-empty --sort-column --path --type --params --wait --overwrite'
   cmds_template_delete='-h --help --wait'
   cmds_template_list='-h --help -f --format -c --column --quote --noindent --max-width --fit-width --print-empty --sort-column'
   cmds_template_show='-h --help -f --format -c --column --noindent --variable --prefix --max-width --fit-width --print-empty'
