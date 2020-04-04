@@ -52,5 +52,4 @@ traceback2==1.4.0
 unittest2==1.1.0
 wrapt==1.7.0
 pydot==1.4.1
-networkx==2.3;python_version>='3.4'
-networkx==2.0;python_version<'3.0'
+networkx==2.3
