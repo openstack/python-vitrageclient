@@ -13,11 +13,11 @@
 # under the License.
 from argparse import ArgumentParser
 from argparse import ArgumentTypeError
+from unittest import mock
 
 import json
 
 # noinspection PyPackageRequirements
-import mock
 # noinspection PyPackageRequirements
 import six
 from testtools import ExpectedException

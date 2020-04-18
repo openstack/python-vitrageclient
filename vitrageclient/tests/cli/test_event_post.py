@@ -14,10 +14,10 @@
 
 from argparse import ArgumentParser
 from argparse import ArgumentTypeError
+from unittest import mock
 
 # noinspection PyPackageRequirements
 from datetime import datetime
-import mock
 from testtools import ExpectedException
 
 from vitrageclient.tests.cli.base import CliTestCase
