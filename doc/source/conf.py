@@ -26,8 +26,8 @@ extensions = [
 ]
 
 # openstackdocstheme options
-repository_name = 'openstack/python-vitrageclient'
-use_storyboard = True
+openstackdocs_repo_name = 'openstack/python-vitrageclient'
+openstackdocs_use_storyboard = True
 
 # autodoc generation is a bit aggressive and a nuisance when doing heavy
 # text edit cycles.
@@ -63,7 +63,6 @@ html_theme = 'openstackdocs'
 
 # Output file base name for HTML help builder.
 htmlhelp_basename = '%sdoc' % project
-html_last_updated_fmt = '%Y-%m-%d %H:%M'
 
 # Grouping the document tree into LaTeX files. List of tuples
 # (source start file, target name, title, author, documentclass
