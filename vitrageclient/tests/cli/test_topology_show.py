@@ -15,11 +15,11 @@ from argparse import ArgumentParser
 from argparse import ArgumentTypeError
 from unittest import mock
 
+import io
 import json
 
 # noinspection PyPackageRequirements
 # noinspection PyPackageRequirements
-import six
 from testtools import ExpectedException
 
 from vitrageclient.common.formatters import DOTFormatter
@@ -337,7 +337,7 @@ class TopologyShowTest(CliTestCase):
         def dict2columns(data):
             return zip(*sorted(data.items()))
 
-        out = six.StringIO()
+        out = io.StringIO()
         formatter = DOTFormatter()
         topology = json.loads(JSON_DATA)
         columns, topology = dict2columns(topology)
@@ -350,7 +350,7 @@ class TopologyShowTest(CliTestCase):
         def dict2columns(data):
             return zip(*sorted(data.items()))
 
-        out = six.BytesIO()
+        out = io.BytesIO()
         formatter = GraphMLFormatter()
         topology = json.loads(JSON_DATA)
         columns, topology = dict2columns(topology)

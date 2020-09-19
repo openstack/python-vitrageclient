@@ -13,7 +13,6 @@
 #  under the License.
 import abc
 from cliff.formatters import base
-import six
 
 from networkx.drawing.nx_pydot import write_dot
 from networkx.readwrite.graphml import GraphMLWriter
@@ -22,8 +21,7 @@ from networkx.readwrite import json_graph
 import networkx as nx
 
 
-@six.add_metaclass(abc.ABCMeta)
-class GraphFormatter(base.SingleFormatter):
+class GraphFormatter(base.SingleFormatter, metaclass=abc.ABCMeta):
     def add_argument_group(self, parser):
         pass
 

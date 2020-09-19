@@ -41,7 +41,6 @@ PyYAML==3.12
 requests==2.14.2
 requestsexceptions==1.2.0
 simplejson==3.5.1
-six==1.10.0
 stevedore==1.20.0
 testrepository==0.0.18
 testscenarios==0.5.0
