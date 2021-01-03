@@ -158,7 +158,7 @@ strict digraph  {
 }
 '''  # noqa
 
-GRAPHML_DATA = u'''\
+GRAPHML_DATA = '''\
 <?xml version='1.0' encoding='utf-8'?>
 <graphml xmlns="http://graphml.graphdrawing.org/xmlns" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://graphml.graphdrawing.org/xmlns http://graphml.graphdrawing.org/xmlns/1.0/graphml.xsd">
   <key attr.name="size" attr.type="int" for="node" id="d20" />

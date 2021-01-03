@@ -41,8 +41,8 @@ source_suffix = '.rst'
 master_doc = 'index'
 
 # General information about the project.
-project = u'python-vitrageclient releasenotes'
-copyright = u'2016, Vitrage developers'
+project = 'python-vitrageclient releasenotes'
+copyright = '2016, Vitrage developers'
 
 # If true, '()' will be appended to :func: etc. cross-reference text.
 add_function_parentheses = True
@@ -71,8 +71,8 @@ htmlhelp_basename = '%sdoc' % project
 latex_documents = [
     ('index',
      '%s.tex' % project,
-     u'%s Vitrage Client ReleaseNotes' % project,
-     u'Vitrage developers', 'manual'),
+     '%s Vitrage Client ReleaseNotes' % project,
+     'Vitrage developers', 'manual'),
 ]
 
 # Example configuration for intersphinx: refer to the Python standard library.

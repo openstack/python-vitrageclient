@@ -52,9 +52,9 @@ class GraphFormatter(base.SingleFormatter, metaclass=abc.ABCMeta):
                 # if name and type the same
                 # don't print twice its redundant
                 # e.g openstack.cluster
-                node[u'label'] = name + '\n' + v_type
+                node['label'] = name + '\n' + v_type
             else:
-                node[u'label'] = v_type
+                node['label'] = v_type
 
             # type list is not supported in some
             # formats
@@ -63,7 +63,7 @@ class GraphFormatter(base.SingleFormatter, metaclass=abc.ABCMeta):
         data['multigraph'] = False
 
         for node in data['links']:
-            node[u'label'] = node.pop('relationship_type')
+            node['label'] = node.pop('relationship_type')
             # used only in multigraph
             node.pop('key')
 
