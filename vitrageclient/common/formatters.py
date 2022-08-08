@@ -72,6 +72,8 @@ class GraphFormatter(base.SingleFormatter, metaclass=abc.ABCMeta):
         for k, v in node.items():
             if type(v) == list:
                 node[k] = str(v)
+            if type(v) == str and ":" in v:
+                node[k] = '"' + v + '"'
 
     @abc.abstractmethod
     def _write_format(self, graph, stdout):
