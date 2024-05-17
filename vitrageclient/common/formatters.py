@@ -35,7 +35,10 @@ class GraphFormatter(base.SingleFormatter, metaclass=abc.ABCMeta):
         # so disable it (currently we don't have real multigraphs)
         self._reformat(data)
 
-        if nx.__version__ >= '2.0':
+        if nx.__version__ >= '3.0':
+            graph = json_graph.node_link_graph(
+                data, name='graph_index')
+        elif nx.__version__ >= '2.0':
             graph = json_graph.node_link_graph(
                 data, attrs={'name': 'graph_index'})
         else:
