@@ -73,9 +73,9 @@ class GraphFormatter(base.SingleFormatter, metaclass=abc.ABCMeta):
     @staticmethod
     def _list2str(node):
         for k, v in node.items():
-            if type(v) == list:
+            if type(v) is list:
                 node[k] = str(v)
-            if type(v) == str and ":" in v:
+            if type(v) is str and ":" in v:
                 node[k] = '"' + v + '"'
 
     @abc.abstractmethod
