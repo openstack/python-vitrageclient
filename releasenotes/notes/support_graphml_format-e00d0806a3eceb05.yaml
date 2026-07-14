@@ -1,5 +1,0 @@
----
-features:
-  - Topology and Rca now can be printed in graphml format using
-    the CLI with ``-f graphml``
-

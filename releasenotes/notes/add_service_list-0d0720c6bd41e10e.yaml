@@ -1,4 +1,0 @@
----
-features:
-  - Added a new cli command ``service list`` to display all the vitrage
-    services present in the system.

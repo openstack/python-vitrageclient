@@ -1,4 +1,0 @@
----
-features:
-  - A new ``resoure list`` API was added in order to list all the resources
-    or the resources with specified type.

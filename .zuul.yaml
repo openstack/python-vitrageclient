@@ -1,8 +1,0 @@
-- project:
-    templates:
-      - check-requirements
-      - openstack-python3-jobs
-      - openstackclient-plugin-jobs
-      - publish-openstack-docs-pti
-      - release-notes-jobs-python3
-      - openstack-cover-jobs

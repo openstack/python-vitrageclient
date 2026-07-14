@@ -1,4 +1,0 @@
----
-features:
-  - New CLI flag ``--wait`` was added to template add and delete
-    which will wait until template finish loading or deleting.
